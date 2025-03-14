@@ -10,7 +10,8 @@ import view.View;
 import java.util.List;
 
 public class StaffController extends Controller {
-    public StaffController(SharedContext sharedContext, View view, AuthenticationService auth, EmailService email) {
+    public StaffController(SharedContext sharedContext, View view,
+                           AuthenticationService auth, EmailService email) {
         super(sharedContext, view, auth, email);
     }
 
