@@ -13,6 +13,7 @@ public class AdminStaffController extends StaffController {
     }
     
     public void manageFAQ() {
+        int a = 1;
         FAQSection currentSection = null;
 
         while (true) {
