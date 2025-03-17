@@ -1,4 +1,4 @@
 package model;
 
-public class Course {
+public class Course {//Comment
 }
