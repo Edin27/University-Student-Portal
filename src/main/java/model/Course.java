@@ -28,4 +28,13 @@ public class Course {
 
 	}
 
+	public boolean hasCode(String code){
+		if (code.equals(courseCode)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 }

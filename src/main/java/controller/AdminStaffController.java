@@ -6,6 +6,10 @@ import model.*;
 import view.View;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
 
 public class AdminStaffController extends StaffController {
     public AdminStaffController(SharedContext sharedContext, View view, AuthenticationService auth, EmailService email) {
@@ -106,14 +110,7 @@ public class AdminStaffController extends StaffController {
                 emailSubject,
                 emailContent
         );
-        for (String subscriberEmail : sharedContext.usersSubscribedToFAQTopic(currentSection.getTopic())) {
-            email.sendEmail(
-                    SharedContext.ADMIN_STAFF_EMAIL,
-                    subscriberEmail,
-                    emailSubject,
-                    emailContent
-            );
-        }
+
         view.displaySuccess("Created new FAQ item");
     }
 
@@ -154,10 +151,87 @@ public class AdminStaffController extends StaffController {
                 SharedContext.ADMIN_STAFF_EMAIL,
                 inquiry.getAssignedTo(),
                 "New inquiry from " + inquiry.getInquirerEmail(),
-                "Subject: " + inquiry.getSubject() + "\nPlease log into the Self Service Portal to review and respond to the inquiry."
+                "Subject: " + inquiry.getSubject() + "\nPlease log into the Self " +
+                        "Service Portal to review and respond to the inquiry."
         );
         view.displaySuccess("Inquiry has been reassigned");
     }
+
+    public void manageCourses(){
+        while (true) {
+            view.displayInfo("[0] Add course");
+            view.displayInfo("[1] Remove course");
+            view.displayInfo("[-1] Return to main menu");
+
+            String input = view.getInput("Please choose an option: ");
+            try {
+                int optionNo = Integer.parseInt(input);
+
+                if (optionNo == 0) {
+                    addCourse();
+                }else if (optionNo == 1){
+                    removeCourse();
+                }else if (optionNo == -1) {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                view.displayError("Invalid option: " + input);
+            }
+        }
+
+    }
+
+    private void addCourse(){
+        view.displayInfo("===Add Course===");
+        String courseCode = view.getInput("Enter the course code: ");
+        String name = view.getInput("Enter the course name: ");
+        String description = view.getInput("Enter the course description: ");
+        Boolean requiresComputers = view.getYesNoInput("Does it require computers?");
+        String courseOrganiserName = view.getInput("Enter the course organiser's name: ");
+        String courseOrganiserEmail = view.getInput("Enter the course organiser's " +
+                "email: ");
+        String courseSecretaryName = view.getInput("Enter the course secretary's name: ");
+        String courseSecretaryEmail = view.getInput("Enter the course secretary's " +
+                "email: ");
+        String requiredTutorials = view.getInput("Enter the number of required " +
+                "tutorials: ");
+        String requiredLabs = view.getInput("Enter the number of required labs: ");
+        Integer reqTutorials = null;
+        Integer reqLabs = null;
+        try{
+            reqTutorials = Integer.parseInt(requiredTutorials);
+        }catch(NumberFormatException e){
+            view.displayError("Invalid input: " + requiredTutorials);
+        }
+        try{
+            reqLabs = Integer.parseInt(requiredLabs);
+        }catch(NumberFormatException e){
+            view.displayError("Invalid input: " + requiredLabs);
+        }
+
+        String currentUserEmail = sharedContext.getCurrentUserEmail();
+        CourseManager courseManager = sharedContext.getCourseManager();
+        boolean added = courseManager.addCourse(courseCode, name, description,
+                requiresComputers, courseOrganiserName,courseOrganiserEmail,
+                courseSecretaryName, courseSecretaryEmail,reqTutorials, reqLabs);
+
+        if(added){
+            email.sendEmail(sharedContext.ADMIN_STAFF_EMAIL, courseOrganiserEmail
+                ,"Course Created-" + courseCode, String.format("A course has been " +
+                            "provided with the following details: \nCourse code: " +
+                            "%s\nCourse name: %s\nDescription: %s\nRequires computers: " +
+                            "%s\nCourse organiser's name: %s\nCourse oraganiser's " +
+                            "email: %s\nCourse secretary's name: %s\nCourse " +
+                            "secretary's email: %s\nNumber of required tutorials: " +
+                            "%s\nNumber of required labs: %s", courseCode, name,
+                            description, requiresComputers, courseOrganiserName,
+                            courseOrganiserEmail, courseSecretaryName,
+                            courseSecretaryEmail, reqTutorials, reqLabs));
+        }
+
+    }
+
+    private void removeCourse(){}
 
 
 }
