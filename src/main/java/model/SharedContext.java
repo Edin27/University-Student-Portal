@@ -21,22 +21,22 @@ public class SharedContext {
         return faq;
     }
 
-    public boolean registerForFAQUpdates(String email, String topic) {
-        if (faqTopicsUpdateSubscribers.containsKey(topic)) {
-            return faqTopicsUpdateSubscribers.get(topic).add(email);
-        } else {
-            Set<String> subscribers = new HashSet<>();
-            subscribers.add(email);
-            faqTopicsUpdateSubscribers.put(topic, subscribers);
-            return true;
+    public String getCurrentUserRole(){
+        String userRole = null;
+        if(currentUser instanceof Guest){
+            userRole = "Guest";
         }
+        else if(currentUser instanceof AuthenticatedUser){
+            userRole = ((AuthenticatedUser) currentUser).getRole();
+        }
+        return userRole;
     }
 
-    public boolean unregisterForFAQUpdates(String email, String topic) {
-        return faqTopicsUpdateSubscribers.getOrDefault(topic, new HashSet<>()).remove(email);
-    }
-
-    public Set<String> usersSubscribedToFAQTopic(String topic) {
-        return faqTopicsUpdateSubscribers.getOrDefault(topic, new HashSet<>());
+    public String getCurrentUserEmail(){
+        String userEmail = null;
+       if(currentUser instanceof AuthenticatedUser){
+            userEmail = ((AuthenticatedUser) currentUser).getEmail();
+        }
+        return userEmail;
     }
 }

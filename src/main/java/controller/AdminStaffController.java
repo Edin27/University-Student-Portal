@@ -158,4 +158,6 @@ public class AdminStaffController extends StaffController {
         );
         view.displaySuccess("Inquiry has been reassigned");
     }
+
+
 }

@@ -31,6 +31,7 @@ public class MenuController extends Controller {
         LOGOUT,
         MANAGE_QUERIES,
         MANAGE_FAQ,
+        MANAGE_COURSES,
     }
 
     public void mainMenu() {
