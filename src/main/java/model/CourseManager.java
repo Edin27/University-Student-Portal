@@ -3,6 +3,10 @@ package model;
 import view.TextUserInterface;
 import view.View;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class CourseManager {
@@ -124,14 +128,61 @@ public class CourseManager {
 	}
 
 	private Activity addActivity(View view){
-		String id = view.getInput("Enter the Activity id [Lecture: 0; Tutorial: 1; " +
+		String id = view.getInput("Enter the activity id [Lecture: 0; Tutorial: 1; " +
 				"Lab: 2]: ");
-		String startDate = view.getInput("Enter the start date [yyyy/mm/dd]: ");
+		String startDate = view.getInput("Enter the start date [yyyy-mm-dd]: ");
 		String startTime = view.getInput("Enter the start time [hh:mm]: ");
-		String endDate = view.getInput("Enter the end date [yyyy/mm/dd]:");
+		String endDate = view.getInput("Enter the end date [yyyy-mm-dd]:");
 		String endTime = view.getInput("Enter the end time [hh:mm]: ");
-		St
+		String location = view.getInput("Enter the activity location: ");
+		String day = view.getInput("Enter the activity day [Mon,Tues,Wed,Thurs,Fri]: ");
+
+		Integer idInt = null;
+		if(isAnyNullOrEmpty(id, startDate,startTime,endDate,endTime,location,day)){
+			return null;
+		}
+		else{
+			try{
+				idInt = Integer.parseInt(id);
+			}catch(NumberFormatException e){
+				view.displayError("Invalid input: " + id);
+				return null;
+			}
+			if (idInt < 0 || idInt > 2){
+				view.displayError("Invalid input: " + id);
+				return null;
+			}
+		}
+
 	}
+
+	private LocalDate checkDate(View view, String date){
+		LocalDate startEndDate = null;
+		try{
+			startEndDate = LocalDate.parse(date);
+		}catch(DateTimeParseException e1){
+			try{
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+				startEndDate = LocalDate.parse(date, formatter);
+			}catch(DateTimeParseException e2){
+				view.displayError("Invalid date: " + date);
+			}
+		}
+		return startEndDate;
+	}
+
+	private LocalTime checkTime(View view, String time){
+		LocalTime startEndTime = null;
+		try{
+			startEndTime = LocalTime.parse(time);
+		}catch(DateTimeParseException e1){
+			try{
+				
+			}
+		}
+	}
+
+
 
 
 
