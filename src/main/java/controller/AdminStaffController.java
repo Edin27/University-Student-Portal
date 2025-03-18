@@ -202,16 +202,19 @@ public class AdminStaffController extends StaffController {
             reqTutorials = Integer.parseInt(requiredTutorials);
         }catch(NumberFormatException e){
             view.displayError("Invalid input: " + requiredTutorials);
+            return;
         }
         try{
             reqLabs = Integer.parseInt(requiredLabs);
         }catch(NumberFormatException e){
             view.displayError("Invalid input: " + requiredLabs);
+            return;
         }
 
         String currentUserEmail = sharedContext.getCurrentUserEmail();
         CourseManager courseManager = sharedContext.getCourseManager();
-        boolean added = courseManager.addCourse(courseCode, name, description,
+        boolean added = courseManager.addCourse(sharedContext, view, courseCode, name,
+                description,
                 requiresComputers, courseOrganiserName,courseOrganiserEmail,
                 courseSecretaryName, courseSecretaryEmail,reqTutorials, reqLabs);
 

@@ -1,11 +1,15 @@
 package model;
 
+import view.TextUserInterface;
+import view.View;
+
 import java.util.*;
 
 public class CourseManager {
 
 	private static volatile CourseManager courseManagerInstance;
 	private final Collection<Course> courses = new ArrayList<>();
+
 
 	private CourseManager(){}
 	public static CourseManager getCourseManager(){
@@ -25,17 +29,34 @@ public class CourseManager {
 		return courses;
 	}
 
-	public boolean addCourse(String code, String name, String description,
-					 Boolean requiresComputers, String COName, String COEmail,
-					 String CSName, String CSEmail, Integer reqTutorials,
-							 Integer reqLabs){
-		boolean added = false;
+	public boolean addCourse(SharedContext sharedContext, View view, String code,
+							 String name, String description, Boolean requiresComputers,
+							 String COName, String COEmail, String CSName, String CSEmail,
+							 Integer reqTutorials, Integer reqLabs){
 
-		//check required elements all provided
-		boolean courseInfoProvided = false;
+
+		//check whether required elements all provided
+		if (isAnyNullOrEmpty(code, name, description, requiresComputers, COName,
+				COEmail, CSName, CSEmail, reqTutorials, reqLabs)){
+			String errorMessage = "Required course info not provided";
+			//TODO: add logger
+
+
+			view.displayError(errorMessage);
+			return false;
+		}
+
+
 
 		//check whether course code is valid
-		boolean courseCodeValid = false;
+		if (!checkCourseCode(code)){
+			String errorMessage = "Provided course code is invalid";
+			//TODO: add logger
+
+			view.displayError(errorMessage);
+			return false;
+		}
+
 
 		//check whether course code already added
 		boolean hasCode = false;
@@ -45,14 +66,47 @@ public class CourseManager {
 			}
 		}
 		//if course already exists, display error
+		if (hasCode){
+			String errorMessage = "Course with that code already exists";
+			//TODO: add logger
 
+			view.displayError(errorMessage);
+			return false;
+		}
+
+		view.displayInfo("===Add Course - Activities===");
+		view.displayInfo("[0] Add Lecture");
+		view.displayInfo("[1] Add Tutorial");
+		view.displayInfo("[2] Add Lab");
+		String input = view.getInput("Please choose an option: ");
+		
 
 
 
 		Course newCourse = new Course(code, name, description, requiresComputers,
 				COName, COEmail, CSName, CSEmail, reqTutorials, reqLabs);
 		courses.add(newCourse);
-		added = true;
-		return added;
+		return true;
+	}
+
+	public boolean checkCourseCode(String courseCode){
+		boolean courseCodeIsValid = false;
+		//TODO: Piazza what is the course code format?
+
+		return courseCodeIsValid;
+	}
+
+	private boolean isAnyNullOrEmpty(Object... objects){
+		for (Object obj : objects){
+			if(obj == null){
+				return true;
+			}
+			if(obj instanceof String){
+				if(((String) obj).trim().isEmpty()){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }
