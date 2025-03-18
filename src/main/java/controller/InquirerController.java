@@ -2,6 +2,7 @@ package controller;
 
 import external.AuthenticationService;
 import external.EmailService;
+import external.Log;
 import model.*;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
@@ -28,6 +29,7 @@ public class InquirerController extends Controller {
             userEmail = null;
         }
 
+        Log.AddLog(sharedContext, Log.ActionName.CONSULT_FAQ, "1", Log.Status.SUCCESS);
         int optionNo = 0;
         while (currentSection != null || optionNo != -1) {
             if (currentSection == null) {
@@ -36,17 +38,6 @@ public class InquirerController extends Controller {
             } else {
                 view.displayFAQSection(currentSection);
                 view.displayInfo("[-1] Return to " + (currentSection.getParent() == null ? "FAQ" : currentSection.getParent().getTopic()));
-
-                if (userEmail == null) {
-                    view.displayInfo("[-2] Request updates for this topic");
-                    view.displayInfo("[-3] Stop receiving updates for this topic");
-                } else {
-                    if (sharedContext.usersSubscribedToFAQTopic(currentSection.getTopic()).contains(userEmail)) {
-                        view.displayInfo("[-2] Stop receiving updates for this topic");
-                    } else {
-                        view.displayInfo("[-2] Request updates for this topic");
-                    }
-                }
             }
 
             String input = view.getInput("Please choose an option: ");
@@ -66,51 +57,9 @@ public class InquirerController extends Controller {
                     }
                 }
 
-                if (currentSection != null) {
-                    String topic = currentSection.getTopic();
-
-                    if (userEmail == null && optionNo == -2) {
-                        requestFAQUpdates(null, topic);
-                    } else if (userEmail == null && optionNo == -3) {
-                        stopFAQUpdates(null, topic);
-                    } else if (optionNo == -2) {
-                        if (sharedContext.usersSubscribedToFAQTopic(topic).contains(userEmail)) {
-                            stopFAQUpdates(userEmail, topic);
-                        } else {
-                            requestFAQUpdates(userEmail, topic);
-                        }
-                    } else if (optionNo == -1) {
-                        currentSection = currentSection.getParent();
-                        optionNo = 0;
-                    }
-                }
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + input);
             }
-        }
-    }
-
-    private void requestFAQUpdates(String userEmail, String topic) {
-        if (userEmail == null) {
-            userEmail = view.getInput("Please enter your email address: ");
-        }
-        boolean success = sharedContext.registerForFAQUpdates(userEmail, topic);
-        if (success) {
-            view.displaySuccess("Successfully registered " + userEmail + " for updates on '" + topic + "'");
-        } else {
-            view.displayError("Failed to register " + userEmail + " for updates on '" + topic + "'. Perhaps this email was already registered?");
-        }
-    }
-
-    private void stopFAQUpdates(String userEmail, String topic) {
-        if (userEmail == null) {
-            userEmail = view.getInput("Please enter your email address: ");
-        }
-        boolean success = sharedContext.unregisterForFAQUpdates(userEmail, topic);
-        if (success) {
-            view.displaySuccess("Successfully unregistered " + userEmail + " for updates on '" + topic + "'");
-        } else {
-            view.displayError("Failed to unregister " + userEmail + " for updates on '" + topic + "'. Perhaps this email was not registered?");
         }
     }
 
