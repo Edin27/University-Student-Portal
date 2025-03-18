@@ -74,6 +74,7 @@ public class CourseManager {
 			return false;
 		}
 
+		List <Activity> activities = new ArrayList<>();
 		while(true){
 			view.displayInfo("===Add Course - Activities===");
 			view.displayInfo("[0] Add Activity");
@@ -82,7 +83,7 @@ public class CourseManager {
 			try {
 				int optionNo = Integer.parseInt(input);
 				if (optionNo == 0) {
-					//TODO: get ActivityInfo;
+					//TODO: get ActInfo;
 				} else if (optionNo == -1){
 					break;
 				} else{
@@ -116,10 +117,23 @@ public class CourseManager {
 				if(((String) obj).trim().isEmpty()){
 					return true;
 				}
+
 			}
 		}
 		return false;
 	}
+
+	private Activity addActivity(View view){
+		String id = view.getInput("Enter the Activity id [Lecture: 0; Tutorial: 1; " +
+				"Lab: 2]: ");
+		String startDate = view.getInput("Enter the start date [yyyy/mm/dd]: ");
+		String startTime = view.getInput("Enter the start time [hh:mm]: ");
+		String endDate = view.getInput("Enter the end date [yyyy/mm/dd]:");
+		String endTime = view.getInput("Enter the end time [hh:mm]: ");
+		St
+	}
+
+
 
 
 }
