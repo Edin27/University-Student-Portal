@@ -74,13 +74,24 @@ public class CourseManager {
 			return false;
 		}
 
-		view.displayInfo("===Add Course - Activities===");
-		view.displayInfo("[0] Add Lecture");
-		view.displayInfo("[1] Add Tutorial");
-		view.displayInfo("[2] Add Lab");
-		String input = view.getInput("Please choose an option: ");
-		
-
+		while(true){
+			view.displayInfo("===Add Course - Activities===");
+			view.displayInfo("[0] Add Activity");
+			view.displayInfo("[-1] Return to manage courses");
+			String input = view.getInput("Please choose an option: ");
+			try {
+				int optionNo = Integer.parseInt(input);
+				if (optionNo == 0) {
+					//TODO: get ActivityInfo;
+				} else if (optionNo == -1){
+					break;
+				} else{
+					view.displayError("Invalid option: " + input);
+				}
+			} catch (NumberFormatException e) {
+				view.displayError("Invalid option: " + input);
+			}
+		}
 
 
 		Course newCourse = new Course(code, name, description, requiresComputers,
@@ -109,4 +120,6 @@ public class CourseManager {
 		}
 		return false;
 	}
+
+
 }

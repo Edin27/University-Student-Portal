@@ -173,6 +173,8 @@ public class AdminStaffController extends StaffController {
                     removeCourse();
                 }else if (optionNo == -1) {
                     break;
+                }else{
+                    view.displayError("Invalid option: " + input);
                 }
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + input);
