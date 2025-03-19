@@ -15,6 +15,8 @@ public class MenuController extends Controller {
         LOGIN,
         CONSULT_FAQ,
         CONTACT_STAFF,
+        VIEW_COURSES,
+        VIEW_SPECIFIC_COURSE,
     }
 
     public enum StudentMainMenuOption {
@@ -29,6 +31,8 @@ public class MenuController extends Controller {
     public enum TeachingStaffMainMenuOption {
         LOGOUT,
         MANAGE_RECEIVED_QUERIES,
+        VIEW_COURSES,
+        VIEW_SPECIFIC_COURSE,
     }
 
     public enum AdminStaffMainMenuOption {
@@ -36,6 +40,8 @@ public class MenuController extends Controller {
         MANAGE_QUERIES,
         MANAGE_FAQ,
         MANAGE_COURSES,
+        VIEW_COURSES,
+        VIEW_SPECIFIC_COURSE,
     }
 
     public void mainMenu() {
@@ -76,6 +82,7 @@ public class MenuController extends Controller {
                     email).consultFAQ();
             case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth,
                     email).contactStaff();
+            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
         }
         return false;
     }
@@ -95,6 +102,7 @@ public class MenuController extends Controller {
                     email).contactStaff();
             case MANAGE_TIMETABLE -> new StudentController(sharedContext, view, auth,
                     email).manageTimetable();
+            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
         }
         return false;
     }
@@ -110,6 +118,7 @@ public class MenuController extends Controller {
                     email).logout();
             case MANAGE_RECEIVED_QUERIES -> new TeachingStaffController(sharedContext,
                     view, auth, email).manageReceivedInquiries();
+            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
         }
         return false;
     }
@@ -129,6 +138,7 @@ public class MenuController extends Controller {
                     email).manageInquiries();
             case MANAGE_COURSES -> new AdminStaffController(sharedContext, view, auth,
                     email).manageCourses();
+            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
         }
         return false;
     }

@@ -55,4 +55,12 @@ public class Course {
 	public String getCourseOrganiserEmail() {
 		return couresOrganiserEmail;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getCourseCode() {
+		return courseCode;
+	}
 }
