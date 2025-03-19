@@ -97,6 +97,7 @@ public class InquirerController extends Controller {
 
         sharedContext.inquiries.add(inquiry);
         String course = view.getInput("Course code (optional): " );
+        // No course code given
         if (course.strip().isBlank()) {
             email.sendEmail(
                     SharedContext.ADMIN_STAFF_EMAIL,
@@ -107,7 +108,8 @@ public class InquirerController extends Controller {
             view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
             Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, "", Log.Status.SUCCESS);
         } else {
-            try {
+            // Course code is given - find course in course manager
+            if (sharedContext.getCourseManager() != null) {
                 Iterator<Course> courses = sharedContext.getCourseManager().getCourses().iterator();
                 while (courses.hasNext()) {
                     Course tempCourse = courses.next();
@@ -125,10 +127,9 @@ public class InquirerController extends Controller {
                     }
                 }
             }
-            catch (Exception e) {
-                view.displayError("This course code is invalid");
-                Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, course, Log.Status.FAILURE);
-            }
+
+            view.displayError("This course code is invalid");
+            Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, course, Log.Status.FAILURE);
         }
     }
 }
