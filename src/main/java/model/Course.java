@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Course {
 	private String courseCode;
 	private String name;
@@ -11,6 +14,8 @@ public class Course {
 	private String courseSecretaryEmail;
 	private int requiredTutorials;
 	private int requiredLabs;
+	private final Collection<Activity> activities = new ArrayList<>();
+
 
 	public Course(String code, String name, String description,
 				  boolean requiresComputers, String COName, String COEmail,
@@ -28,6 +33,7 @@ public class Course {
 
 	}
 
+
 	public boolean hasCode(String code){
 		if (code.equals(courseCode)){
 			return true;
@@ -37,4 +43,24 @@ public class Course {
 		}
 	}
 
+	public String getActivityAsString() {
+		StringBuilder sb = new StringBuilder();
+		for (Activity activity : activities) {
+			sb.append(activity.toString()).append("\n");
+		}
+		String ActivityDetailAsString = sb.toString();
+		return ActivityDetailAsString;
+	}
+
+	public String getCourseOrganiserEmail() {
+		return couresOrganiserEmail;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getCourseCode() {
+		return courseCode;
+	}
 }

@@ -15,7 +15,7 @@ public class SharedContext {
         this.currentUser = new Guest();
         this.inquiries = new ArrayList<>();
         faq = new FAQ();
-        courseManager = getCourseManager();
+        courseManager = CourseManager.getCourseManager();
     }
 
     public FAQ getFAQ() {

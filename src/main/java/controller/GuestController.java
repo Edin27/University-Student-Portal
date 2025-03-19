@@ -2,6 +2,7 @@ package controller;
 
 import external.AuthenticationService;
 import external.EmailService;
+import external.Log;
 import model.AuthenticatedUser;
 import model.SharedContext;
 import org.json.simple.JSONObject;
@@ -27,6 +28,7 @@ public class GuestController extends Controller {
             if (result.containsKey("error")) {
                 String errorMessage = (String) result.get("error");
                 view.displayError(errorMessage);
+                Log.AddLog(sharedContext, Log.ActionName.LOGIN, "", Log.Status.FAILURE);
                 return;
             }
             email = (String) result.get("email");
@@ -42,5 +44,6 @@ public class GuestController extends Controller {
         }
 
         view.displaySuccess("Logged in as " + username);
+        Log.AddLog(sharedContext, Log.ActionName.LOGIN, username + ", " + password, Log.Status.SUCCESS);
     }
 }

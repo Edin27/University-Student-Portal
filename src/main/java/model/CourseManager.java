@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
 import java.util.*;
 
 public class CourseManager {
@@ -129,6 +130,7 @@ public class CourseManager {
 		return false;
 	}
 
+
 	private Activity addActivity(View view) {
 		String activityType = view.getInput("Enter the activity id [Lecture: 0; " +
 				"Tutorial: 1; Lab: 2]: ");
@@ -205,7 +207,9 @@ public class CourseManager {
 		return startEndTime;
 	}
 
-	private DayOfWeek checkDay()
+	private DayOfWeek checkDay(){
+		
+	}
 
 
 }
@@ -214,4 +218,6 @@ public class CourseManager {
 
 
 
-}
+
+
+
