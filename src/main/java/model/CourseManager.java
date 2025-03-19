@@ -2,7 +2,6 @@ package model;
 
 import view.TextUserInterface;
 import view.View;
-
 import java.util.*;
 
 public class CourseManager {
@@ -121,5 +120,30 @@ public class CourseManager {
 		return false;
 	}
 
+	public boolean  addCourseToStudentTimetable(View view,String email,
+												String courseCode){
+		if(!hasCourse(courseCode)){
+			view.displayError("Incorrect course code");
+			return false;
+		}else{
+			for (Course course : courses) {
+				String fullActivityDetailsAsString = course.getActivityAsString();
+			}
 
+
+			return true;
+		}
+	}
+
+	private boolean hasCourse(String courseCode) {
+		if (courseCode == null) return false;
+		for (Course course : courses) {
+			if (course.hasCode(courseCode)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
+
+
