@@ -30,7 +30,6 @@ public class InquirerController extends Controller {
             userEmail = null;
         }
 
-        Log.AddLog(sharedContext, Log.ActionName.CONSULT_FAQ, "1", Log.Status.SUCCESS);
         int optionNo = 0;
         while (currentSection != null || optionNo != -1) {
             if (currentSection == null) {

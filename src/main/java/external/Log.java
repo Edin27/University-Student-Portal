@@ -22,8 +22,11 @@ public class Log {
 
     public enum ActionName {
         LOGIN,
+        LOGOUT,
         CONSULT_FAQ,
-        CONTACT_STAFF
+        CONTACT_STAFF,
+        MANAGE_RECEIVED_QUERIES,
+        VIEW_COURSES,
         // ect, ect
     }
 }
