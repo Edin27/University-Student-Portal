@@ -51,4 +51,8 @@ public class Course {
 		String ActivityDetailAsString = sb.toString();
 		return ActivityDetailAsString;
 	}
+
+	public String getCourseOrganiserEmail() {
+		return couresOrganiserEmail;
+	}
 }
