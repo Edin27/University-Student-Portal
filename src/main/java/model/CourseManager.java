@@ -3,6 +3,7 @@ package model;
 import view.TextUserInterface;
 import view.View;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -15,13 +16,15 @@ public class CourseManager {
 	private final Collection<Course> courses = new ArrayList<>();
 
 
-	private CourseManager(){}
-	public static CourseManager getCourseManager(){
+	private CourseManager() {
+	}
+
+	public static CourseManager getCourseManager() {
 		CourseManager result = courseManagerInstance;
-		if(courseManagerInstance == null){
-			synchronized (CourseManager.class){
+		if (courseManagerInstance == null) {
+			synchronized (CourseManager.class) {
 				result = courseManagerInstance;
-				if (result == null){
+				if (result == null) {
 					courseManagerInstance = result = new CourseManager();
 				}
 			}
@@ -36,12 +39,12 @@ public class CourseManager {
 	public boolean addCourse(SharedContext sharedContext, View view, String code,
 							 String name, String description, Boolean requiresComputers,
 							 String COName, String COEmail, String CSName, String CSEmail,
-							 Integer reqTutorials, Integer reqLabs){
+							 Integer reqTutorials, Integer reqLabs) {
 
 
 		//check whether required elements all provided
 		if (isAnyNullOrEmpty(code, name, description, requiresComputers, COName,
-				COEmail, CSName, CSEmail, reqTutorials, reqLabs)){
+				COEmail, CSName, CSEmail, reqTutorials, reqLabs)) {
 			String errorMessage = "Required course info not provided";
 			//TODO: add logger
 
@@ -51,9 +54,8 @@ public class CourseManager {
 		}
 
 
-
 		//check whether course code is valid
-		if (!checkCourseCode(code)){
+		if (!checkCourseCode(code)) {
 			String errorMessage = "Provided course code is invalid";
 			//TODO: add logger
 
@@ -64,13 +66,13 @@ public class CourseManager {
 
 		//check whether course code already added
 		boolean hasCode = false;
-		while (!hasCode){
-			for(Course course: courses){
+		while (!hasCode) {
+			for (Course course : courses) {
 				hasCode = course.hasCode(code);
 			}
 		}
 		//if course already exists, display error
-		if (hasCode){
+		if (hasCode) {
 			String errorMessage = "Course with that code already exists";
 			//TODO: add logger
 
@@ -78,8 +80,8 @@ public class CourseManager {
 			return false;
 		}
 
-		List <Activity> activities = new ArrayList<>();
-		while(true){
+		List<Activity> activities = new ArrayList<>();
+		while (true) {
 			view.displayInfo("===Add Course - Activities===");
 			view.displayInfo("[0] Add Activity");
 			view.displayInfo("[-1] Return to manage courses");
@@ -88,9 +90,9 @@ public class CourseManager {
 				int optionNo = Integer.parseInt(input);
 				if (optionNo == 0) {
 					//TODO: get ActInfo;
-				} else if (optionNo == -1){
+				} else if (optionNo == -1) {
 					break;
-				} else{
+				} else {
 					view.displayError("Invalid option: " + input);
 				}
 			} catch (NumberFormatException e) {
@@ -105,20 +107,20 @@ public class CourseManager {
 		return true;
 	}
 
-	public boolean checkCourseCode(String courseCode){
+	public boolean checkCourseCode(String courseCode) {
 		boolean courseCodeIsValid = false;
 		//TODO: Piazza what is the course code format?
 
 		return courseCodeIsValid;
 	}
 
-	private boolean isAnyNullOrEmpty(Object... objects){
-		for (Object obj : objects){
-			if(obj == null){
+	private boolean isAnyNullOrEmpty(Object... objects) {
+		for (Object obj : objects) {
+			if (obj == null) {
 				return true;
 			}
-			if(obj instanceof String){
-				if(((String) obj).trim().isEmpty()){
+			if (obj instanceof String) {
+				if (((String) obj).trim().isEmpty()) {
 					return true;
 				}
 
@@ -127,61 +129,86 @@ public class CourseManager {
 		return false;
 	}
 
-	private Activity addActivity(View view){
-		String id = view.getInput("Enter the activity id [Lecture: 0; Tutorial: 1; " +
-				"Lab: 2]: ");
+	private Activity addActivity(View view) {
+		String activityType = view.getInput("Enter the activity id [Lecture: 0; " +
+				"Tutorial: 1; Lab: 2]: ");
 		String startDate = view.getInput("Enter the start date [yyyy-mm-dd]: ");
 		String startTime = view.getInput("Enter the start time [hh:mm]: ");
 		String endDate = view.getInput("Enter the end date [yyyy-mm-dd]:");
 		String endTime = view.getInput("Enter the end time [hh:mm]: ");
 		String location = view.getInput("Enter the activity location: ");
-		String day = view.getInput("Enter the activity day [Mon,Tues,Wed,Thurs,Fri]: ");
+		String day = view.getInput("Enter the activity day [Mon,Tue,Wed,Thu,Fri]: ");
 
-		Integer idInt = null;
-		if(isAnyNullOrEmpty(id, startDate,startTime,endDate,endTime,location,day)){
+		Integer actType = null;
+		LocalDate sDate = null;
+		LocalTime sTime = null;
+		LocalDate eDate = null;
+		LocalTime eTime = null;
+		if (isAnyNullOrEmpty(activityType, startDate, startTime, endDate, endTime,
+				location,
+				day)) {
 			return null;
-		}
-		else{
-			try{
-				idInt = Integer.parseInt(id);
-			}catch(NumberFormatException e){
-				view.displayError("Invalid input: " + id);
+		} else {
+			try {
+				actType = Integer.parseInt(activityType);
+			} catch (NumberFormatException e) {
+				view.displayError("Invalid input: " + activityType);
 				return null;
 			}
-			if (idInt < 0 || idInt > 2){
-				view.displayError("Invalid input: " + id);
+			if (actType < 0 || actType > 2) {
+				view.displayError("Invalid input: " + activityType);
 				return null;
 			}
-		}
+			sDate = checkDate(view, startDate);
+			sTime = checkTime(view, startTime);
+			eDate = checkDate(view, endDate);
+			eTime = checkTime(view,endTime);
+			if(isAnyNullOrEmpty(sDate, sTime, eDate, eTime)){
+				return null;
+			}
+			//TODO: check location and whether it has computers for requiresComputers
+			// courses?
 
+
+
+		}
 	}
 
-	private LocalDate checkDate(View view, String date){
+
+	private LocalDate checkDate(View view, String date) {
 		LocalDate startEndDate = null;
-		try{
+		try {
 			startEndDate = LocalDate.parse(date);
-		}catch(DateTimeParseException e1){
-			try{
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+		} catch (DateTimeParseException e1) {
+			try {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				startEndDate = LocalDate.parse(date, formatter);
-			}catch(DateTimeParseException e2){
+			} catch (DateTimeParseException e2) {
 				view.displayError("Invalid date: " + date);
 			}
 		}
 		return startEndDate;
 	}
 
-	private LocalTime checkTime(View view, String time){
+	private LocalTime checkTime(View view, String time) {
 		LocalTime startEndTime = null;
-		try{
+		try {
 			startEndTime = LocalTime.parse(time);
-		}catch(DateTimeParseException e1){
-			try{
-				
+		} catch (DateTimeParseException e1) {
+			try {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH.mm");
+				startEndTime = LocalTime.parse(time, formatter);
+			} catch (DateTimeParseException e2) {
+				view.displayError("Invalid time: " + time);
 			}
 		}
+		return startEndTime;
 	}
 
+	private DayOfWeek checkDay()
+
+
+}
 
 
 
