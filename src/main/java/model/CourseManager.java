@@ -81,7 +81,10 @@ public class CourseManager {
 			return false;
 		}
 
-		List<Activity> activities = new ArrayList<>();
+		List<Activity> lectures = new ArrayList<>();
+		List<Tutorial> tutorials = new ArrayList<>();
+		List<Lab> labs = new ArrayList<>();
+
 		while (true) {
 			view.displayInfo("===Add Course - Activities===");
 			view.displayInfo("[0] Add Activity");
@@ -90,7 +93,12 @@ public class CourseManager {
 			try {
 				int optionNo = Integer.parseInt(input);
 				if (optionNo == 0) {
-					//TODO: get ActInfo;
+					int id = 1;
+					//TODO:check this part and think of how to generate id for activities
+//					Activity activity = addActivity(view);
+//					if (activity != null){
+//						if(activity instanceof Lecture){lectures.add(activity);}
+//					}
 				} else if (optionNo == -1) {
 					break;
 				} else {
@@ -139,28 +147,27 @@ public class CourseManager {
 		String endDate = view.getInput("Enter the end date [yyyy-mm-dd]:");
 		String endTime = view.getInput("Enter the end time [hh:mm]: ");
 		String location = view.getInput("Enter the activity location: ");
-		String day = view.getInput("Enter the activity day [Mon,Tue,Wed,Thu,Fri]: ");
+		String day = view.getInput("Enter the activity day [mon,tue,wed,thu,fri]: ");
 
 		Integer actType = null;
 		LocalDate sDate = null;
 		LocalTime sTime = null;
 		LocalDate eDate = null;
 		LocalTime eTime = null;
+		DayOfWeek frequencyDay = null;
+
 		if (isAnyNullOrEmpty(activityType, startDate, startTime, endDate, endTime,
-				location,
-				day)) {
+				location, day)) {
+			String errorMessage = "Required activity info not provided";
+			view.displayError(errorMessage);
+			//TODO: add logger
 			return null;
 		} else {
-			try {
-				actType = Integer.parseInt(activityType);
-			} catch (NumberFormatException e) {
-				view.displayError("Invalid input: " + activityType);
+			actType = checkActType(view, activityType);
+			if(isAnyNullOrEmpty(actType)){
 				return null;
 			}
-			if (actType < 0 || actType > 2) {
-				view.displayError("Invalid input: " + activityType);
-				return null;
-			}
+
 			sDate = checkDate(view, startDate);
 			sTime = checkTime(view, startTime);
 			eDate = checkDate(view, endDate);
@@ -168,12 +175,38 @@ public class CourseManager {
 			if(isAnyNullOrEmpty(sDate, sTime, eDate, eTime)){
 				return null;
 			}
+
 			//TODO: check location and whether it has computers for requiresComputers
 			// courses?
 
+			frequencyDay = checkDay(view, day);
+			if(isAnyNullOrEmpty(frequencyDay)){
+				return null;
+			}
+		}if(actType == 0){
 
+		}else if(actType == 1){
+
+		}else if(actType==2){
 
 		}
+
+	}
+
+	private Integer checkActType(View view, String activityType){
+		Integer actType = null;
+		String errorMessage = "Activity type provided is invalid";
+		try {
+			actType = Integer.parseInt(activityType);
+		} catch (NumberFormatException e) {
+			view.displayError(errorMessage);
+			//TODO: add logger
+		}
+		if (actType < 0 || actType > 2) {
+			view.displayError(errorMessage);
+			//TODO: add logger
+		}
+		return actType;
 	}
 
 
@@ -186,7 +219,9 @@ public class CourseManager {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 				startEndDate = LocalDate.parse(date, formatter);
 			} catch (DateTimeParseException e2) {
-				view.displayError("Invalid date: " + date);
+				String errorMessage = "Start date or end date provided is invalid";
+				view.displayError(errorMessage);
+				//TODO: add logger
 			}
 		}
 		return startEndDate;
@@ -201,14 +236,55 @@ public class CourseManager {
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH.mm");
 				startEndTime = LocalTime.parse(time, formatter);
 			} catch (DateTimeParseException e2) {
-				view.displayError("Invalid time: " + time);
+				String errorMessage = "Start time or end time provided is invalid";
+				view.displayError(errorMessage);
+				//TODO: add logger
 			}
 		}
 		return startEndTime;
 	}
 
-	private DayOfWeek checkDay(){
-		
+	private DayOfWeek checkDay(View view, String day){
+		String toLower = day.toLowerCase(Locale.ENGLISH);
+
+		switch (toLower) {
+			case "monday":
+			case "mon":
+				return DayOfWeek.MONDAY;
+			case "tuesday":
+			case "tue":
+				return DayOfWeek.TUESDAY;
+			case "wednesday":
+			case "wed":
+				return DayOfWeek.WEDNESDAY;
+			case "thursday":
+			case "thu":
+				return DayOfWeek.THURSDAY;
+			case "friday":
+			case "fri":
+				return DayOfWeek.FRIDAY;
+			default:
+				String errorMessage = "Day provided is invalid";
+				view.displayError(errorMessage);
+				//TODO: add logger
+				return null;
+		}
+
+	}
+
+	private Lecture addLecture(View view, LocalDate startDate, LocalTime startTime,
+							   LocalDate endDate, LocalTime endTime, String location,
+							   DayOfWeek day){
+		Boolean recordedLec = view.getYesNoInput("Is this lecture recorded?");
+		if(isAnyNullOrEmpty(recordedLec)){
+			String errorMessage = "Lecture info required not provided";
+			view.displayError(errorMessage);
+			//TODO: add logger
+			return null;
+		}else{
+			Lecture newLecture = new Lecture();//TODO: in addCourse, give an assumptionof what id is.
+		}
+
 	}
 
 
