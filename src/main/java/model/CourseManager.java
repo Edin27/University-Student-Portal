@@ -12,12 +12,14 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class CourseManager {
-
+	protected final View view;
 	private static volatile CourseManager courseManagerInstance;
 	private final Collection<Course> courses = new ArrayList<>();
 
 
-	private CourseManager() {
+
+	private CourseManager(View view) {
+		this.view = view;
 	}
 
 	public static CourseManager getCourseManager() {
@@ -37,7 +39,7 @@ public class CourseManager {
 		return courses;
 	}
 
-	public boolean addCourse(SharedContext sharedContext, View view, String code,
+	public boolean addCourse(String code,
 							 String name, String description, Boolean requiresComputers,
 							 String COName, String COEmail, String CSName, String CSEmail,
 							 Integer reqTutorials, Integer reqLabs) {
@@ -139,7 +141,7 @@ public class CourseManager {
 	}
 
 
-	private Activity addActivity(View view) {
+	private Activity addActivity() {
 		String activityType = view.getInput("Enter the activity id [Lecture: 0; " +
 				"Tutorial: 1; Lab: 2]: ");
 		String startDate = view.getInput("Enter the start date [yyyy-mm-dd]: ");
@@ -163,15 +165,15 @@ public class CourseManager {
 			//TODO: add logger
 			return null;
 		} else {
-			actType = checkActType(view, activityType);
+			actType = checkActType(activityType);
 			if(isAnyNullOrEmpty(actType)){
 				return null;
 			}
 
-			sDate = checkDate(view, startDate);
-			sTime = checkTime(view, startTime);
-			eDate = checkDate(view, endDate);
-			eTime = checkTime(view,endTime);
+			sDate = checkDate(startDate);
+			sTime = checkTime(startTime);
+			eDate = checkDate(endDate);
+			eTime = checkTime(endTime);
 			if(isAnyNullOrEmpty(sDate, sTime, eDate, eTime)){
 				return null;
 			}
@@ -179,7 +181,7 @@ public class CourseManager {
 			//TODO: check location and whether it has computers for requiresComputers
 			// courses?
 
-			frequencyDay = checkDay(view, day);
+			frequencyDay = checkDay(day);
 			if(isAnyNullOrEmpty(frequencyDay)){
 				return null;
 			}
@@ -193,7 +195,7 @@ public class CourseManager {
 
 	}
 
-	private Integer checkActType(View view, String activityType){
+	private Integer checkActType(String activityType){
 		Integer actType = null;
 		String errorMessage = "Activity type provided is invalid";
 		try {
@@ -210,7 +212,7 @@ public class CourseManager {
 	}
 
 
-	private LocalDate checkDate(View view, String date) {
+	private LocalDate checkDate(String date) {
 		LocalDate startEndDate = null;
 		try {
 			startEndDate = LocalDate.parse(date);
@@ -227,7 +229,7 @@ public class CourseManager {
 		return startEndDate;
 	}
 
-	private LocalTime checkTime(View view, String time) {
+	private LocalTime checkTime(String time) {
 		LocalTime startEndTime = null;
 		try {
 			startEndTime = LocalTime.parse(time);
@@ -244,7 +246,7 @@ public class CourseManager {
 		return startEndTime;
 	}
 
-	private DayOfWeek checkDay(View view, String day){
+	private DayOfWeek checkDay(String day){
 		String toLower = day.toLowerCase(Locale.ENGLISH);
 
 		switch (toLower) {
@@ -272,7 +274,7 @@ public class CourseManager {
 
 	}
 
-	private Lecture addLecture(View view, LocalDate startDate, LocalTime startTime,
+	private Lecture addLecture(LocalDate startDate, LocalTime startTime,
 							   LocalDate endDate, LocalTime endTime, String location,
 							   DayOfWeek day){
 		Boolean recordedLec = view.getYesNoInput("Is this lecture recorded?");

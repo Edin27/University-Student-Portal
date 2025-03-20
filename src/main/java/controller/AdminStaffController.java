@@ -215,7 +215,7 @@ public class AdminStaffController extends StaffController {
 
         String currentUserEmail = sharedContext.getCurrentUserEmail();
         CourseManager courseManager = sharedContext.getCourseManager();
-        boolean added = courseManager.addCourse(sharedContext, view, courseCode, name,
+        boolean added = courseManager.addCourse(courseCode, name,
                 description,
                 requiresComputers, courseOrganiserName,courseOrganiserEmail,
                 courseSecretaryName, courseSecretaryEmail,reqTutorials, reqLabs);
