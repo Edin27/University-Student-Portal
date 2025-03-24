@@ -11,4 +11,7 @@ public class Lecture extends Activity{
 		super(id, startDate, startTime, endDate, endTime, location, day);
 		this.recorded = recorded;
 	}
+	public boolean getRecorded(){
+		return recorded;
+	}
 }

@@ -1,17 +1,21 @@
 package model;
 
+import view.View;
+
 import java.util.*;
 
 public class SharedContext {
+    protected final View view;
     public static final String ADMIN_STAFF_EMAIL = "inquiries@hindeburg.ac.nz";
     public User currentUser;
-
     public final List<Inquiry> inquiries;
     public final FAQ faq;
 
     public final CourseManager courseManager;
 
-    public SharedContext() {
+
+    public SharedContext(View view) {
+        this.view = view;
         this.currentUser = new Guest();
         this.inquiries = new ArrayList<>();
         faq = new FAQ();

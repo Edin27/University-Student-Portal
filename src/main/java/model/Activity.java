@@ -21,10 +21,48 @@ public abstract class Activity {
 
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public LocalTime getStartTime() {
+		return startTime;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public LocalTime getEndTime() {
+		return endTime;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public DayOfWeek getDay() {
+		return day;
+	}
+
 	public String toString() {
 		return String.format("Activity{id=%d, day=%s, " +
 						"startDate=%s, " +
 						"startTime=%s, endDate=%s, endTime=%s, location=%s}",
 				id, day, startDate, startTime, endDate, endTime, location);
 	}
+
+	public boolean hasId(int id){
+		//check if each activity has a valid id
+		if(id >= 0){
+			return true;
+		}
+		return false;
+	}
+
+
 }
