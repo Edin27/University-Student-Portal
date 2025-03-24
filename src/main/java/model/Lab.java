@@ -12,4 +12,8 @@ public class Lab extends Activity {
 		super(id, startDate, startTime, endDate, endTime, location, day);
 		this.capacity = capacity;
 	}
+
+	public int getCapacity() {
+		return capacity;
+	}
 }

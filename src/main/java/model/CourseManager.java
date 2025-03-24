@@ -28,7 +28,7 @@ public class CourseManager {
 			synchronized (CourseManager.class) {
 				result = courseManagerInstance;
 				if (result == null) {
-					courseManagerInstance = result = new CourseManager();
+					courseManagerInstance = result = new CourseManager(courseManagerInstance.view);
 				}
 			}
 		}
@@ -84,8 +84,12 @@ public class CourseManager {
 		}
 
 		List<Activity> lectures = new ArrayList<>();
-		List<Tutorial> tutorials = new ArrayList<>();
-		List<Lab> labs = new ArrayList<>();
+		List<Activity> tutorials = new ArrayList<>();
+		List<Activity> labs = new ArrayList<>();
+		Course newCourse = new Course(view, code, name, description, requiresComputers,
+				COName, COEmail, CSName, CSEmail, reqTutorials, reqLabs, lectures,
+				tutorials, labs);
+		int id = 0;
 
 		while (true) {
 			view.displayInfo("===Add Course - Activities===");
@@ -95,12 +99,18 @@ public class CourseManager {
 			try {
 				int optionNo = Integer.parseInt(input);
 				if (optionNo == 0) {
-					int id = 1;
 					//TODO:check this part and think of how to generate id for activities
-//					Activity activity = addActivity(view);
-//					if (activity != null){
-//						if(activity instanceof Lecture){lectures.add(activity);}
-//					}
+					Activity activity = newCourse.addActivity(id);
+					if (activity != null){
+						if (activity instanceof Lecture){
+							newCourse.getLectures().add(activity);
+						}else if (activity instanceof Tutorial){
+							newCourse.getTutorials().add(activity);
+						}else if(activity instanceof Lab){
+							newCourse.getLabs().add(activity);
+						}
+						id+=1;
+					}
 				} else if (optionNo == -1) {
 					break;
 				} else {
@@ -110,11 +120,9 @@ public class CourseManager {
 				view.displayError("Invalid option: " + input);
 			}
 		}
-
-
-		Course newCourse = new Course(code, name, description, requiresComputers,
-				COName, COEmail, CSName, CSEmail, reqTutorials, reqLabs);
 		courses.add(newCourse);
+		//TODO: add successful logger
+		view.displaySuccess("Course has been successfully created");
 		return true;
 	}
 
@@ -139,156 +147,6 @@ public class CourseManager {
 		}
 		return false;
 	}
-
-
-	private Activity addActivity() {
-		String activityType = view.getInput("Enter the activity id [Lecture: 0; " +
-				"Tutorial: 1; Lab: 2]: ");
-		String startDate = view.getInput("Enter the start date [yyyy-mm-dd]: ");
-		String startTime = view.getInput("Enter the start time [hh:mm]: ");
-		String endDate = view.getInput("Enter the end date [yyyy-mm-dd]:");
-		String endTime = view.getInput("Enter the end time [hh:mm]: ");
-		String location = view.getInput("Enter the activity location: ");
-		String day = view.getInput("Enter the activity day [mon,tue,wed,thu,fri]: ");
-
-		Integer actType = null;
-		LocalDate sDate = null;
-		LocalTime sTime = null;
-		LocalDate eDate = null;
-		LocalTime eTime = null;
-		DayOfWeek frequencyDay = null;
-
-		if (isAnyNullOrEmpty(activityType, startDate, startTime, endDate, endTime,
-				location, day)) {
-			String errorMessage = "Required activity info not provided";
-			view.displayError(errorMessage);
-			//TODO: add logger
-			return null;
-		} else {
-			actType = checkActType(activityType);
-			if(isAnyNullOrEmpty(actType)){
-				return null;
-			}
-
-			sDate = checkDate(startDate);
-			sTime = checkTime(startTime);
-			eDate = checkDate(endDate);
-			eTime = checkTime(endTime);
-			if(isAnyNullOrEmpty(sDate, sTime, eDate, eTime)){
-				return null;
-			}
-
-			//TODO: check location and whether it has computers for requiresComputers
-			// courses?
-
-			frequencyDay = checkDay(day);
-			if(isAnyNullOrEmpty(frequencyDay)){
-				return null;
-			}
-		}if(actType == 0){
-
-		}else if(actType == 1){
-
-		}else if(actType==2){
-
-		}
-
-	}
-
-	private Integer checkActType(String activityType){
-		Integer actType = null;
-		String errorMessage = "Activity type provided is invalid";
-		try {
-			actType = Integer.parseInt(activityType);
-		} catch (NumberFormatException e) {
-			view.displayError(errorMessage);
-			//TODO: add logger
-		}
-		if (actType < 0 || actType > 2) {
-			view.displayError(errorMessage);
-			//TODO: add logger
-		}
-		return actType;
-	}
-
-
-	private LocalDate checkDate(String date) {
-		LocalDate startEndDate = null;
-		try {
-			startEndDate = LocalDate.parse(date);
-		} catch (DateTimeParseException e1) {
-			try {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				startEndDate = LocalDate.parse(date, formatter);
-			} catch (DateTimeParseException e2) {
-				String errorMessage = "Start date or end date provided is invalid";
-				view.displayError(errorMessage);
-				//TODO: add logger
-			}
-		}
-		return startEndDate;
-	}
-
-	private LocalTime checkTime(String time) {
-		LocalTime startEndTime = null;
-		try {
-			startEndTime = LocalTime.parse(time);
-		} catch (DateTimeParseException e1) {
-			try {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH.mm");
-				startEndTime = LocalTime.parse(time, formatter);
-			} catch (DateTimeParseException e2) {
-				String errorMessage = "Start time or end time provided is invalid";
-				view.displayError(errorMessage);
-				//TODO: add logger
-			}
-		}
-		return startEndTime;
-	}
-
-	private DayOfWeek checkDay(String day){
-		String toLower = day.toLowerCase(Locale.ENGLISH);
-
-		switch (toLower) {
-			case "monday":
-			case "mon":
-				return DayOfWeek.MONDAY;
-			case "tuesday":
-			case "tue":
-				return DayOfWeek.TUESDAY;
-			case "wednesday":
-			case "wed":
-				return DayOfWeek.WEDNESDAY;
-			case "thursday":
-			case "thu":
-				return DayOfWeek.THURSDAY;
-			case "friday":
-			case "fri":
-				return DayOfWeek.FRIDAY;
-			default:
-				String errorMessage = "Day provided is invalid";
-				view.displayError(errorMessage);
-				//TODO: add logger
-				return null;
-		}
-
-	}
-
-	private Lecture addLecture(LocalDate startDate, LocalTime startTime,
-							   LocalDate endDate, LocalTime endTime, String location,
-							   DayOfWeek day){
-		Boolean recordedLec = view.getYesNoInput("Is this lecture recorded?");
-		if(isAnyNullOrEmpty(recordedLec)){
-			String errorMessage = "Lecture info required not provided";
-			view.displayError(errorMessage);
-			//TODO: add logger
-			return null;
-		}else{
-			Lecture newLecture = new Lecture();//TODO: in addCourse, give an assumptionof what id is.
-		}
-
-	}
-
 
 }
 
