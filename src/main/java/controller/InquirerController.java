@@ -92,12 +92,12 @@ public class InquirerController extends Controller {
             return;
         }
 
-        Inquiry inquiry = new Inquiry(inquirerEmail, subject, text);
 
-        sharedContext.inquiries.add(inquiry);
         String course = view.getInput("Course code (optional): " );
         // No course code given
         if (course.strip().isBlank()) {
+            Inquiry inquiry = new Inquiry(inquirerEmail, subject, text);
+            sharedContext.inquiries.add(inquiry);
             email.sendEmail(
                     SharedContext.ADMIN_STAFF_EMAIL,
                     SharedContext.ADMIN_STAFF_EMAIL,
@@ -113,6 +113,8 @@ public class InquirerController extends Controller {
                 while (courses.hasNext()) {
                     Course tempCourse = courses.next();
                     if (tempCourse.hasCode(course)) {
+                        Inquiry inquiry = new Inquiry(inquirerEmail, subject, text);
+                        sharedContext.inquiries.add(inquiry);
                         inquiry.setAssignedTo(tempCourse.getCourseOrganiserEmail());
                         email.sendEmail(
                                 SharedContext.ADMIN_STAFF_EMAIL,
@@ -127,7 +129,7 @@ public class InquirerController extends Controller {
                 }
             }
 
-            view.displayError("This course code is invalid");
+            view.displayError("This course code does not exist");
             Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, course, Log.Status.FAILURE);
         }
     }
