@@ -117,6 +117,21 @@ public class TextUserInterface implements View {
         }
     }
 
+    @Override
+    public void displayCourse(Course course) {
+        System.out.println("Course Code: " + course.getCourseCode());
+        System.out.println("Name: " + course.getName());
+        System.out.println("Description: " + course.getDescription());
+        System.out.println("Requires Computers: " + course.getRequiresComputers());
+        System.out.println("Organiser Name: " + course.getCourseOrganiserName());
+        System.out.println("Organiser Email: " + course.getCourseOrganiserEmail());
+        System.out.println("Secretary Name: " + course.getCourseSecretaryName());
+        System.out.println("Secretary Email: " + course.getCourseSecretaryEmail());
+        System.out.println("Required Tutorials: " + course.getRequiredTutorials());
+        System.out.println("Required Labs: " + course.getRequiredLabs());
+
+    }
+
 
     @Override
     public void displayFAQ(FAQ faq, String tagFilter) {

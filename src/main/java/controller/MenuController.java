@@ -84,6 +84,8 @@ public class MenuController extends Controller {
                     email).contactStaff();
             case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
                     email).viewCourses();
+            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+                    email).viewSpecificCourse();
         }
         return false;
     }
@@ -105,6 +107,8 @@ public class MenuController extends Controller {
 //                    email).manageTimetable();
 //            case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
 //                    email).viewCourses();
+//            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+//                    email).viewSpecificCourse();
 //        }
 //        return false;
 //    }
@@ -122,6 +126,8 @@ public class MenuController extends Controller {
                     view, auth, email).manageReceivedInquiries();
             case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
                     email).viewCourses();
+            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+                    email).viewSpecificCourse();
         }
         return false;
     }
@@ -143,6 +149,8 @@ public class MenuController extends Controller {
                     email).manageCourses();
             case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
                     email).viewCourses();
+            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+                    email).viewSpecificCourse();
         }
         return false;
     }

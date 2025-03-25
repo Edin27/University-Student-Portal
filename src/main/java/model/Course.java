@@ -86,9 +86,25 @@ public class Course {
 		return labs;
 	}
 
+	public String getCourseOrganiserName() { return courseOrganiserName; }
+
 	public String getCourseOrganiserEmail() {
 		return couresOrganiserEmail;
 	}
+
+	public String getCourseSecretaryName() { return courseSecretaryName; }
+
+	public String getCourseSecretaryEmail() {
+		return courseSecretaryEmail;
+	}
+
+	public String getDescription() { return description; }
+
+	public boolean getRequiresComputers() { return requiresComputers; }
+
+	public int getRequiredTutorials() { return requiredTutorials; }
+
+	public int getRequiredLabs() { return requiredLabs; }
 
 	public String getName() {
 		return name;
