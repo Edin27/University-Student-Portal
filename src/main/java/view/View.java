@@ -18,4 +18,6 @@ public interface View {
     void displayFAQSection(FAQSection section);
     void displayInquiry(Inquiry inquiry);
     void displayCourses(CourseManager courseManager);
+    void displayFAQ(FAQ faq, String tagFilter);
+    void displayFAQSection(FAQSection section, String tagFilter);
 }

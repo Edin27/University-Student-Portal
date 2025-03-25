@@ -117,5 +117,47 @@ public class TextUserInterface implements View {
         }
     }
 
-    
+
+    @Override
+    public void displayFAQ(FAQ faq, String tagFilter) {
+        System.out.println("Frequently Asked Questions");
+        displayDivider();
+        int i = 0;
+        for (FAQSection section : faq.getSections()) {
+            System.out.print("[");
+            System.out.print(i++);
+            System.out.print("] ");
+            System.out.println(section.getTopic());
+        }
+
+        // Also show filtered items at root level (optional)
+        for (FAQSection section : faq.getSections()) {
+            displayFAQSection(section, tagFilter);
+        }
+    }
+
+    @Override
+    public void displayFAQSection(FAQSection section, String tagFilter) {
+        System.out.println(section.getTopic());
+        displayDivider();
+
+        for (FAQItem item : section.getItems()) {
+            if (tagFilter == null ||
+                item.getQuestion().toLowerCase().contains(tagFilter.toLowerCase()) ||
+                item.getAnswer().toLowerCase().contains(tagFilter.toLowerCase())) {
+                System.out.println(item.getQuestion());
+                System.out.print("> ");
+                System.out.println(item.getAnswer());
+            }
+        }
+
+        System.out.println("Subsections:");
+        int i = 0;
+        for (FAQSection subsection : section.getSubsections()) {
+            System.out.print("[");
+            System.out.print(i++);
+            System.out.print("] ");
+            System.out.println(subsection.getTopic());
+        }
+    }
 }
