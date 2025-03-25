@@ -1,1 +1,7 @@
-2025/03/25 - 14:31:08 - admin1@hindeburg.ac.uk - LOGIN - admin1, admin1pass - SUCCESS
+2025/03/25 - 14:52:12 - Guest - CONTACT_STAFF - ewtrdsf - FAILURE
+2025/03/25 - 14:52:37 - Guest - CONTACT_STAFF - sfesfe - FAILURE
+2025/03/25 - 14:53:06 - Guest - CONTACT_STAFF -  - SUCCESS
+2025/03/25 - 14:53:26 - admin1@hindeburg.ac.uk - LOGIN - admin1, admin1pass - SUCCESS
+2025/03/25 - 14:57:51 - admin1@hindeburg.ac.uk - MANAGE_RECEIVED_QUERIES - response -> this is it - SUCCESS
+2025/03/25 - 14:57:56 - Guest - LOGOUT -  - SUCCESS
+2025/03/25 - 14:58:09 - student1@hindeburg.ac.uk - LOGIN - student1, student1pass - SUCCESS
