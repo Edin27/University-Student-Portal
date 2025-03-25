@@ -97,7 +97,7 @@ public class InquirerController extends Controller {
         // No course code given
         if (course.strip().isBlank()) {
             Inquiry inquiry = new Inquiry(inquirerEmail, subject, text);
-            sharedContext.inquiries.add(inquiry);//okokok
+            sharedContext.inquiries.add(inquiry);
             email.sendEmail(
                     SharedContext.ADMIN_STAFF_EMAIL,
                     SharedContext.ADMIN_STAFF_EMAIL,
