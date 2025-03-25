@@ -112,7 +112,7 @@ public class TextUserInterface implements View {
             Iterator<Course> courses = courseManager.getCourses().iterator();
             while (courses.hasNext()) {
                 Course course = courses.next();
-                System.out.println("Course Name: " + course.getName() + "Course Code: " + course.getCourseCode());
+                System.out.println("Course Name: " + course.getName() + "   Course Code: " + course.getCourseCode());
             }
         }
     }
