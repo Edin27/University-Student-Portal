@@ -191,7 +191,7 @@ public class AdminStaffController extends StaffController {
     }
 
     private void redirectInquiry(Inquiry inquiry) {
-        inquiry.setAssignedTo(view.getInput("Enter assignee email: "));
+        inquiry.setAssignedTo(view.getInput("Enter assigned email: "));
         email.sendEmail(
                 SharedContext.ADMIN_STAFF_EMAIL,
                 inquiry.getAssignedTo(),
