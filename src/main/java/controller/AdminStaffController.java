@@ -94,7 +94,7 @@ public class AdminStaffController extends StaffController {
         String answer = view.getInput("Enter the answer for new FAQ item: ");
         
         int newId = currentSection.getItems().size();
-        currentSection.getItems().add(new FAQItem(newId, question, answer));
+        currentSection.getItems().add(new FAQItem(question, answer));
          
         
         String emailSubject = "FAQ topic '" + currentSection.getTopic() + "' updated";
@@ -135,7 +135,8 @@ public class AdminStaffController extends StaffController {
         String input = view.getInput("Enter the ID of the FAQ item to remove: ");
         try {
             int id = Integer.parseInt(input);
-            boolean removed = currentSection.removeItem(id);
+            //boolean removed = currentSection.removeItem(id);
+            boolean removed = true; //temp
             if (removed) {
                 view.displaySuccess("FAQ item removed.");
 
@@ -156,8 +157,6 @@ public class AdminStaffController extends StaffController {
             view.displayError("Invalid ID: " + input);
         }
     }
-}
-
     
     public void manageInquiries() {
         String[] inquiryTitles = getInquiryTitles(sharedContext.inquiries);

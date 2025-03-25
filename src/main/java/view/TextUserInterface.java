@@ -106,7 +106,6 @@ public class TextUserInterface implements View {
         System.out.println(inquiry.getContent());
     }
 
-<<<<<<< Updated upstream
     @Override
     public void displayCourses(CourseManager courseManager) {
         if (courseManager.getCourses() != null) {
@@ -118,9 +117,8 @@ public class TextUserInterface implements View {
         }
     }
 
-    
-=======
-     @Override
+
+    @Override
     public void displayFAQ(FAQ faq, String tagFilter) {
         System.out.println("Frequently Asked Questions");
         displayDivider();
@@ -161,6 +159,5 @@ public class TextUserInterface implements View {
             System.out.print("] ");
             System.out.println(subsection.getTopic());
         }
-    }  
->>>>>>> Stashed changes
+    }
 }

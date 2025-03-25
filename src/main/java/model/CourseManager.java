@@ -22,13 +22,13 @@ public class CourseManager {
 		this.view = view;
 	}
 
-	public static CourseManager getCourseManager() {
+	public static CourseManager getCourseManager(View view) {
 		CourseManager result = courseManagerInstance;
 		if (courseManagerInstance == null) {
 			synchronized (CourseManager.class) {
 				result = courseManagerInstance;
 				if (result == null) {
-					courseManagerInstance = result = new CourseManager(courseManagerInstance.view);
+					courseManagerInstance = result = new CourseManager(view);
 				}
 			}
 		}

@@ -17,11 +17,7 @@ public interface View {
     void displayFAQ(FAQ faq);
     void displayFAQSection(FAQSection section);
     void displayInquiry(Inquiry inquiry);
-<<<<<<< Updated upstream
     void displayCourses(CourseManager courseManager);
-=======
-
     void displayFAQ(FAQ faq, String tagFilter);
-    void displayFAQSection(FAQSection section, String tagFilter); 
->>>>>>> Stashed changes
+    void displayFAQSection(FAQSection section, String tagFilter);
 }
