@@ -6,7 +6,8 @@ import model.*;
 import view.View;
 
 public class MenuController extends Controller {
-    public MenuController(SharedContext sharedContext, View view, AuthenticationService auth, EmailService email) {
+    public MenuController(SharedContext sharedContext, View view,
+                          AuthenticationService auth, EmailService email) {
         super(sharedContext, view, auth, email);
     }
 
@@ -14,23 +15,33 @@ public class MenuController extends Controller {
         LOGIN,
         CONSULT_FAQ,
         CONTACT_STAFF,
+        VIEW_COURSES,
+        VIEW_SPECIFIC_COURSE,
     }
 
     public enum StudentMainMenuOption {
         LOGOUT,
         CONSULT_FAQ,
         CONTACT_STAFF,
+        VIEW_COURSES,
+        VIEW_SPECIFIC_COURSE,
+        MANAGE_TIMETABLE,
     }
 
     public enum TeachingStaffMainMenuOption {
         LOGOUT,
         MANAGE_RECEIVED_QUERIES,
+        VIEW_COURSES,
+        VIEW_SPECIFIC_COURSE,
     }
 
     public enum AdminStaffMainMenuOption {
         LOGOUT,
         MANAGE_QUERIES,
         MANAGE_FAQ,
+        MANAGE_COURSES,
+        VIEW_COURSES,
+        VIEW_SPECIFIC_COURSE,
     }
 
     public void mainMenu() {
@@ -67,8 +78,11 @@ public class MenuController extends Controller {
         GuestMainMenuOption option = GuestMainMenuOption.values()[optionNo];
         switch (option) {
             case LOGIN -> new GuestController(sharedContext, view, auth, email).login();
-            case CONSULT_FAQ -> new InquirerController(sharedContext, view, auth, email).consultFAQ();
-            case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth, email).contactStaff();
+            case CONSULT_FAQ -> new InquirerController(sharedContext, view, auth,
+                    email).consultFAQ();
+            case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth,
+                    email).contactStaff();
+            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
         }
         return false;
     }
@@ -80,9 +94,15 @@ public class MenuController extends Controller {
         }
         StudentMainMenuOption option = StudentMainMenuOption.values()[optionNo];
         switch (option) {
-            case LOGOUT -> new AuthenticatedUserController(sharedContext, view, auth, email).logout();
-            case CONSULT_FAQ -> new InquirerController(sharedContext, view, auth, email).consultFAQ();
-            case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth, email).contactStaff();
+            case LOGOUT -> new AuthenticatedUserController(sharedContext, view, auth,
+                    email).logout();
+            case CONSULT_FAQ -> new InquirerController(sharedContext, view, auth,
+                    email).consultFAQ();
+            case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth,
+                    email).contactStaff();
+            case MANAGE_TIMETABLE -> new StudentController(sharedContext, view, auth,
+                    email).manageTimetable();
+            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
         }
         return false;
     }
@@ -94,8 +114,11 @@ public class MenuController extends Controller {
         }
         TeachingStaffMainMenuOption option = TeachingStaffMainMenuOption.values()[optionNo];
         switch (option) {
-            case LOGOUT -> new AuthenticatedUserController(sharedContext, view, auth, email).logout();
-            case MANAGE_RECEIVED_QUERIES -> new TeachingStaffController(sharedContext, view, auth, email).manageReceivedInquiries();
+            case LOGOUT -> new AuthenticatedUserController(sharedContext, view, auth,
+                    email).logout();
+            case MANAGE_RECEIVED_QUERIES -> new TeachingStaffController(sharedContext,
+                    view, auth, email).manageReceivedInquiries();
+            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
         }
         return false;
     }
@@ -107,9 +130,15 @@ public class MenuController extends Controller {
         }
         AdminStaffMainMenuOption option = AdminStaffMainMenuOption.values()[optionNo];
         switch (option) {
-            case LOGOUT -> new AuthenticatedUserController(sharedContext, view, auth, email).logout();
-            case MANAGE_FAQ -> new AdminStaffController(sharedContext, view, auth, email).manageFAQ();
-            case MANAGE_QUERIES -> new AdminStaffController(sharedContext, view, auth, email).manageInquiries();
+            case LOGOUT -> new AuthenticatedUserController(sharedContext, view, auth,
+                    email).logout();
+            case MANAGE_FAQ -> new AdminStaffController(sharedContext, view, auth,
+                    email).manageFAQ();
+            case MANAGE_QUERIES -> new AdminStaffController(sharedContext, view, auth,
+                    email).manageInquiries();
+            case MANAGE_COURSES -> new AdminStaffController(sharedContext, view, auth,
+                    email).manageCourses();
+            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
         }
         return false;
     }

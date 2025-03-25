@@ -1,42 +1,51 @@
 package model;
 
+import view.View;
+
 import java.util.*;
 
 public class SharedContext {
+    protected final View view;
     public static final String ADMIN_STAFF_EMAIL = "inquiries@hindeburg.ac.nz";
     public User currentUser;
-
     public final List<Inquiry> inquiries;
     public final FAQ faq;
-    private final Map<String, Set<String>> faqTopicsUpdateSubscribers;
 
-    public SharedContext() {
+    public final CourseManager courseManager;
+
+
+    public SharedContext(View view) {
+        this.view = view;
         this.currentUser = new Guest();
         this.inquiries = new ArrayList<>();
         faq = new FAQ();
-        faqTopicsUpdateSubscribers = new HashMap<>();
+        courseManager = CourseManager.getCourseManager();
     }
 
     public FAQ getFAQ() {
         return faq;
     }
 
-    public boolean registerForFAQUpdates(String email, String topic) {
-        if (faqTopicsUpdateSubscribers.containsKey(topic)) {
-            return faqTopicsUpdateSubscribers.get(topic).add(email);
-        } else {
-            Set<String> subscribers = new HashSet<>();
-            subscribers.add(email);
-            faqTopicsUpdateSubscribers.put(topic, subscribers);
-            return true;
+    public String getCurrentUserRole(){
+        String userRole = null;
+        if(currentUser instanceof Guest){
+            userRole = "Guest";
         }
+        else if(currentUser instanceof AuthenticatedUser){
+            userRole = ((AuthenticatedUser) currentUser).getRole();
+        }
+        return userRole;
     }
 
-    public boolean unregisterForFAQUpdates(String email, String topic) {
-        return faqTopicsUpdateSubscribers.getOrDefault(topic, new HashSet<>()).remove(email);
+    public String getCurrentUserEmail(){
+        String userEmail = null;
+       if(currentUser instanceof AuthenticatedUser){
+            userEmail = ((AuthenticatedUser) currentUser).getEmail();
+        }
+        return userEmail;
     }
 
-    public Set<String> usersSubscribedToFAQTopic(String topic) {
-        return faqTopicsUpdateSubscribers.getOrDefault(topic, new HashSet<>());
+    public CourseManager getCourseManager(){
+        return courseManager;
     }
 }

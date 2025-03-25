@@ -2,6 +2,7 @@ package controller;
 
 import external.AuthenticationService;
 import external.EmailService;
+import external.Log;
 import model.Guest;
 import model.SharedContext;
 import view.View;
@@ -14,9 +15,11 @@ public class AuthenticatedUserController extends Controller {
     public void logout() {
         if (sharedContext.currentUser instanceof Guest) {
             view.displayError("Guest users cannot logout!");
+            Log.AddLog(sharedContext, Log.ActionName.LOGOUT, "", Log.Status.FAILURE);
             return;
         }
         sharedContext.currentUser = new Guest();
         view.displaySuccess("Logged out!");
+        Log.AddLog(sharedContext, Log.ActionName.LOGOUT, "", Log.Status.SUCCESS);
     }
 }

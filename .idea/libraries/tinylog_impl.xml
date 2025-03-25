@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="tinylog.impl" type="repository">
+    <properties maven-id="org.tinylog:tinylog-impl:2.7.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/tinylog/tinylog-impl/2.7.0/tinylog-impl-2.7.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/tinylog/tinylog-api/2.7.0/tinylog-api-2.7.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
