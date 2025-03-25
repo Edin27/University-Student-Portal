@@ -24,12 +24,15 @@ public class AdminStaffController extends StaffController {
                 view.displayInfo("[-1] Return to " + (currentSection.getParent() == null ? "FAQ" : currentSection.getParent().getTopic()));
             }
             view.displayInfo("[-2] Add FAQ item");
+            view.displayInfo("[-3] Remove FAQ item");
             String input = view.getInput("Please choose an option: ");
             try {
                 int optionNo = Integer.parseInt(input);
 
                 if (optionNo == -2) {
                     addFAQItem(currentSection);
+                } else if (optionNo ==-3) {
+                    removeFAQItem(currentSection);
                 } else if (optionNo == -1) {
                     if (currentSection == null) {
                         break;
@@ -85,8 +88,11 @@ public class AdminStaffController extends StaffController {
 
         String question = view.getInput("Enter the question for new FAQ item: ");
         String answer = view.getInput("Enter the answer for new FAQ item: ");
-        currentSection.getItems().add(new FAQItem(question, answer));
-
+        
+        int newId = currentSection.getItems().size();
+        currentSection.getItems().add(new FAQItem(newId, question, answer));
+         
+        
         String emailSubject = "FAQ topic '" + currentSection.getTopic() + "' updated";
         StringBuilder emailContentBuilder = new StringBuilder();
         emailContentBuilder.append("Updated Q&As:");
@@ -117,6 +123,45 @@ public class AdminStaffController extends StaffController {
         view.displaySuccess("Created new FAQ item");
     }
 
+    private void removeFAQItem(FAQSection currentSection) {
+        if (currentSection == null) {
+            view.displayError("You must be inside a topic to remove an FAQ item.");
+            return;
+        }
+
+        if (currentSection.getItems().isEmpty()) {
+            view.displayWarning("This topic has no FAQ items to remove.");
+            return;
+        }
+
+        view.displayFAQSection(currentSection);
+        String input = view.getInput("Enter the ID of the FAQ item to remove: ");
+        try {
+            int id = Integer.parseInt(input);
+            boolean removed = currentSection.removeItem(id);
+            if (removed) {
+                view.displaySuccess("FAQ item removed.");
+
+                if (currentSection.getItems().isEmpty()) {
+                    FAQSection parent = currentSection.getParent();
+                    if (parent != null) {
+                        parent.getSubsections().remove(currentSection);
+                        view.displayInfo("This topic was empty and has been removed from its parent.");
+                    } else {
+                        sharedContext.getFAQ().getSections().remove(currentSection);
+                        view.displayInfo("This topic was empty and has been removed from the root FAQ.");
+                    }
+                }
+            } else {
+                view.displayError("No item found with ID " + id);
+            }
+        } catch (NumberFormatException e) {
+            view.displayError("Invalid ID: " + input);
+        }
+    }
+}
+
+    
     public void manageInquiries() {
         String[] inquiryTitles = getInquiryTitles(sharedContext.inquiries);
 
