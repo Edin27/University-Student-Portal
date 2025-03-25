@@ -175,14 +175,15 @@ public class Course {
 		String errorMessage = "Activity type provided is invalid";
 		try {
 			actType = Integer.parseInt(activityType);
+			if (actType < 0 || actType > 2) {
+				view.displayError(errorMessage);
+				//TODO: add logger
+			}
 		} catch (NumberFormatException e) {
 			view.displayError(errorMessage);
 			//TODO: add logger
 		}
-		if (actType < 0 || actType > 2) {
-			view.displayError(errorMessage);
-			//TODO: add logger
-		}
+
 		return actType;
 	}
 

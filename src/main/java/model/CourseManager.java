@@ -22,13 +22,13 @@ public class CourseManager {
 		this.view = view;
 	}
 
-	public static CourseManager getCourseManager() {
+	public static CourseManager getCourseManager(View view) {
 		CourseManager result = courseManagerInstance;
 		if (courseManagerInstance == null) {
 			synchronized (CourseManager.class) {
 				result = courseManagerInstance;
 				if (result == null) {
-					courseManagerInstance = result = new CourseManager(courseManagerInstance.view);
+					courseManagerInstance = result = new CourseManager(view);
 				}
 			}
 		}
@@ -69,9 +69,10 @@ public class CourseManager {
 
 		//check whether course code already added
 		boolean hasCode = false;
-		while (!hasCode) {
-			for (Course course : courses) {
-				hasCode = course.hasCode(code);
+		for (Course course : courses) {
+			if (course.hasCode(code)) {
+				hasCode = true;
+				break; // exit early if found
 			}
 		}
 		//if course already exists, display error
@@ -129,8 +130,14 @@ public class CourseManager {
 	public boolean checkCourseCode(String courseCode) {
 		boolean courseCodeIsValid = false;
 		//TODO: Piazza what is the course code format?
-
+		if(isAlphanumeric(courseCode)){
+			courseCodeIsValid = true;
+		}
 		return courseCodeIsValid;
+	}
+
+	public static boolean isAlphanumeric(String courseCode) {
+		return courseCode != null && courseCode.matches("^[a-zA-Z0-9]+$");
 	}
 
 	private boolean isAnyNullOrEmpty(Object... objects) {
