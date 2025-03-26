@@ -150,7 +150,7 @@ public class Course {
 				location, day)) {
 			String errorMessage = "Required activity info not provided";
 			view.displayError(errorMessage);
-			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, 
+			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB,
 					activityType+" "+startDate+" "+startTime+" "+endDate+" "+endTime+" "+location+" "+day, Log.Status.FAILURE);
 			return null;
 		} else {
@@ -278,8 +278,7 @@ public class Course {
 			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, recorded.toString(), Log.Status.FAILURE);
 			return null;
 		}else{
-			Activity newLecture = new Lecture(id, startDate, startTime, endDate,endTime
-					, location, day, recorded);
+			Activity newLecture = new Lecture(id, startDate, startTime, endDate,endTime, location, day, recorded);
 			return newLecture;
 		}
 	}
