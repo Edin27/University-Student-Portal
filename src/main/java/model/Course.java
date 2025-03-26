@@ -1,5 +1,6 @@
 package model;
 
+import external.Log;
 import view.View;
 
 import java.time.DayOfWeek;
@@ -149,7 +150,8 @@ public class Course {
 				location, day)) {
 			String errorMessage = "Required activity info not provided";
 			view.displayError(errorMessage);
-			//TODO: add logger
+			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, 
+					activityType+" "+startDate+" "+startTime+" "+endDate+" "+endTime+" "+location+" "+day, Log.Status.FAILURE);
 			return null;
 		} else {
 			actType = checkActType(activityType);
@@ -193,11 +195,11 @@ public class Course {
 			actType = Integer.parseInt(activityType);
 			if (actType < 0 || actType > 2) {
 				view.displayError(errorMessage);
-				//TODO: add logger
+				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, activityType, Log.Status.FAILURE);
 			}
 		} catch (NumberFormatException e) {
 			view.displayError(errorMessage);
-			//TODO: add logger
+			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, activityType, Log.Status.FAILURE);
 		}
 
 		return actType;
@@ -215,7 +217,7 @@ public class Course {
 			} catch (DateTimeParseException e2) {
 				String errorMessage = "Start date or end date provided is invalid";
 				view.displayError(errorMessage);
-				//TODO: add logger
+				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, date, Log.Status.FAILURE);
 			}
 		}
 		return startEndDate;
@@ -232,7 +234,7 @@ public class Course {
 			} catch (DateTimeParseException e2) {
 				String errorMessage = "Start time or end time provided is invalid";
 				view.displayError(errorMessage);
-				//TODO: add logger
+				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, time, Log.Status.FAILURE);
 			}
 		}
 		return startEndTime;
@@ -260,7 +262,7 @@ public class Course {
 			default:
 				String errorMessage = "Day provided is invalid";
 				view.displayError(errorMessage);
-				//TODO: add logger
+				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, day, Log.Status.FAILURE);
 				return null;
 		}
 
@@ -273,7 +275,7 @@ public class Course {
 		if(isAnyNullOrEmpty(recorded)){
 			String errorMessage = "Lecture info required not provided";
 			view.displayError(errorMessage);
-			//TODO: add logger
+			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, recorded.toString(), Log.Status.FAILURE);
 			return null;
 		}else{
 			Activity newLecture = new Lecture(id, startDate, startTime, endDate,endTime
@@ -291,7 +293,7 @@ public class Course {
 		Activity tutorialLab = null;
 		if(isAnyNullOrEmpty(capacity)){
 			view.displayError(errorMessage);
-			//TODO: add logger
+			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
 			return null;
 		}else{
 			Integer capacityInt = null;
@@ -299,12 +301,12 @@ public class Course {
 				capacityInt = Integer.parseInt(capacity);
 			} catch (NumberFormatException e) {
 				view.displayError(errorMessage);
-				//TODO: add logger
+				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
 				return null;
 			}
 			if (capacityInt < 0 ) {
 				view.displayError(errorMessage);
-				//TODO: add logger
+				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
 				return null;
 			}else{
 				if(actType == 1){
