@@ -49,8 +49,6 @@ public class CourseManager {
 				COEmail, CSName, CSEmail, reqTutorials, reqLabs)) {
 			String errorMessage = "Required course info not provided";
 			Log.AddLog(Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
-
-
 			view.displayError(errorMessage);
 			return false;
 		}
@@ -60,7 +58,6 @@ public class CourseManager {
 		if (!checkCourseCode(code)) {
 			String errorMessage = "Provided course code is invalid";
 			Log.AddLog(Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
-
 			view.displayError(errorMessage);
 			return false;
 		}
@@ -78,7 +75,6 @@ public class CourseManager {
 		if (hasCode) {
 			String errorMessage = "Course with that code already exists";
 			Log.AddLog(Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
-
 			view.displayError(errorMessage);
 			return false;
 		}

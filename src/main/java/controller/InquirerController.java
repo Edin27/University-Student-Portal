@@ -105,32 +105,29 @@ public class InquirerController extends Controller {
                     "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
             );
             view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
-            Log.AddLog(Log.ActionName.CONTACT_STAFF, "", Log.Status.SUCCESS);
+            Log.AddLog(Log.ActionName.CONTACT_STAFF, inquirerEmail+", "+subject+", "+text, Log.Status.SUCCESS);
         } else {
             // Course code is given - find course in course manager
-            if (sharedContext.getCourseManager() != null) {
-                Iterator<Course> courses = sharedContext.getCourseManager().getCourses().iterator();
-                while (courses.hasNext()) {
-                    Course tempCourse = courses.next();
-                    if (tempCourse.hasCode(course)) {
-                        Inquiry inquiry = new Inquiry(inquirerEmail, subject, text);
-                        sharedContext.inquiries.add(inquiry);
-                        inquiry.setAssignedTo(tempCourse.getCourseOrganiserEmail());
-                        email.sendEmail(
-                                SharedContext.ADMIN_STAFF_EMAIL,
-                                inquiry.getAssignedTo(),
-                                "New inquiry from " + inquirerEmail,
-                                "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
-                        );
-                        view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
-                        Log.AddLog(Log.ActionName.CONTACT_STAFF, course, Log.Status.SUCCESS);
-                        return;
-                    }
+            for (Course tempCourse : sharedContext.getCourseManager().getCourses()) {
+                if (tempCourse.hasCode(course)) {
+                    Inquiry inquiry = new Inquiry(inquirerEmail, subject, text, course);
+                    sharedContext.inquiries.add(inquiry);
+                    inquiry.setAssignedTo(tempCourse.getCourseOrganiserEmail());
+                    email.sendEmail(
+                            SharedContext.ADMIN_STAFF_EMAIL,
+                            inquiry.getAssignedTo(),
+                            "New inquiry from " + inquirerEmail,
+                            "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
+                    );
+                    view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
+                    Log.AddLog(Log.ActionName.CONTACT_STAFF, course, Log.Status.SUCCESS);
+                    return;
                 }
             }
-
-            view.displayError("This course code does not exist");
-            Log.AddLog(Log.ActionName.CONTACT_STAFF, course, Log.Status.FAILURE);
         }
+
+        view.displayError("This course code does not exist");
+        Log.AddLog(Log.ActionName.CONTACT_STAFF, course, Log.Status.FAILURE);
     }
 }
+

@@ -61,7 +61,7 @@ public class MenuController extends Controller {
 
             switch (userRole) {
                 case "Guest" -> endLoop = handleGuestMainMenu();
-                //case "Student" -> endLoop = handleStudentMainMenu();
+                case "Student" -> endLoop = handleStudentMainMenu();
                 case "TeachingStaff" -> endLoop = handleTeachingStaffMainMenu();
                 case "AdminStaff" -> endLoop = handleAdminStaffMainMenu();
             }
@@ -90,28 +90,28 @@ public class MenuController extends Controller {
         return false;
     }
 
-//    private boolean handleStudentMainMenu() {
-//        int optionNo = selectFromMenu(StudentMainMenuOption.values(), "Exit");
-//        if (optionNo == -1) {
-//            return true;
-//        }
-//        StudentMainMenuOption option = StudentMainMenuOption.values()[optionNo];
-//        switch (option) {
-//            case LOGOUT -> new AuthenticatedUserController(sharedContext, view, auth,
-//                    email).logout();
-//            case CONSULT_FAQ -> new InquirerController(sharedContext, view, auth,
-//                    email).consultFAQ();
-//            case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth,
-//                    email).contactStaff();
+    private boolean handleStudentMainMenu() {
+        int optionNo = selectFromMenu(StudentMainMenuOption.values(), "Exit");
+        if (optionNo == -1) {
+            return true;
+        }
+        StudentMainMenuOption option = StudentMainMenuOption.values()[optionNo];
+        switch (option) {
+            case LOGOUT -> new AuthenticatedUserController(sharedContext, view, auth,
+                    email).logout();
+            case CONSULT_FAQ -> new InquirerController(sharedContext, view, auth,
+                    email).consultFAQ();
+            case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth,
+                    email).contactStaff();
 //            case MANAGE_TIMETABLE -> new StudentController(sharedContext, view, auth,
 //                    email).manageTimetable();
-//            case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
-//                    email).viewCourses();
-//            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
-//                    email).viewSpecificCourse();
-//        }
-//        return false;
-//    }
+            case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
+                    email).viewCourses();
+            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+                    email).viewSpecificCourse();
+        }
+        return false;
+    }
 
     private boolean handleTeachingStaffMainMenu() {
         int optionNo = selectFromMenu(TeachingStaffMainMenuOption.values(), "Exit");
