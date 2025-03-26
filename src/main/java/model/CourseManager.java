@@ -1,5 +1,6 @@
 package model;
 
+import external.Log;
 import view.TextUserInterface;
 import view.View;
 
@@ -15,20 +16,22 @@ public class CourseManager {
 	protected final View view;
 	private static volatile CourseManager courseManagerInstance;
 	private final Collection<Course> courses = new ArrayList<>();
+	private final String userID;
 
 
 
-	private CourseManager(View view) {
+	private CourseManager(View view, String userID) {
 		this.view = view;
-	}
+        this.userID = userID;
+    }
 
-	public static CourseManager getCourseManager(View view) {
+	public static CourseManager getCourseManager(View view, String userID) {
 		CourseManager result = courseManagerInstance;
 		if (courseManagerInstance == null) {
 			synchronized (CourseManager.class) {
 				result = courseManagerInstance;
 				if (result == null) {
-					courseManagerInstance = result = new CourseManager(view);
+					courseManagerInstance = result = new CourseManager(view, userID);
 				}
 			}
 		}
@@ -49,7 +52,7 @@ public class CourseManager {
 		if (isAnyNullOrEmpty(code, name, description, requiresComputers, COName,
 				COEmail, CSName, CSEmail, reqTutorials, reqLabs)) {
 			String errorMessage = "Required course info not provided";
-			//TODO: add logger
+			Log.AddLog(userID, Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
 
 
 			view.displayError(errorMessage);
@@ -60,7 +63,7 @@ public class CourseManager {
 		//check whether course code is valid
 		if (!checkCourseCode(code)) {
 			String errorMessage = "Provided course code is invalid";
-			//TODO: add logger
+			Log.AddLog(userID, Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
 
 			view.displayError(errorMessage);
 			return false;
@@ -78,7 +81,7 @@ public class CourseManager {
 		//if course already exists, display error
 		if (hasCode) {
 			String errorMessage = "Course with that code already exists";
-			//TODO: add logger
+			Log.AddLog(userID, Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
 
 			view.displayError(errorMessage);
 			return false;
@@ -122,7 +125,7 @@ public class CourseManager {
 			}
 		}
 		courses.add(newCourse);
-		//TODO: add successful logger
+		Log.AddLog(userID, Log.ActionName.ADD_COURSE, "", Log.Status.SUCCESS);
 		view.displaySuccess("Course has been successfully created");
 		return true;
 	}

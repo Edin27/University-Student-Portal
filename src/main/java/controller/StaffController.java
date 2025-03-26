@@ -33,6 +33,6 @@ public class StaffController extends Controller {
         email.sendEmail(currentEmail, inquiry.getInquirerEmail(), subject, response);
         sharedContext.inquiries.remove(inquiry);
         view.displaySuccess("Email response sent!");
-        Log.AddLog(sharedContext, Log.ActionName.MANAGE_RECEIVED_QUERIES, subject + " -> " + response, Log.Status.SUCCESS);
+        Log.AddLog(sharedContext.getCurrentUserEmail(), Log.ActionName.MANAGE_RECEIVED_QUERIES, subject + " -> " + response, Log.Status.SUCCESS);
     }
 }

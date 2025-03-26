@@ -10,7 +10,6 @@ public class SharedContext {
     public User currentUser;
     public final List<Inquiry> inquiries;
     public final FAQ faq;
-
     public final CourseManager courseManager;
 
 
@@ -19,7 +18,7 @@ public class SharedContext {
         this.currentUser = new Guest();
         this.inquiries = new ArrayList<>();
         faq = new FAQ();
-        courseManager = CourseManager.getCourseManager(view);
+        courseManager = CourseManager.getCourseManager(view, getCurrentUserEmail());
     }
 
     public FAQ getFAQ() {
