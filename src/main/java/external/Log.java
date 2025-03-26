@@ -5,10 +5,13 @@ import model.SharedContext;
 import org.tinylog.Logger;
 
 public class Log {
-    public static void AddLog(String mail, ActionName action, String inputs, Status status) {
-        if (mail == null) {mail = "Guest";}
-        // adds line to log file
-        Logger.info(mail + " - " + action + " - " + inputs + " - " + status);
+    private static String userID = "Guest";
+    public static void AddLog(ActionName action, String inputs, Status status) {
+        Logger.info(userID + " - " + action + " - " + inputs + " - " + status);
+    }
+
+    public static void setUserID(String userID) {
+        Log.userID = userID;
     }
 
     public enum Status {

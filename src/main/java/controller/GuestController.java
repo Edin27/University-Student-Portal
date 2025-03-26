@@ -28,7 +28,7 @@ public class GuestController extends Controller {
             if (result.containsKey("error")) {
                 String errorMessage = (String) result.get("error");
                 view.displayError(errorMessage);
-                Log.AddLog(sharedContext.getCurrentUserEmail(), Log.ActionName.LOGIN, "", Log.Status.FAILURE);
+                Log.AddLog(Log.ActionName.LOGIN, "", Log.Status.FAILURE);
                 return;
             }
             email = (String) result.get("email");
@@ -44,6 +44,7 @@ public class GuestController extends Controller {
         }
 
         view.displaySuccess("Logged in as " + username);
-        Log.AddLog(sharedContext.getCurrentUserEmail(), Log.ActionName.LOGIN, username + ", " + password, Log.Status.SUCCESS);
+        Log.AddLog(Log.ActionName.LOGIN, username + ", " + password, Log.Status.SUCCESS);
+        Log.setUserID(username);
     }
 }
