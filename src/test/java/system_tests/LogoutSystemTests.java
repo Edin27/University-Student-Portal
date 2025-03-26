@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 public class LogoutSystemTests extends TUITest {
     @Test
     public void loginThenLogout() throws URISyntaxException, IOException, ParseException {
-        SharedContext context = new SharedContext();
+        SharedContext context = new SharedContext(new TextUserInterface());
         loginAsAdminStaff(context);
         AuthenticatedUserController authController = new AuthenticatedUserController(context, new TextUserInterface(), new MockAuthenticationService(), new MockEmailService());
         startOutputCapture();
@@ -28,7 +28,7 @@ public class LogoutSystemTests extends TUITest {
 
     @Test
     public void logoutAsGuest() throws URISyntaxException, IOException, ParseException {
-        SharedContext context = new SharedContext();
+        SharedContext context = new SharedContext(new TextUserInterface());
         AuthenticatedUserController authController = new AuthenticatedUserController(context, new TextUserInterface(), new MockAuthenticationService(), new MockEmailService());
         startOutputCapture();
         authController.logout();
