@@ -101,16 +101,7 @@ public class CourseManager {
 				if (optionNo == 0) {
 					//TODO:check this part and think of how to generate id for activities
 					Activity activity = newCourse.addActivity(id);
-					if (activity != null){
-						if (activity instanceof Lecture){
-							newCourse.getLectures().add(activity);
-						}else if (activity instanceof Tutorial){
-							newCourse.getTutorials().add(activity);
-						}else if(activity instanceof Lab){
-							newCourse.getLabs().add(activity);
-						}
-						id+=1;
-					}
+					if (activity != null){id+=1;}
 				} else if (optionNo == -1) {
 					break;
 				} else {

@@ -278,7 +278,8 @@ public class Course {
 			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, recorded.toString(), Log.Status.FAILURE);
 			return null;
 		}else{
-			Activity newLecture = new Lecture(id, startDate, startTime, endDate,endTime, location, day, recorded);
+			Lecture newLecture = new Lecture(id, startDate, startTime, endDate,endTime, location, day, recorded);
+			lectures.add(newLecture);
 			return newLecture;
 		}
 	}
@@ -309,15 +310,16 @@ public class Course {
 				return null;
 			}else{
 				if(actType == 1){
-					tutorialLab= new Tutorial(id, startDate, startTime, endDate,
-							endTime, location, day, capacityInt);
+					Tutorial tutorial = new Tutorial(id, startDate, startTime, endDate, endTime, location, day, capacityInt);
+					tutorials.add(tutorial);
+					return tutorial;
 				}else if(actType == 2){
-					tutorialLab = new Lab(id, startDate, startTime, endDate,
-							endTime, location, day, capacityInt);
-
+					Lab lab = new Lab(id, startDate, startTime, endDate, endTime, location, day, capacityInt);
+					labs.add(lab);
+					return lab;
 				}
 			}
 		}
-		return tutorialLab;
+		return null;
 	}
 }

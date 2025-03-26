@@ -5,6 +5,7 @@ import model.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class TextUserInterface implements View {
@@ -129,7 +130,21 @@ public class TextUserInterface implements View {
         System.out.println("Secretary Email: " + course.getCourseSecretaryEmail());
         System.out.println("Required Tutorials: " + course.getRequiredTutorials());
         System.out.println("Required Labs: " + course.getRequiredLabs());
+        System.out.println("Lectures");
+        displayActivities(course.getLectures());
+        System.out.println("Tutorials");
+        displayActivities(course.getTutorials());
+        System.out.println("Labs");
+        displayActivities(course.getLabs());
 
+    }
+
+    private void displayActivities(List<Activity> activities) {
+        if (activities == null) {System.out.println("none");return;}
+        for (Activity activity: activities) {
+            System.out.println("["+activity.getStartDate()+" -> "+activity.getEndDate());
+            System.out.println(" "+activity.getDay().toString().toLowerCase()+", "+activity.getStartTime()+" -> "+activity.getEndTime()+"]");
+        }
     }
 
 

@@ -18,6 +18,13 @@ public abstract class Activity {
 
 	public Activity(int id, LocalDate startDate, LocalTime startTime, LocalDate endDate
 			, LocalTime endTime, String location, DayOfWeek day){
+		this.id = id;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.endDate = endDate;
+		this.endTime = endTime;
+		this.location = location;
+		this.day = day;
 
 	}
 
