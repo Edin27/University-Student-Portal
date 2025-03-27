@@ -16,7 +16,20 @@ public class MockEmailServiceTests extends TUITest {
         String content = "email content";
         int status = email.sendEmail(sender, recipient, subject, content);
         assertOutputContains("Email from " + sender + " to " + recipient+"\n"+subject+"\n"+content);
-        Assertions.assertEquals(0, status);
+        Assertions.assertEquals(EmailService.STATUS_SUCCESS, status);
+    }
+
+    @Test
+    public void testSendEmailBoundary() {
+        EmailService email = new MockEmailService();
+        startOutputCapture();
+        String sender = "stu_&dent+1@hindeburg.ac.uk";
+        String recipient = "t.e.a.c.h.e.r.2@hindeburg.ac.uk";
+        String subject = "email subject";
+        String content = "email content";
+        int status = email.sendEmail(sender, recipient, subject, content);
+        assertOutputContains("Email from " + sender + " to " + recipient+"\n"+subject+"\n"+content);
+        Assertions.assertEquals(EmailService.STATUS_SUCCESS, status);
     }
 
     @Test
@@ -28,7 +41,7 @@ public class MockEmailServiceTests extends TUITest {
         String subject = "email subject";
         String content = "email content";
         int status = email.sendEmail(sender, recipient, subject, content);
-        Assertions.assertEquals(1, status);
+        Assertions.assertEquals(EmailService.STATUS_INVALID_SENDER_EMAIL, status);
     }
 
     @Test
@@ -40,6 +53,6 @@ public class MockEmailServiceTests extends TUITest {
         String subject = "email subject";
         String content = "email content";
         int status = email.sendEmail(sender, recipient, subject, content);
-        Assertions.assertEquals(1, status);
+        Assertions.assertEquals(EmailService.STATUS_INVALID_RECIPIENT_EMAIL, status);
     }
 }
