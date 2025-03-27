@@ -63,9 +63,9 @@ public abstract class Activity {
 				id, day, startDate, startTime, endDate, endTime, location);
 	}
 
-	public boolean hasId(int id){
+	public boolean hasId(int activityId){
 		//check if each activity has a valid id
-		if(id >= 0){
+		if(activityId == id){
 			return true;
 		}
 		return false;
