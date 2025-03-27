@@ -45,8 +45,10 @@ public class StudentController extends Controller {
         view.displayInfo("===Add Course To Timetable===");
         String courseCode = view.getInput("Enter the course code: ");
         String email = sharedContext.getCurrentUserEmail();
-        CourseManager courseManager = CourseManager.getCourseManager();
-        courseManager.addCourseToStudentTimetable(view,email,courseCode);
+        CourseManager courseManager = sharedContext.getCourseManager();
+        courseManager.addCourseToStudentTimetable(email,courseCode);
+
+
     }
 
     private void removeCourseFromTimetable(){}

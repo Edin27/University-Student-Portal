@@ -1,5 +1,13 @@
+<<<<<<< Updated upstream
 2025/03/19 - 12:58:47 - Guest - LOGIN -  - FAILURE
 2025/03/19 - 12:58:58 - admin1@hindeburg.ac.uk - LOGIN -  - SUCCESS
 2025/03/19 - 13:01:09 - Guest - CONTACT_STAFF -  - SUCCESS
 2025/03/19 - 13:01:27 - admin1@hindeburg.ac.uk - LOGIN -  - SUCCESS
 2025/03/19 - 13:02:32 - admin1@hindeburg.ac.uk - MANAGE_RECEIVED_QUERIES -  - SUCCESS
+=======
+2025/03/27 - 17:41:27 - Guest - LOGIN - admin1, admin1pass - SUCCESS
+2025/03/27 - 17:42:49 - admin1 - CHOOSE_TUTORIAL_OR_lAB - 1 - FAILURE
+2025/03/27 - 17:42:49 - admin1 - CHOOSE_TUTORIAL_OR_lAB - 1 - FAILURE
+2025/03/27 - 17:42:49 - admin1 - CHOOSE_TUTORIAL_OR_lAB - 1 - FAILURE
+2025/03/27 - 17:42:49 - admin1 - CHOOSE_TUTORIAL_OR_lAB - 1 - FAILURE
+>>>>>>> Stashed changes

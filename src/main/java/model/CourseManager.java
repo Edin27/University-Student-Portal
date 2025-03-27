@@ -1,23 +1,38 @@
 package model;
 
+import external.Log;
 import view.TextUserInterface;
 import view.View;
+
+import java.sql.Time;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import java.util.*;
 
 public class CourseManager {
+	protected final View view;
 
 	private static volatile CourseManager courseManagerInstance;
 	private final Collection<Course> courses = new ArrayList<>();
 
+	private final Collection<Timetable> timetables = new ArrayList<>();
+	String fullActivityDetailsAsString;
 
-	private CourseManager(){}
-	public static CourseManager getCourseManager(){
+
+	private CourseManager(View view){
+		this.view = view;
+	}
+	public static CourseManager getCourseManager(View view){
 		CourseManager result = courseManagerInstance;
 		if(courseManagerInstance == null){
 			synchronized (CourseManager.class){
 				result = courseManagerInstance;
 				if (result == null){
-					courseManagerInstance = result = new CourseManager();
+					courseManagerInstance = result = new CourseManager(view);
 				}
 			}
 		}
@@ -93,7 +108,8 @@ public class CourseManager {
 		}
 
 
-		Course newCourse = new Course(code, name, description, requiresComputers,
+		Course newCourse = new Course(view, sharedContext,code, name, description,
+				requiresComputers,
 				COName, COEmail, CSName, CSEmail, reqTutorials, reqLabs);
 		courses.add(newCourse);
 		return true;
@@ -120,30 +136,85 @@ public class CourseManager {
 		return false;
 	}
 
-	public boolean  addCourseToStudentTimetable(View view,String email,
-												String courseCode){
+
+	public boolean addCourseToStudentTimetable(String email,String courseCode){
+
 		if(!hasCourse(courseCode)){
-			view.displayError("Incorrect course code");
+			String errorMessage = "Incorrect course code provided";
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+					Log.Status.FAILURE);
+			view.displayError(errorMessage);
 			return false;
-		}else{
-			for (Course course : courses) {
-				String fullActivityDetailsAsString = course.getActivityAsString();
+		}
+		for (Course course : courses) {
+			fullActivityDetailsAsString = course.getActivityAsString();
+		}
+		boolean hasEmail = false;
+		for (Timetable timetable : timetables){
+			hasEmail = timetable.hasStudentEmail(email);
+		}
+
+		if(!hasEmail){
+			Timetable newtimetable = new Timetable(email);
+		}
+		String[] details = fullActivityDetailsAsString.split(" ");
+
+		String day = details[0];
+		String startDateStr = details[1];
+		String startTimeStr = details[2];
+		String endDateStr = details[3];
+		String endTimeStr = details[4];
+		String activityId = details[5];
+
+		LocalDate startDate = LocalDate.parse(startDateStr); // yyyy-MM-dd 格式
+		LocalTime startTime = LocalTime.parse(startTimeStr, DateTimeFormatter.ofPattern("HH:mm"));
+		LocalDate endDate = LocalDate.parse(endDateStr);
+		LocalTime endTime = LocalTime.parse(endTimeStr, DateTimeFormatter.ofPattern("HH:mm"));
+
+		String[] conflictingCourTsexCtodeAndActivityId = null;
+		for(Timetable timetable: timetables){
+			conflictingCourTsexCtodeAndActivityId = timetable.checkConflicts(startDate,startTime,endDate,endTime);
+		}
+
+		boolean unrecordedLecture1 = true;
+
+		if(conflictingCourTsexCtodeAndActivityId != null){
+			for (Course course: courses){
+				unrecordedLecture1 =
+						course.isUnrecordedLecture(Integer.parseInt(activityId));
+			}
+			for (Course course: courses){
+				unrecordedLecture1 = course.isUnrecordedLecture(Integer.parseInt(conflictingCourTsexCtodeAndActivityId[1]));
 			}
 
-
-			return true;
 		}
+
+
+
+
+
 	}
 
 	private boolean hasCourse(String courseCode) {
-		if (courseCode == null) return false;
+		boolean hasCode = false;
 		for (Course course : courses) {
 			if (course.hasCode(courseCode)) {
-				return true;
+				hasCode = true;
+				break; // exit early if found
 			}
 		}
-		return false;
+		//if course already exists, display error
+		if (hasCode) {
+			String errorMessage = "Course with that code already exists";
+			Log.AddLog(Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
+			view.displayError(errorMessage);
+			return false;
+		}
+		return hasCode;
 	}
+
+
+
 }
 
 

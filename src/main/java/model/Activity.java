@@ -27,4 +27,14 @@ public abstract class Activity {
 						"startTime=%s, endDate=%s, endTime=%s, location=%s}",
 				id, day, startDate, startTime, endDate, endTime, location);
 	}
+
+
+	public boolean hasId(int activityId){
+		//check if each activity has a valid id
+		if(activityId == id){
+			return true;
+		}
+		return false;
+	}
+
 }

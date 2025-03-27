@@ -10,5 +10,9 @@ public class Lecture extends Activity{
 				   LocalTime endTime, String location, DayOfWeek day, boolean recorded) {
 		super(id, startDate, startTime, endDate, endTime, location, day);
 		this.recorded = recorded;
+
+	}
+	public boolean getRecord(){
+		return recorded;
 	}
 }
