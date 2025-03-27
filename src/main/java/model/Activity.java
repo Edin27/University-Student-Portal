@@ -18,7 +18,42 @@ public abstract class Activity {
 
 	public Activity(int id, LocalDate startDate, LocalTime startTime, LocalDate endDate
 			, LocalTime endTime, String location, DayOfWeek day){
+		this.id = id;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.endDate = endDate;
+		this.endTime = endTime;
+		this.location = location;
+		this.day = day;
 
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public LocalTime getStartTime() {
+		return startTime;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public LocalTime getEndTime() {
+		return endTime;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public DayOfWeek getDay() {
+		return day;
 	}
 
 	public String toString() {
@@ -28,7 +63,6 @@ public abstract class Activity {
 				id, day, startDate, startTime, endDate, endTime, location);
 	}
 
-
 	public boolean hasId(int activityId){
 		//check if each activity has a valid id
 		if(activityId == id){
@@ -36,5 +70,6 @@ public abstract class Activity {
 		}
 		return false;
 	}
+
 
 }

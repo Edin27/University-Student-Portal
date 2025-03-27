@@ -12,7 +12,7 @@ public class Lecture extends Activity{
 		this.recorded = recorded;
 
 	}
-	public boolean getRecord(){
+	public boolean getRecorded(){
 		return recorded;
 	}
 }

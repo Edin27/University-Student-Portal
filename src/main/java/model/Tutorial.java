@@ -13,4 +13,8 @@ public class Tutorial extends Activity{
 
 		this.capacity = capacity;
 	}
+
+	public int getCapacity() {
+		return capacity;
+	}
 }

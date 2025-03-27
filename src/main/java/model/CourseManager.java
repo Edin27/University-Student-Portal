@@ -177,6 +177,7 @@ public class CourseManager {
 		}
 
 		boolean unrecordedLecture1 = true;
+		boolean unrecordedLecture2 = true;
 
 		if(conflictingCourTsexCtodeAndActivityId != null){
 			for (Course course: courses){
@@ -184,15 +185,26 @@ public class CourseManager {
 						course.isUnrecordedLecture(Integer.parseInt(activityId));
 			}
 			for (Course course: courses){
-				unrecordedLecture1 = course.isUnrecordedLecture(Integer.parseInt(conflictingCourTsexCtodeAndActivityId[1]));
+				unrecordedLecture2 =
+						course.isUnrecordedLecture(Integer.parseInt(conflictingCourTsexCtodeAndActivityId[1]));
 			}
-
+			if(unrecordedLecture1 || unrecordedLecture2 ){
+				String errorMessage = "You have at least one clash win an unrecorded lecture. The course cannot be added to your timetable";
+				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+						Log.Status.FAILURE);
+				view.displayError(errorMessage);
+				return false;
+			}else{
+				String warningMessage = "You have at least one clash win another " +
+						"activity";
+				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+						Log.Status.FAILURE);
+				view.displayWarning(warningMessage);
+				return true;
+			}
 		}
 
-
-
-
-
+		return true;
 	}
 
 	private boolean hasCourse(String courseCode) {
