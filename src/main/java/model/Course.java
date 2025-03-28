@@ -308,4 +308,8 @@ public class Course {
 		}
 		return false;
 	}
+
+	public int getRequiredTutorials(){return requiredTutorials;}
+
+	public int getRequiredLabs() {return requiredLabs;}
 }

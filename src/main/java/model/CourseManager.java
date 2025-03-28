@@ -149,13 +149,15 @@ public class CourseManager {
 		for (Course course : courses) {
 			fullActivityDetailsAsString = course.getActivityAsString();
 		}
+
+		Timetable newtimetable = null;
 		boolean hasEmail = false;
 		for (Timetable timetable : timetables){
 			hasEmail = timetable.hasStudentEmail(email);
 		}
 
 		if(!hasEmail){
-			Timetable newtimetable = new Timetable(email);
+			newtimetable = new Timetable(email);
 		}
 		String[] details = fullActivityDetailsAsString.split(" ");
 
@@ -195,15 +197,42 @@ public class CourseManager {
 				view.displayError(errorMessage);
 				return false;
 			}else{
-				String warningMessage = "You have at least one clash win another " +
+				String warningMessage = "You have at least one clash with another " +
 						"activity";
 				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
 						Log.Status.FAILURE);
 				view.displayWarning(warningMessage);
-				return true;
 			}
 		}
 
+		for(Timetable timetable:timetables){
+			timetable.addTimeSlot(courseCode,DayOfWeek.valueOf(day.toUpperCase()), startDate, startTime, endDate,
+					endTime, Integer.parseInt(activityId));
+		}
+
+		boolean requiredTutorials = checkChosenTutorials(courseCode,newtimetable);
+
+		if(requiredTutorials){
+			String warningMessage = "You have to choose "+requiredTutorials+" tutorials" +
+					" " + "for this course" ;
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+					Log.Status.FAILURE);
+			view.displayError(warningMessage);
+		}
+
+		boolean requiredLabs = checkChosenLabs(courseCode,newtimetable);
+
+		if(requiredLabs){
+			String warningMessage = "You have to choose "+requiredLabs+" labs for this course " ;
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+					Log.Status.FAILURE);
+			view.displayError(warningMessage);
+		}
+
+		String successMessage = "The course was successfully added to your timetable" ;
+		Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+				Log.Status.SUCCESS);
+		view.displaySuccess(successMessage);
 		return true;
 	}
 
@@ -223,6 +252,22 @@ public class CourseManager {
 			return false;
 		}
 		return hasCode;
+	}
+
+	private boolean checkChosenTutorials(String courseCode, Timetable timetable){
+		int requiredTutorials = 0;
+		for(Course course:courses){
+			requiredTutorials = course.getRequiredTutorials();
+		}
+		return requiredTutorials > 0;
+	}
+
+	private boolean checkChosenLabs(String courseCode, Timetable timetable){
+		int requiredLabs = 0;
+		for(Course course:courses){
+			requiredLabs = course.getRequiredLabs();
+		}
+		return requiredLabs > 0;
 	}
 
 
