@@ -4,7 +4,7 @@ import model.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -109,10 +109,11 @@ public class TextUserInterface implements View {
 
     @Override
     public void displayCourses(CourseManager courseManager) {
-        if (courseManager.getCourses() != null) {
-            Iterator<Course> courses = courseManager.getCourses().iterator();
-            while (courses.hasNext()) {
-                Course course = courses.next();
+        Collection<Course> courses = courseManager.getCourses();
+        if (courses.isEmpty()) {
+            System.out.println("no courses");
+        } else{
+            for (Course course : courseManager.getCourses()) {
                 System.out.println("Course Name: " + course.getName() + "   Course Code: " + course.getCourseCode());
             }
         }
@@ -140,13 +141,21 @@ public class TextUserInterface implements View {
     }
 
     private void displayActivities(List<Activity> activities) {
-        if (activities == null) {System.out.println("none");return;}
+        if (activities.isEmpty()) {System.out.println("none");return;}
         for (Activity activity: activities) {
             System.out.println("["+activity.getStartDate()+" -> "+activity.getEndDate());
             System.out.println(" "+activity.getDay().toString().toLowerCase()+", "+activity.getStartTime()+" -> "+activity.getEndTime()+"]");
         }
     }
 
+    @Override
+    public void displayTimetable(Timetable timetable) {
+        System.out.println(timetable.getStudentEmail() + " Timetable");
+        List<Timetable.TimeSlot> timeSlots = timetable.getTimeSlots();
+        for (Timetable.TimeSlot timeSlot : timeSlots) {
+            System.out.println(timeSlot);
+        }
+    }
 
     @Override
     public void displayFAQ(FAQ faq, String tagFilter) {

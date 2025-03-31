@@ -5,6 +5,9 @@ import external.EmailService;
 import model.*;
 import view.View;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class StudentController extends Controller {
@@ -17,6 +20,7 @@ public class StudentController extends Controller {
 
         while (true) {
             view.displayInfo("[1] Add Course to Timetable");
+            view.displayInfo("[2] View Timetable");
             view.displayInfo("[-1] Return to main menu");
 
             String input = view.getInput("Please choose an option: ");
@@ -32,6 +36,8 @@ public class StudentController extends Controller {
                     break;
                 } else if (optionNo == 1) {
                     addCourseToTimetable();
+                } else if (optionNo == 2) {
+                    viewTimetable();
                 } else {
                     view.displayError("Invalid option: " + input);
                 }
@@ -79,6 +85,10 @@ public class StudentController extends Controller {
 
 
     private void removeCourseFromTimetable(){}
-    private void viewTimetable(){}
+    private void viewTimetable(){
+        Timetable placeholder = new Timetable(sharedContext.getCurrentUserEmail());
+        placeholder.addTimeSlot("code1", DayOfWeek.MONDAY, LocalDate.now(), LocalTime.now(), LocalDate.now(), LocalTime.now(), 1);
+        view.displayTimetable(placeholder);
+    }
     private void chooseActivityForCourse(){}
 }
