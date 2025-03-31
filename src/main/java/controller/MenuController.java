@@ -103,8 +103,8 @@ public class MenuController extends Controller {
                     email).consultFAQ();
             case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth,
                     email).contactStaff();
-//            case MANAGE_TIMETABLE -> new StudentController(sharedContext, view, auth,
-//                    email).manageTimetable();
+            case MANAGE_TIMETABLE -> new StudentController(sharedContext, view, auth,
+                    email).manageTimetable();
             case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
                     email).viewCourses();
             case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
