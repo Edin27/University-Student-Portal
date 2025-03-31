@@ -16,6 +16,8 @@ public class CourseManager {
 	protected final View view;
 	private static volatile CourseManager courseManagerInstance;
 	private final Collection<Course> courses = new ArrayList<>();
+	private final Collection<Timetable> timetables = new ArrayList<>();
+	String fullActivityDetailsAsString;
 
     public CourseManager(View view) {
         this.view = view;
@@ -139,6 +141,139 @@ public class CourseManager {
 			}
 		}
 		return false;
+	}
+
+	public boolean addCourseToStudentTimetable(String email,String courseCode){
+
+		if(!hasCourse(courseCode)){
+			String errorMessage = "Incorrect course code provided";
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+					Log.Status.FAILURE);
+			view.displayError(errorMessage);
+			return false;
+		}
+		for (Course course : courses) {
+			fullActivityDetailsAsString = course.getActivityAsString();
+		}
+
+		Timetable newtimetable = null;
+		boolean hasEmail = false;
+		for (Timetable timetable : timetables){
+			hasEmail = timetable.hasStudentEmail(email);
+		}
+
+		if(!hasEmail){
+			newtimetable = new Timetable(email);
+		}
+		String[] details = fullActivityDetailsAsString.split(" ");
+
+		String day = details[0];
+		String startDateStr = details[1];
+		String startTimeStr = details[2];
+		String endDateStr = details[3];
+		String endTimeStr = details[4];
+		String activityId = details[5];
+
+		LocalDate startDate = LocalDate.parse(startDateStr); // yyyy-MM-dd 格式
+		LocalTime startTime = LocalTime.parse(startTimeStr, DateTimeFormatter.ofPattern("HH:mm"));
+		LocalDate endDate = LocalDate.parse(endDateStr);
+		LocalTime endTime = LocalTime.parse(endTimeStr, DateTimeFormatter.ofPattern("HH:mm"));
+
+		String[] conflictingCourTsexCtodeAndActivityId = null;
+		for(Timetable timetable: timetables){
+			conflictingCourTsexCtodeAndActivityId = timetable.checkConflicts(startDate,startTime,endDate,endTime);
+		}
+
+		boolean unrecordedLecture1 = true;
+		boolean unrecordedLecture2 = true;
+
+		if(conflictingCourTsexCtodeAndActivityId != null){
+			for (Course course: courses){
+				unrecordedLecture1 =
+						course.isUnrecordedLecture(Integer.parseInt(activityId));
+			}
+			for (Course course: courses){
+				unrecordedLecture2 =
+						course.isUnrecordedLecture(Integer.parseInt(conflictingCourTsexCtodeAndActivityId[1]));
+			}
+			if(unrecordedLecture1 || unrecordedLecture2 ){
+				String errorMessage = "You have at least one clash win an unrecorded lecture. The course cannot be added to your timetable";
+				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+						Log.Status.FAILURE);
+				view.displayError(errorMessage);
+				return false;
+			}else{
+				String warningMessage = "You have at least one clash with another " +
+						"activity";
+				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+						Log.Status.FAILURE);
+				view.displayWarning(warningMessage);
+			}
+		}
+
+		for(Timetable timetable:timetables){
+			timetable.addTimeSlot(courseCode,DayOfWeek.valueOf(day.toUpperCase()), startDate, startTime, endDate,
+					endTime, Integer.parseInt(activityId));
+		}
+
+		boolean requiredTutorials = checkChosenTutorials(courseCode,newtimetable);
+
+		if(requiredTutorials){
+			String warningMessage = "You have to choose "+requiredTutorials+" tutorials" +
+					" " + "for this course" ;
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+					Log.Status.FAILURE);
+			view.displayError(warningMessage);
+		}
+
+		boolean requiredLabs = checkChosenLabs(courseCode,newtimetable);
+
+		if(requiredLabs){
+			String warningMessage = "You have to choose "+requiredLabs+" labs for this course " ;
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+					Log.Status.FAILURE);
+			view.displayError(warningMessage);
+		}
+
+		String successMessage = "The course was successfully added to your timetable" ;
+		Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+				Log.Status.SUCCESS);
+		view.displaySuccess(successMessage);
+		return true;
+	}
+
+	private boolean hasCourse(String courseCode) {
+		boolean hasCode = false;
+		for (Course course : courses) {
+			if (course.hasCode(courseCode)) {
+				hasCode = true;
+				break; // exit early if found
+			}
+		}
+		//if course already exists, display error
+		if (hasCode) {
+			String errorMessage = "Course with that code already exists";
+			Log.AddLog(Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
+			view.displayError(errorMessage);
+			return false;
+		}
+		return hasCode;
+	}
+
+	private boolean checkChosenTutorials(String courseCode, Timetable timetable){
+		int requiredTutorials = 0;
+		for(Course course:courses){
+			requiredTutorials = course.getRequiredTutorials();
+		}
+		return requiredTutorials > 0;
+	}
+
+	private boolean checkChosenLabs(String courseCode, Timetable timetable){
+		int requiredLabs = 0;
+		for(Course course:courses){
+			requiredLabs = course.getRequiredLabs();
+		}
+		return requiredLabs > 0;
 	}
 
 }

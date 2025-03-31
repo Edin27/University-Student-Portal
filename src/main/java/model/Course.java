@@ -322,4 +322,17 @@ public class Course {
 		}
 		return null;
 	}
+
+	public boolean isUnrecordedLecture(int activityId) {
+		for (Activity activity : lectures) {
+			if (activity instanceof Lecture) {
+				Lecture lecture = (Lecture) activity;
+				if (lecture.getId() == activityId && !lecture.getRecorded()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }
