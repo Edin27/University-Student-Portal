@@ -92,9 +92,10 @@ public class AdminStaffController extends StaffController {
 
         String question = view.getInput("Enter the question for new FAQ item: ");
         String answer = view.getInput("Enter the answer for new FAQ item: ");
+        String course = view.getInput("Enter course tag: ");
         
         int newId = currentSection.getItems().size();
-        currentSection.getItems().add(new FAQItem(question, answer));
+        currentSection.getItems().add(new FAQItem(question, answer, course));
          
         
         String emailSubject = "FAQ topic '" + currentSection.getTopic() + "' updated";
@@ -107,6 +108,9 @@ public class AdminStaffController extends StaffController {
             emailContentBuilder.append("\n");
             emailContentBuilder.append("A: ");
             emailContentBuilder.append(item.getAnswer());
+            emailContentBuilder.append("\n");
+            emailContentBuilder.append("course: ");
+            emailContentBuilder.append(item.getCourse());
         }
         String emailContent = emailContentBuilder.toString();
 
