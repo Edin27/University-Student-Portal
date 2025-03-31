@@ -1,2 +1,1 @@
-2025/03/26 - 23:40:17 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/03/26 - 23:40:42 - student1 - CONTACT_STAFF - 1 - FAILURE
+2025/03/31 - 12:56:39 - Guest - LOGIN - admin1, admin1pass - SUCCESS

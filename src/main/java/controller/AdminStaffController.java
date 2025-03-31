@@ -280,7 +280,16 @@ public class AdminStaffController extends StaffController {
 
     }
 
-    private void removeCourse(){}
+    private void removeCourse(){
+        view.displayInfo("===Remove Course===");
+        String courseCode = view.getInput("Enter the course code of the course to " +
+                "be removed: ");
+        CourseManager courseManager = sharedContext.getCourseManager();
+        boolean removed = courseManager.removeCourse(courseCode);
+        if(removed){
+
+        }
+    }
 
 
 }

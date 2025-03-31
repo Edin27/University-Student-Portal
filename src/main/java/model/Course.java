@@ -167,9 +167,6 @@ public class Course {
 				return null;
 			}
 
-			//TODO: check location and whether it has computers for requiresComputers
-			// courses?
-
 			frequencyDay = checkDay(day);
 			if(isAnyNullOrEmpty(frequencyDay)){
 				return null;

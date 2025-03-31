@@ -141,6 +141,22 @@ public class CourseManager {
 		return false;
 	}
 
+	public boolean removeCourse(String courseCode) {
+		//check whether course code exists
+		boolean hasCode = false;
+		for (Course course : courses) {
+			if (course.hasCode(courseCode)) {
+				hasCode = true;
+				break; // exit early if found
+			}
+		}
+
+		if (hasCode){
+
+		}else{
+			view.displayError("Course code provided does not exist in the system");
+		}
+	}
 }
 
 
