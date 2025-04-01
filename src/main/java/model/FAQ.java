@@ -11,6 +11,13 @@ public class FAQ {
         section.setParent(null);
     }
 
+    public void removeSection(FAQSection section) {
+        for (FAQSection subSection : section.getSubsections()) {
+            addSection(subSection);
+        }
+        sections.remove(section);
+    }
+
     public List<FAQSection> getSections() {
         return sections;
     }

@@ -15,6 +15,8 @@ public class AdminStaffController extends StaffController {
     public AdminStaffController(SharedContext sharedContext, View view, AuthenticationService auth, EmailService email) {
         super(sharedContext, view, auth, email);
     }
+
+    private int offset = 0;
     
     public void manageFAQ() {
         FAQSection currentSection = null;
@@ -94,9 +96,8 @@ public class AdminStaffController extends StaffController {
         String answer = view.getInput("Enter the answer for new FAQ item: ");
         String course = view.getInput("Enter course tag: ");
         
-        int newId = currentSection.getItems().size();
-        currentSection.getItems().add(new FAQItem(question, answer, course));
-         
+        int newId = currentSection.getItems().size() + offset;
+        currentSection.getItems().add(new FAQItem(question, answer, course, newId));
         
         String emailSubject = "FAQ topic '" + currentSection.getTopic() + "' updated";
         StringBuilder emailContentBuilder = new StringBuilder();
@@ -139,19 +140,21 @@ public class AdminStaffController extends StaffController {
         String input = view.getInput("Enter the ID of the FAQ item to remove: ");
         try {
             int id = Integer.parseInt(input);
-            //boolean removed = currentSection.removeItem(id);
-            boolean removed = true; //temp
+            boolean removed = currentSection.removeItem(id);
             if (removed) {
+                offset += 1;
                 view.displaySuccess("FAQ item removed.");
 
                 if (currentSection.getItems().isEmpty()) {
                     FAQSection parent = currentSection.getParent();
                     if (parent != null) {
-                        parent.getSubsections().remove(currentSection);
+                        parent.removeSubsection(currentSection);
                         view.displayInfo("This topic was empty and has been removed from its parent.");
+                        manageFAQ();
                     } else {
-                        sharedContext.getFAQ().getSections().remove(currentSection);
+                        sharedContext.getFAQ().removeSection(currentSection);
                         view.displayInfo("This topic was empty and has been removed from the root FAQ.");
+                        manageFAQ();
                     }
                 }
             } else {
