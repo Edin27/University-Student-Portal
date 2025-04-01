@@ -2,14 +2,12 @@ package controller;
 
 import external.AuthenticationService;
 import external.EmailService;
+import external.Log;
 import model.*;
 import view.View;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.List;
+import java.util.*;
 
 public class AdminStaffController extends StaffController {
     public AdminStaffController(SharedContext sharedContext, View view, AuthenticationService auth, EmailService email) {
@@ -95,6 +93,11 @@ public class AdminStaffController extends StaffController {
         String question = view.getInput("Enter the question for new FAQ item: ");
         String answer = view.getInput("Enter the answer for new FAQ item: ");
         String course = view.getInput("Enter course tag: ");
+        if (!course.isEmpty() && sharedContext.getCourseManager().findCourse(course) == null) {
+            view.displayError("Course code does not exist");
+            Log.AddLog(Log.ActionName.ADD_FAQ, course, Log.Status.FAILURE);
+            return;
+        }
         
         int newId = currentSection.getItems().size() + offset;
         currentSection.getItems().add(new FAQItem(question, answer, course, newId));

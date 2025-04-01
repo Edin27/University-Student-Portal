@@ -22,6 +22,7 @@ public class InquirerController extends Controller {
     }
 
     public void consultFAQ() {
+        String courseTag = view.getInput("Filter FAQ items by course tag: ");
         FAQSection currentSection = null;
         String userEmail;
         if (sharedContext.currentUser instanceof AuthenticatedUser) {
@@ -33,10 +34,10 @@ public class InquirerController extends Controller {
         int optionNo = 0;
         while (currentSection != null || optionNo != -1) {
             if (currentSection == null) {
-                view.displayFAQ(sharedContext.getFAQ());
+                view.displayFAQ(sharedContext.getFAQ(), courseTag);
                 view.displayInfo("[-1] Return to main menu");
             } else {
-                view.displayFAQSection(currentSection);
+                view.displayFAQSection(currentSection, courseTag);
                 view.displayInfo("[-1] Return to " + (currentSection.getParent() == null ? "FAQ" : currentSection.getParent().getTopic()));
             }
 
@@ -54,6 +55,13 @@ public class InquirerController extends Controller {
                         }
                     } catch (IndexOutOfBoundsException e) {
                         view.displayError("Invalid option: " + optionNo);
+                    }
+                }
+                else {
+                    if (currentSection == null || currentSection.getParent() == null) {
+                        consultFAQ();
+                    } else {
+                        currentSection = currentSection.getParent();
                     }
                 }
 

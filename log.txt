@@ -1,1 +1,2 @@
-2025/04/01 - 18:49:03 - Guest - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/01 - 20:04:56 - Guest - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/01 - 20:05:34 - admin1 - LOGOUT -  - SUCCESS

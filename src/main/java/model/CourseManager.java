@@ -242,6 +242,15 @@ public class CourseManager {
 		return true;
 	}
 
+	public Course findCourse(String code) {
+		for (Course course : courses) {
+			if (course.hasCode(code)) {
+				return course;
+			}
+		}
+		return null;
+	}
+
 	private boolean hasCourse(String courseCode) {
 		boolean hasCode = false;
 		for (Course course : courses) {

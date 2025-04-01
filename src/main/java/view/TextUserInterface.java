@@ -180,16 +180,18 @@ public class TextUserInterface implements View {
     public void displayFAQSection(FAQSection section, String tagFilter) {
         System.out.println(section.getTopic());
         displayDivider();
+        boolean empty = true;
 
         for (FAQItem item : section.getItems()) {
-            if (tagFilter == null ||
-                item.getQuestion().toLowerCase().contains(tagFilter.toLowerCase()) ||
-                item.getAnswer().toLowerCase().contains(tagFilter.toLowerCase())) {
+            if (tagFilter == null || item.getCourse().equals(tagFilter)) {
+                empty = false;
                 System.out.println(item.getQuestion());
                 System.out.print("> ");
                 System.out.println(item.getAnswer());
             }
         }
+
+        if (empty) {System.out.println("none");}
 
         System.out.println("Subsections:");
         int i = 0;
