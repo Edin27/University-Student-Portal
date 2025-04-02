@@ -102,8 +102,8 @@ public class AdminStaffController extends StaffController {
             return;
         }
         
-        int newId = currentSection.getItems().size() + offset;
-        currentSection.getItems().add(new FAQItem(question, answer, course, newId));
+        newId = currentSection.getItems().size() + offset;
+        currentSection.getItems().add(new FAQItem(newId, question, answer, course));
         
         String emailSubject = "FAQ topic '" + currentSection.getTopic() + "' updated";
         StringBuilder emailContentBuilder = new StringBuilder();
@@ -117,7 +117,7 @@ public class AdminStaffController extends StaffController {
             emailContentBuilder.append(item.getAnswer());
             emailContentBuilder.append("\n");
             emailContentBuilder.append("course: ");
-            emailContentBuilder.append(item.getCourse());
+            emailContentBuilder.append(item.getTag());
         }
         String emailContent = emailContentBuilder.toString();
 
