@@ -100,42 +100,35 @@ public class InquirerController extends Controller {
             return;
         }
 
+        String code = view.getInput("Course code (optional): ");
+        Course course = sharedContext.getCourseManager().findCourse(code);
 
-        String course = view.getInput("Course code (optional): " );
+        Inquiry inquiry = null;
+        String staffEmail = SharedContext.ADMIN_STAFF_EMAIL;
+
         // No course code given
-        if (course.strip().isBlank()) {
-            Inquiry inquiry = new Inquiry(inquirerEmail, subject, text);
-            sharedContext.inquiries.add(inquiry);
-            email.sendEmail(
-                    SharedContext.ADMIN_STAFF_EMAIL,
-                    SharedContext.ADMIN_STAFF_EMAIL,
-                    "New inquiry from " + inquirerEmail,
-                    "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
-            );
-            view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
-            Log.AddLog(Log.ActionName.CONTACT_STAFF, inquirerEmail+", "+subject+", "+text, Log.Status.SUCCESS);
+        if (code.strip().isBlank()) {
+            inquiry = new Inquiry(inquirerEmail, subject, text);
+        // valid course code
+        } else if (course != null) {
+            staffEmail = course.getCourseOrganiserEmail();
+            inquiry = new Inquiry(inquirerEmail, subject, text, code);
+            inquiry.setAssignedTo(staffEmail);
+        // invalid course code
         } else {
-            // Course code is given - find course in course manager
-            for (Course tempCourse : sharedContext.getCourseManager().getCourses()) {
-                if (tempCourse.hasCode(course)) {
-                    Inquiry inquiry = new Inquiry(inquirerEmail, subject, text, course);
-                    sharedContext.inquiries.add(inquiry);
-                    inquiry.setAssignedTo(tempCourse.getCourseOrganiserEmail());
-                    email.sendEmail(
-                            SharedContext.ADMIN_STAFF_EMAIL,
-                            inquiry.getAssignedTo(),
-                            "New inquiry from " + inquirerEmail,
-                            "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
-                    );
-                    view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
-                    Log.AddLog(Log.ActionName.CONTACT_STAFF, course, Log.Status.SUCCESS);
-                    return;
-                }
-            }
+            view.displayError("This course code does not exist!");
+            Log.AddLog(Log.ActionName.CONTACT_STAFF, code, Log.Status.FAILURE);
+            return;
         }
-
-        view.displayError("This course code does not exist");
-        Log.AddLog(Log.ActionName.CONTACT_STAFF, course, Log.Status.FAILURE);
+        sharedContext.inquiries.add(inquiry);
+        email.sendEmail(
+                SharedContext.ADMIN_STAFF_EMAIL,
+                staffEmail,
+                "New inquiry from " + inquirerEmail,
+                "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
+        );
+        view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
+        Log.AddLog(Log.ActionName.CONTACT_STAFF, inquirerEmail + ", " + subject + ", " + text, Log.Status.SUCCESS);
     }
 }
 
