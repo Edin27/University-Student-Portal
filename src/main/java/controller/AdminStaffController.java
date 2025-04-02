@@ -93,6 +93,9 @@ public class AdminStaffController extends StaffController {
         String question = view.getInput("Enter the question for new FAQ item: ");
         String answer = view.getInput("Enter the answer for new FAQ item: ");
         String course = view.getInput("Enter course tag: ");
+        String tag = view.getInput("Enter course tag for this item (or leave empty): ").trim();
+        int newId = currentSection.getItems().size();
+        currentSection.getItems().add(new FAQItem(newId, question, answer, tag.isEmpty() ? null : tag));
         if (!course.isEmpty() && sharedContext.getCourseManager().findCourse(course) == null) {
             view.displayError("Course code does not exist");
             Log.AddLog(Log.ActionName.ADD_FAQ, course, Log.Status.FAILURE);
