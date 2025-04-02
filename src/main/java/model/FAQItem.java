@@ -10,7 +10,7 @@ public class FAQItem {
         this.id = id;
         this.question = question;
         this.answer = answer;
-        this.tag = tag;;
+        this.tag = tag;
     }
 
     public String getQuestion() {
