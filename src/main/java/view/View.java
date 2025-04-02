@@ -1,9 +1,6 @@
 package view;
 
-import model.CourseManager;
-import model.FAQ;
-import model.FAQSection;
-import model.Inquiry;
+import model.*;
 
 public interface View {
     String getInput(String prompt);
@@ -19,6 +16,10 @@ public interface View {
     void displayInquiry(Inquiry inquiry);
 <<<<<<< Updated upstream
     void displayCourses(CourseManager courseManager);
+    void displayCourse(Course course);
+
+    void displayTimetable(Timetable timetable);
+
     void displayFAQ(FAQ faq, String tagFilter);
     void displayFAQSection(FAQSection section, String tagFilter);
 =======

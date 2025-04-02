@@ -22,6 +22,7 @@ public class InquirerController extends Controller {
     }
 
     public void consultFAQ() {
+        String courseTag = view.getInput("Filter FAQ items by course tag: ");
         FAQSection currentSection = null;
         String userEmail;
         if (sharedContext.currentUser instanceof AuthenticatedUser) {
@@ -33,10 +34,10 @@ public class InquirerController extends Controller {
         int optionNo = 0;
         while (currentSection != null || optionNo != -1) {
             if (currentSection == null) {
-                view.displayFAQ(sharedContext.getFAQ());
+                view.displayFAQ(sharedContext.getFAQ(), courseTag);
                 view.displayInfo("[-1] Return to main menu");
             } else {
-                view.displayFAQSection(currentSection);
+                view.displayFAQSection(currentSection, courseTag);
                 view.displayInfo("[-1] Return to " + (currentSection.getParent() == null ? "FAQ" : currentSection.getParent().getTopic()));
             }
 
@@ -56,6 +57,13 @@ public class InquirerController extends Controller {
                         view.displayError("Invalid option: " + optionNo);
                     }
                 }
+                else {
+                    if (currentSection == null || currentSection.getParent() == null) {
+                        consultFAQ();
+                    } else {
+                        currentSection = currentSection.getParent();
+                    }
+                }
 
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + input);
@@ -73,7 +81,7 @@ public class InquirerController extends Controller {
             // From https://owasp.org/www-community/OWASP_Validation_Regex_Repository
             if (!inquirerEmail.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")) {
                 view.displayError("Invalid email address! Please try again");
-                Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, inquirerEmail, Log.Status.FAILURE);
+                Log.AddLog(Log.ActionName.CONTACT_STAFF, inquirerEmail, Log.Status.FAILURE);
                 return;
             }
         }
@@ -81,23 +89,23 @@ public class InquirerController extends Controller {
         String subject = view.getInput("Describe the topic of your inquiry in a few words: ");
         if (subject.strip().isBlank()) {
             view.displayError("Inquiry subject cannot be blank! Please try again");
-            Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, subject, Log.Status.FAILURE);
+            Log.AddLog(Log.ActionName.CONTACT_STAFF, subject, Log.Status.FAILURE);
             return;
         }
 
         String text = view.getInput("Write your inquiry:" + System.lineSeparator());
         if (text.strip().isBlank()) {
             view.displayError("Inquiry content cannot be blank! Please try again");
-            Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, text, Log.Status.FAILURE);
+            Log.AddLog(Log.ActionName.CONTACT_STAFF, text, Log.Status.FAILURE);
             return;
         }
 
-        Inquiry inquiry = new Inquiry(inquirerEmail, subject, text);
 
-        sharedContext.inquiries.add(inquiry);
         String course = view.getInput("Course code (optional): " );
         // No course code given
         if (course.strip().isBlank()) {
+            Inquiry inquiry = new Inquiry(inquirerEmail, subject, text);
+            sharedContext.inquiries.add(inquiry);
             email.sendEmail(
                     SharedContext.ADMIN_STAFF_EMAIL,
                     SharedContext.ADMIN_STAFF_EMAIL,
@@ -105,30 +113,29 @@ public class InquirerController extends Controller {
                     "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
             );
             view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
-            Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, "", Log.Status.SUCCESS);
+            Log.AddLog(Log.ActionName.CONTACT_STAFF, inquirerEmail+", "+subject+", "+text, Log.Status.SUCCESS);
         } else {
             // Course code is given - find course in course manager
-            if (sharedContext.getCourseManager() != null) {
-                Iterator<Course> courses = sharedContext.getCourseManager().getCourses().iterator();
-                while (courses.hasNext()) {
-                    Course tempCourse = courses.next();
-                    if (tempCourse.hasCode(course)) {
-                        inquiry.setAssignedTo(tempCourse.getCourseOrganiserEmail());
-                        email.sendEmail(
-                                SharedContext.ADMIN_STAFF_EMAIL,
-                                inquiry.getAssignedTo(),
-                                "New inquiry from " + inquirerEmail,
-                                "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
-                        );
-                        view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
-                        Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, course, Log.Status.SUCCESS);
-                        return;
-                    }
+            for (Course tempCourse : sharedContext.getCourseManager().getCourses()) {
+                if (tempCourse.hasCode(course)) {
+                    Inquiry inquiry = new Inquiry(inquirerEmail, subject, text, course);
+                    sharedContext.inquiries.add(inquiry);
+                    inquiry.setAssignedTo(tempCourse.getCourseOrganiserEmail());
+                    email.sendEmail(
+                            SharedContext.ADMIN_STAFF_EMAIL,
+                            inquiry.getAssignedTo(),
+                            "New inquiry from " + inquirerEmail,
+                            "Subject: " + subject + System.lineSeparator() + "Please log into the Self Service Portal to review and respond to the inquiry."
+                    );
+                    view.displaySuccess("Your inquiry has been recorded. Someone will be in touch via email soon!");
+                    Log.AddLog(Log.ActionName.CONTACT_STAFF, course, Log.Status.SUCCESS);
+                    return;
                 }
             }
-
-            view.displayError("This course code is invalid");
-            Log.AddLog(sharedContext, Log.ActionName.CONTACT_STAFF, course, Log.Status.FAILURE);
         }
+
+        view.displayError("This course code does not exist");
+        Log.AddLog(Log.ActionName.CONTACT_STAFF, course, Log.Status.FAILURE);
     }
 }
+

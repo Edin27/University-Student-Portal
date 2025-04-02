@@ -15,11 +15,12 @@ public class AuthenticatedUserController extends Controller {
     public void logout() {
         if (sharedContext.currentUser instanceof Guest) {
             view.displayError("Guest users cannot logout!");
-            Log.AddLog(sharedContext, Log.ActionName.LOGOUT, "", Log.Status.FAILURE);
+            Log.AddLog(Log.ActionName.LOGOUT, "", Log.Status.FAILURE);
             return;
         }
         sharedContext.currentUser = new Guest();
         view.displaySuccess("Logged out!");
-        Log.AddLog(sharedContext, Log.ActionName.LOGOUT, "", Log.Status.SUCCESS);
+        Log.AddLog(Log.ActionName.LOGOUT, "", Log.Status.SUCCESS);
+        Log.setUserID("Guest");
     }
 }

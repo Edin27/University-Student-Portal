@@ -19,7 +19,7 @@ public class LoginSystemTests extends TUITest {
     @Test
     public void testLoginAsAdminStaff() throws URISyntaxException, IOException, ParseException {
         setMockInput("admin1", "admin1pass");
-        SharedContext context = new SharedContext();
+        SharedContext context = new SharedContext(new TextUserInterface());
         GuestController guestController = new GuestController(context, new TextUserInterface(), new MockAuthenticationService(), new MockEmailService());
         startOutputCapture();
         guestController.login();
@@ -31,7 +31,7 @@ public class LoginSystemTests extends TUITest {
     @Test
     public void testLoginAsTeachingStaff() throws URISyntaxException, IOException, ParseException {
         setMockInput("teacher1", "teacher1pass");
-        SharedContext context = new SharedContext();
+        SharedContext context = new SharedContext(new TextUserInterface());
         GuestController guestController = new GuestController(context, new TextUserInterface(), new MockAuthenticationService(), new MockEmailService());
         startOutputCapture();
         guestController.login();
@@ -43,7 +43,7 @@ public class LoginSystemTests extends TUITest {
     @Test
     public void testLoginAsStudent() throws URISyntaxException, IOException, ParseException {
         setMockInput("student1", "student1pass");
-        SharedContext context = new SharedContext();
+        SharedContext context = new SharedContext(new TextUserInterface());
         GuestController guestController = new GuestController(context, new TextUserInterface(), new MockAuthenticationService(), new MockEmailService());
         startOutputCapture();
         guestController.login();

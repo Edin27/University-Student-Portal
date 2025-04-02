@@ -18,6 +18,13 @@ public abstract class Activity {
 
 	public Activity(int id, LocalDate startDate, LocalTime startTime, LocalDate endDate
 			, LocalTime endTime, String location, DayOfWeek day){
+		this.id = id;
+		this.startDate = startDate;
+		this.startTime = startTime;
+		this.endDate = endDate;
+		this.endTime = endTime;
+		this.location = location;
+		this.day = day;
 
 	}
 
@@ -56,9 +63,9 @@ public abstract class Activity {
 				id, day, startDate, startTime, endDate, endTime, location);
 	}
 
-	public boolean hasId(int id){
+	public boolean hasId(int activityId){
 		//check if each activity has a valid id
-		if(id >= 0){
+		if(activityId == id){
 			return true;
 		}
 		return false;

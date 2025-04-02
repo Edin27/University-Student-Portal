@@ -10,7 +10,6 @@ public class SharedContext {
     public User currentUser;
     public final List<Inquiry> inquiries;
     public final FAQ faq;
-
     public final CourseManager courseManager;
 
 

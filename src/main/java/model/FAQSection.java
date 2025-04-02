@@ -18,6 +18,23 @@ public class FAQSection {
         section.parent = this;
     }
 
+    public void removeSubsection(FAQSection section) {
+        for (FAQSection subsection : subsections) {
+            addSubsection(subsection);
+        }
+        subsections.remove(section);
+    }
+
+    public boolean removeItem(int id) {
+        for(FAQItem item : items) {
+            if (item.getId() == id) {
+                items.remove(item);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<FAQSection> getSubsections() {
         return subsections;
     }

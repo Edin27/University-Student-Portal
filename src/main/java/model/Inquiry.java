@@ -7,6 +7,7 @@ public class Inquiry {
     private final String inquirerEmail;
     private final String subject;
     private final String content;
+    private String courseCode;
     private String assignedTo;
 
     public Inquiry(String inquirerEmail, String subject, String content) {
@@ -14,6 +15,14 @@ public class Inquiry {
         this.inquirerEmail = inquirerEmail;
         this.subject = subject;
         this.content = content;
+    }
+
+    public Inquiry(String inquirerEmail, String subject, String content, String courseCode) {
+        this.createdAt = LocalDateTime.now();
+        this.inquirerEmail = inquirerEmail;
+        this.subject = subject;
+        this.content = content;
+        this.courseCode = courseCode;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -34,6 +43,10 @@ public class Inquiry {
 
     public String getAssignedTo() {
         return assignedTo;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
     }
 
     public void setAssignedTo(String assignedTo) {

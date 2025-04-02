@@ -75,12 +75,16 @@ public class Timetable {
 		courseActivityCount.remove(courseCode);
 	}
 
+	public List<TimeSlot> getTimeSlots() { return timeSlots; }
+
+	public String getStudentEmail() {return studentEmail;}
+
 	@Override
 	public String toString() {
 		return "Timetable for " + studentEmail + ":\n" + timeSlots.toString();
 	}
 
-	private static class TimeSlot {
+	public static class TimeSlot {
 		private String courseCode;
 		private DayOfWeek day;
 		private LocalDate startDate;
