@@ -12,6 +12,7 @@ import java.time.format.DateTimeParseException;
 
 import java.util.*;
 
+
 public class CourseManager {
 	protected final View view;
 	private static volatile CourseManager courseManagerInstance;
@@ -66,15 +67,8 @@ public class CourseManager {
 
 
 		//check whether course code already added
-		boolean hasCode = false;
-		for (Course course : courses) {
-			if (course.hasCode(code)) {
-				hasCode = true;
-				break; // exit early if found
-			}
-		}
 		//if course already exists, display error
-		if (hasCode) {
+		if (hasCourse(code)) {
 			String errorMessage = "Course with that code already exists";
 			Log.AddLog(Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
 			view.displayError(errorMessage);
@@ -117,7 +111,6 @@ public class CourseManager {
 
 	public boolean checkCourseCode(String courseCode) {
 		boolean courseCodeIsValid = false;
-		//TODO: Piazza what is the course code format?
 		if(isAlphanumeric(courseCode)){
 			courseCodeIsValid = true;
 		}
@@ -142,6 +135,43 @@ public class CourseManager {
 		}
 		return false;
 	}
+
+
+	public List<String> removeCourse(String courseCode) {
+		List<String> emailsToNotifyCourseRemoved = new ArrayList<>();
+		//check whether course code exists
+		if (hasCourse(courseCode)){
+			String organiserEmail = courses.stream()
+					.filter(course -> course.getCourseCode().equals(courseCode))
+					.map(Course::getCourseOrganiserEmail)
+					.findFirst()
+					.orElse(null);
+
+			boolean removedCourse =
+					courses.removeIf(course -> course.getCourseCode().equals(courseCode));
+
+			for(Timetable timetable: timetables){
+				boolean removedTimeSlot =
+						timetable.getTimeSlots().removeIf(timeslot -> timeslot.getCourseCode().equals(courseCode));
+				if(removedTimeSlot){
+					emailsToNotifyCourseRemoved.add(timetable.getStudentEmail());
+				}
+			}
+			if(removedCourse) {
+				emailsToNotifyCourseRemoved.add(organiserEmail);
+				Log.AddLog(Log.ActionName.REMOVE_COURSE, courseCode, Log.Status.SUCCESS);
+				view.displaySuccess("Course has been successfully removed");
+			}
+		}
+		else{
+			String errorMessage = "Course code provided does not exist in the system";
+			Log.AddLog(Log.ActionName.REMOVE_COURSE, courseCode,
+					Log.Status.FAILURE);
+			view.displayError(errorMessage);
+		}
+		return emailsToNotifyCourseRemoved;
+	}
+
 
 	public boolean addCourseToStudentTimetable(String email,String courseCode){
 
@@ -252,22 +282,14 @@ public class CourseManager {
 	}
 
 	private boolean hasCourse(String courseCode) {
-		boolean hasCode = false;
 		for (Course course : courses) {
 			if (course.hasCode(courseCode)) {
-				hasCode = true;
-				break; // exit early if found
+				return true;
 			}
 		}
-		//if course already exists, display error
-		if (hasCode) {
-			String errorMessage = "Course with that code already exists";
-			Log.AddLog(Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
-			view.displayError(errorMessage);
-			return false;
-		}
-		return hasCode;
+		return false;
 	}
+
 
 	private boolean checkChosenTutorials(String courseCode, Timetable timetable){
 		int requiredTutorials = 0;

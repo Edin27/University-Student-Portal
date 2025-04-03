@@ -273,8 +273,7 @@ public class AdminStaffController extends StaffController {
         String currentUserEmail = sharedContext.getCurrentUserEmail();
         CourseManager courseManager = sharedContext.getCourseManager();
         boolean added = courseManager.addCourse(courseCode, name,
-                description,
-                requiresComputers, courseOrganiserName,courseOrganiserEmail,
+                description, requiresComputers, courseOrganiserName,courseOrganiserEmail,
                 courseSecretaryName, courseSecretaryEmail,reqTutorials, reqLabs);
 
         if(added){
@@ -293,7 +292,20 @@ public class AdminStaffController extends StaffController {
 
     }
 
-    private void removeCourse(){}
+    private void removeCourse(){
+        view.displayInfo("===Remove Course===");
+        String courseCode = view.getInput("Enter the course code of the course to " +
+                "be removed: ");
+        CourseManager courseManager = sharedContext.getCourseManager();
 
-
+        //remove course from course list and timetables and get the emails of related
+        // students and organiser
+        List<String> emailsCourseRemoved = courseManager.removeCourse(courseCode);
+        for(String emailCourseRemoved: emailsCourseRemoved ){
+            email.sendEmail(sharedContext.ADMIN_STAFF_EMAIL, emailCourseRemoved,
+                    "Course Removed-" + courseCode, String.format("The course " +
+                            "with course code %s has been removed from the course list " +
+                            "and student timetables.", courseCode));
+        }
+    }
 }
