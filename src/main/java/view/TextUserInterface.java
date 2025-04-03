@@ -83,6 +83,7 @@ public class TextUserInterface implements View {
         System.out.println(section.getTopic());
         displayDivider();
         for (FAQItem item : section.getItems()) {
+            System.out.println("[Course: " + item.getCourse() + "]");
             System.out.println(item.getQuestion());
             System.out.print("> ");
             System.out.println(item.getAnswer());
