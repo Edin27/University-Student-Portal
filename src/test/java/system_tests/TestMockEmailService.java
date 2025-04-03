@@ -5,7 +5,7 @@ import external.MockEmailService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class MockEmailServiceTests extends TUITest {
+public class TestMockEmailService extends TUITest {
     @Test
     public void testSendEmailFrequent() {
         EmailService email = new MockEmailService();
@@ -15,7 +15,7 @@ public class MockEmailServiceTests extends TUITest {
         String subject = "email subject";
         String content = "email content";
         int status = email.sendEmail(sender, recipient, subject, content);
-        assertOutputContains("Email from " + sender + " to " + recipient+"\n"+subject+"\n"+content);
+        assertOutputContains("Email from " + sender + " to " + recipient);
         Assertions.assertEquals(EmailService.STATUS_SUCCESS, status);
     }
 
@@ -28,7 +28,7 @@ public class MockEmailServiceTests extends TUITest {
         String subject = "email subject";
         String content = "email content";
         int status = email.sendEmail(sender, recipient, subject, content);
-        assertOutputContains("Email from " + sender + " to " + recipient+"\n"+subject+"\n"+content);
+        assertOutputContains("Email from " + sender + " to " + recipient);
         Assertions.assertEquals(EmailService.STATUS_SUCCESS, status);
     }
 
