@@ -204,7 +204,7 @@ public class CourseManager {
 		String endTimeStr = details[4];
 		String activityId = details[5];
 
-		LocalDate startDate = LocalDate.parse(startDateStr); // yyyy-MM-dd 格式
+		LocalDate startDate = LocalDate.parse(startDateStr); // yyyy-MM-dd
 		LocalTime startTime = LocalTime.parse(startTimeStr, DateTimeFormatter.ofPattern("HH:mm"));
 		LocalDate endDate = LocalDate.parse(endDateStr);
 		LocalTime endTime = LocalTime.parse(endTimeStr, DateTimeFormatter.ofPattern("HH:mm"));

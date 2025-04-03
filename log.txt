@@ -1,0 +1,2 @@
+2025/04/03 - 15:23:00 - Guest - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/03 - 15:23:15 - admin1 - REMOVE_COURSE - A001 - FAILURE
