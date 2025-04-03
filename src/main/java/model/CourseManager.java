@@ -12,6 +12,7 @@ import java.time.format.DateTimeParseException;
 
 import java.util.*;
 
+
 public class CourseManager {
 	protected final View view;
 	private static volatile CourseManager courseManagerInstance;
@@ -136,13 +137,39 @@ public class CourseManager {
 	}
 
 
-	public boolean removeCourse(String courseCode) {
+	public List<String> removeCourse(String courseCode) {
+		List<String> emailsToNotifyCourseRemoved = new ArrayList<>();
 		//check whether course code exists
 		if (hasCourse(courseCode)){
+			String organiserEmail = courses.stream()
+					.filter(course -> course.getCourseCode().equals(courseCode))
+					.map(Course::getCourseOrganiserEmail)
+					.findFirst()
+					.orElse(null);
 
-		}else{
-			view.displayError("Course code provided does not exist in the system");
+			boolean removedCourse =
+					courses.removeIf(course -> course.getCourseCode().equals(courseCode));
+
+			for(Timetable timetable: timetables){
+				boolean removedTimeSlot =
+						timetable.getTimeSlots().removeIf(timeslot -> timeslot.getCourseCode().equals(courseCode));
+				if(removedTimeSlot){
+					emailsToNotifyCourseRemoved.add(timetable.getStudentEmail());
+				}
+			}
+			if(removedCourse) {
+				emailsToNotifyCourseRemoved.add(organiserEmail);
+				Log.AddLog(Log.ActionName.REMOVE_COURSE, courseCode, Log.Status.SUCCESS);
+				view.displaySuccess("Course has been successfully removed");
+			}
 		}
+		else{
+			String errorMessage = "Course code provided does not exist in the system";
+			Log.AddLog(Log.ActionName.REMOVE_COURSE, courseCode,
+					Log.Status.FAILURE);
+			view.displayError(errorMessage);
+		}
+		return emailsToNotifyCourseRemoved;
 	}
 
 
