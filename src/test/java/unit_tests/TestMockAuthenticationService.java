@@ -32,11 +32,12 @@ class TestMockAuthenticationService extends TUITest {
 		String username = "teacher1";
 		String password = "teacher1pass";
 		String result = authService.login(username, password);
-		assertFalse(result.contains("error"), "Login with valid credentials should " +
-				"return user data without error");
+//		assertFalse(result.contains("error"), "Login with valid credentials should " +
+//				"return user data without error");
 		assertEquals("{\"password\":\"" + password + "\",\"role\":\"TeachingStaff\"," +
 				"\"email\":\"" + username + "@hindeburg.ac.uk\",\"username\":\"" + username + "\"}",
-				result);
+				result, "Login with valid credentials should return user data without " +
+						"error");
 	}
 
 	@Test
@@ -45,9 +46,10 @@ class TestMockAuthenticationService extends TUITest {
 		String username = "studnet2";
 		String password = "student2pass";
 		String result = authService.login(username, password);
-		assertTrue(result.contains("error"), "Login with invalid username should " +
-				"return error");
-		assertEquals("{\"error\":\"Wrong username or password\"}", result);
+//		assertTrue(result.contains("error"), "Login with invalid username should " +
+//				"return error");
+		assertEquals("{\"error\":\"Wrong username or password\"}", result,
+				"Login with invalid username should return error");
 	}
 
 	@Test
@@ -56,9 +58,10 @@ class TestMockAuthenticationService extends TUITest {
 		String username = "student2";
 		String password = "student2passs";
 		String result = authService.login(username, password);
-		assertTrue(result.contains("error"), "Login with wrong password should " +
-				"return error");
-		assertEquals("{\"error\":\"Wrong username or password\"}", result);
+//		assertTrue(result.contains("error"), "Login with wrong password should " +
+//				"return error");
+		assertEquals("{\"error\":\"Wrong username or password\"}", result,
+				"Login with wrong password should return error");
 	}
 
 	@Test
@@ -67,11 +70,12 @@ class TestMockAuthenticationService extends TUITest {
 		String username = "";
 		String password = "student2pass";
 		String result = authService.login(username, password);
-		assertNotNull(username, "Login with empty username should " +
-				"return error");
-		assertTrue(result.contains("error"), "Login with empty username should " +
-				"return error");
-		assertEquals("{\"error\":\"Wrong username or password\"}", result);
+//		assertNotNull(username, "Login with empty username should " +
+//				"return error");
+//		assertTrue(result.contains("error"), "Login with empty username should " +
+//				"return error");
+		assertEquals("{\"error\":\"Wrong username or password\"}", result,
+				"Login with empty username should return error");
 	}
 
 	@Test
@@ -80,11 +84,12 @@ class TestMockAuthenticationService extends TUITest {
 		String username = "student2";
 		String password = "";
 		String result = authService.login(username, password);
-		assertNotNull(password, "Login with empty password should " +
-				"return error");
-		assertTrue(result.contains("error"), "Login with empty password should " +
-				"return error");
-		assertEquals("{\"error\":\"Wrong username or password\"}", result);
+//		assertNotNull(password, "Login with empty password should " +
+//				"return error");
+//		assertTrue(result.contains("error"), "Login with empty password should " +
+//				"return error");
+		assertEquals("{\"error\":\"Wrong username or password\"}", result,
+				"Login with empty password should return error");
 	}
 
 	@Test
@@ -110,7 +115,7 @@ class TestMockAuthenticationService extends TUITest {
 					return getClass().getResource("/InvalidMockUserData.json");
 				}
 			};
-		}, "Constructor should throw ParseException when data file contains invalid JSON");
+		}, "ParseException should be thrown when data file contains invalid JSON");
 	}
 
 	@Test
@@ -123,7 +128,7 @@ class TestMockAuthenticationService extends TUITest {
 					return getClass().getResource("/MissingFieldMockUserData.json");
 				}
 			};
-		}, "Constructor should throw ParseException when data file has missing field");
+		}, "ParseException should be thrown when data file has missing field");
 	}
 
 	@Test
@@ -136,7 +141,7 @@ class TestMockAuthenticationService extends TUITest {
 					return getClass().getResource("/EmptyValueMockUserData.json");
 				}
 			};
-		}, "Constructor should throw ParseException when data file has empty value");
+		}, "ParseException should be thrown when data file has empty value");
 	}
 
 	@Test
@@ -154,7 +159,7 @@ class TestMockAuthenticationService extends TUITest {
 					}
 				}
 			};
-		}, "Constructor should throw URISyntaxException when file URI is invalid");
+		}, "URISyntaxException should be thrown when file URI is invalid");
 	}
 
 	@Test
@@ -172,7 +177,7 @@ class TestMockAuthenticationService extends TUITest {
 					return new FileReader(file);
 				}
 			};
-		}, "Constructor should throw IOException when file cannot be opened");
+		}, "IOException should be thrown when file cannot be opened");
 	}
 
 }
