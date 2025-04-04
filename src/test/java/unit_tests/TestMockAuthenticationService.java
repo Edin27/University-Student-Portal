@@ -70,8 +70,6 @@ class TestMockAuthenticationService extends TUITest {
 		String username = "";
 		String password = "student2pass";
 		String result = authService.login(username, password);
-//		assertNotNull(username, "Login with empty username should " +
-//				"return error");
 //		assertTrue(result.contains("error"), "Login with empty username should " +
 //				"return error");
 		assertEquals("{\"error\":\"Wrong username or password\"}", result,
@@ -84,8 +82,6 @@ class TestMockAuthenticationService extends TUITest {
 		String username = "student2";
 		String password = "";
 		String result = authService.login(username, password);
-//		assertNotNull(password, "Login with empty password should " +
-//				"return error");
 //		assertTrue(result.contains("error"), "Login with empty password should " +
 //				"return error");
 		assertEquals("{\"error\":\"Wrong username or password\"}", result,
