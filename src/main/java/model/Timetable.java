@@ -71,9 +71,11 @@ public class Timetable {
 		return timeSlots.stream().anyMatch(slot -> slot.getCourseCode().equals(courseCode));
 	}
 
-	public void removeSlotsForCourse(String courseCode) {
-		timeSlots.removeIf(slot -> slot.getCourseCode().equals(courseCode));
+	public boolean removeSlotsForCourse(String courseCode) {
+		boolean removedSlot =
+				timeSlots.removeIf(slot -> slot.getCourseCode().equals(courseCode));
 		courseActivityCount.remove(courseCode);
+		return removedSlot;
 	}
 
 	public List<TimeSlot> getTimeSlots() { return timeSlots; }
