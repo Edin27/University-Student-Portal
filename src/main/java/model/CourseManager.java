@@ -18,6 +18,7 @@ public class CourseManager {
 	private static volatile CourseManager courseManagerInstance;
 	private final Collection<Course> courses = new ArrayList<>();
 	private final Collection<Timetable> timetables = new ArrayList<>();
+	private final Map<String, Timetable> timetabless = new HashMap<>();
 	String fullActivityDetailsAsString;
 
     public CourseManager(View view) {
@@ -197,21 +198,31 @@ public class CourseManager {
 		}
 		String[] details = fullActivityDetailsAsString.split(" ");
 
-		String day = details[0];
-		String startDateStr = details[1];
-		String startTimeStr = details[2];
-		String endDateStr = details[3];
-		String endTimeStr = details[4];
-		String activityId = details[5];
+		String activityId = details[0];
+		String day = details[1];
+		String startDateStr = details[2];
+		String startTimeStr = details[3];
+		String endDateStr = details[4];
+		String endTimeStr = details[5];
 
-		LocalDate startDate = LocalDate.parse(startDateStr); // yyyy-MM-dd
-		LocalTime startTime = LocalTime.parse(startTimeStr, DateTimeFormatter.ofPattern("HH:mm"));
-		LocalDate endDate = LocalDate.parse(endDateStr);
-		LocalTime endTime = LocalTime.parse(endTimeStr, DateTimeFormatter.ofPattern("HH:mm"));
+		String StartDateStr =
+				startDateStr.replace("startDate=", "").replace(",", "").trim();
+		LocalDate startDate = LocalDate.parse(StartDateStr);
+		String EndDateStr =
+				endDateStr.replace("endDate=", "").replace(",", "").trim();
+		LocalDate endDate = LocalDate.parse(EndDateStr);
+
+
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+		String startTimeStrCleaned = startTimeStr.replace("startTime=", "").replace(",", "").trim();
+		LocalTime startTime = LocalTime.parse(startTimeStrCleaned, timeFormatter);
+		String endTimeStrCleaned = endTimeStr.replace("endTime=", "").replace(",", "").trim();
+		LocalTime endTime = LocalTime.parse(endTimeStrCleaned, timeFormatter);
 
 		String[] conflictingCourTsexCtodeAndActivityId = null;
 		for(Timetable timetable: timetables){
-			conflictingCourTsexCtodeAndActivityId = timetable.checkConflicts(startDate,startTime,endDate,endTime);
+			conflictingCourTsexCtodeAndActivityId = timetable.checkConflicts(startDate,
+					startTime,endDate,endTime);
 		}
 
 		boolean unrecordedLecture1 = true;
@@ -306,6 +317,24 @@ public class CourseManager {
 		}
 		return requiredLabs > 0;
 	}
+/*
+	private Timetable getTimetable(String studentEmail){
+		for (Timetable timetable : timetabless.values()){
+			if(timetable.hasStudentEmail(studentEmail)){
+				return timetable;
+			}
+		}
+
+		Timetable newtimetable = new Timetable(studentEmail);
+		timetabless.put(studentEmail, newtimetable);
+		return newtimetable;
+	}
+
+	public void viewTimetable (String studentEmail){
+		Timetable timetable = getTimetable(studentEmail);
+		view.displayTimetable(timetable);
+	}
+ */
 
 }
 

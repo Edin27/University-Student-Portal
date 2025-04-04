@@ -62,8 +62,19 @@ public class StudentController extends Controller {
     private void removeCourseFromTimetable(){}
     private void viewTimetable(){
         Timetable placeholder = new Timetable(sharedContext.getCurrentUserEmail());
-        placeholder.addTimeSlot("code1", DayOfWeek.MONDAY, LocalDate.now(), LocalTime.now(), LocalDate.now(), LocalTime.now(), 1);
+        placeholder.addTimeSlot("code1", DayOfWeek.MONDAY, LocalDate.now(),
+                LocalTime.now(), LocalDate.now(), LocalTime.now(), 1);
         view.displayTimetable(placeholder);
+        /*
+        if (!(sharedContext.currentUser instanceof AuthenticatedUser)){
+            view.displayError("error");
+            return;
+        }
+
+        String email = sharedContext.getCurrentUserEmail();
+
+        CourseManager courseManager = sharedContext.getCourseManager();
+         courseManager.viewTimetable(email);*/
     }
     private void chooseActivityForCourse(){}
 }
