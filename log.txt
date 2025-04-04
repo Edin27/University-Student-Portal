@@ -1,1 +1,5 @@
-2025/04/04 - 14:42:21 - Guest - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/05 - 00:00:13 - Guest - CONTACT_STAFF - student1@hindeburg.ac.uk, inquiry topic, This is an inquiry - SUCCESS
+2025/04/05 - 00:00:13 - Guest - CONTACT_STAFF - 2 - FAILURE
+2025/04/05 - 00:00:13 - Guest - CONTACT_STAFF -  - FAILURE
+2025/04/05 - 00:00:13 - Guest - CONTACT_STAFF - student1@hindeburg.ac.uk, inquiry topic, This is an inquiry - SUCCESS
+2025/04/05 - 00:00:13 - Guest - CONTACT_STAFF - wrongemail.com - FAILURE
