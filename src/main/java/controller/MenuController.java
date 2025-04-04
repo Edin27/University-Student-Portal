@@ -51,7 +51,7 @@ public class MenuController extends Controller {
             if (sharedContext.currentUser instanceof Guest) {
                 userRole = "Guest";
             } else if (sharedContext.currentUser instanceof AuthenticatedUser) {
-                userRole = ((AuthenticatedUser) sharedContext.currentUser).getRole();
+                userRole = sharedContext.getCurrentUserRole();
             } else {
                 view.displayError("Main menu not implemented for current user type");
                 return;
