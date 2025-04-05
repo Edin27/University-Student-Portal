@@ -61,20 +61,22 @@ public class StudentController extends Controller {
 
     private void removeCourseFromTimetable(){}
     private void viewTimetable(){
-        Timetable placeholder = new Timetable(sharedContext.getCurrentUserEmail());
-        placeholder.addTimeSlot("code1", DayOfWeek.MONDAY, LocalDate.now(),
-                LocalTime.now(), LocalDate.now(), LocalTime.now(), 1);
-        view.displayTimetable(placeholder);
-        /*
-        if (!(sharedContext.currentUser instanceof AuthenticatedUser)){
-            view.displayError("error");
+        if (!(sharedContext.currentUser instanceof AuthenticatedUser)) {
+            view.displayError("You must be logged in to view the timetable.");
             return;
         }
 
         String email = sharedContext.getCurrentUserEmail();
-
         CourseManager courseManager = sharedContext.getCourseManager();
-         courseManager.viewTimetable(email);*/
+
+        // 直接从 CourseManager 获取 Timetable 对象
+        Timetable studentTimetable = courseManager.getTimetableByEmail(email);
+
+        if (studentTimetable == null) {
+            view.displayInfo("You have not added any courses to your timetable.");
+        } else {
+            view.displayTimetable(studentTimetable);
+        }
     }
     private void chooseActivityForCourse(){}
 }

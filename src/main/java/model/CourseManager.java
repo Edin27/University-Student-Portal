@@ -19,7 +19,10 @@ public class CourseManager {
 	private final Collection<Course> courses = new ArrayList<>();
 	private final Collection<Timetable> timetables = new ArrayList<>();
 	private final Map<String, Timetable> timetabless = new HashMap<>();
+
 	String fullActivityDetailsAsString;
+	int requiredTutorials = 0;
+	int requiredLabs = 0;
 
     public CourseManager(View view) {
         this.view = view;
@@ -187,79 +190,72 @@ public class CourseManager {
 			fullActivityDetailsAsString = course.getActivityAsString();
 		}
 
-		Timetable newtimetable = null;
-		boolean hasEmail = false;
-		for (Timetable timetable : timetables){
-			hasEmail = timetable.hasStudentEmail(email);
+		Timetable timetable = timetabless.get(email);
+		if (timetable == null) {
+			timetable = new Timetable(email);
+			timetabless.put(email, timetable);
 		}
 
-		if(!hasEmail){
-			newtimetable = new Timetable(email);
-		}
-		String[] details = fullActivityDetailsAsString.split(" ");
-
-		String activityId = details[0];
-		String day = details[1];
-		String startDateStr = details[2];
-		String startTimeStr = details[3];
-		String endDateStr = details[4];
-		String endTimeStr = details[5];
-
-		String StartDateStr =
-				startDateStr.replace("startDate=", "").replace(",", "").trim();
-		LocalDate startDate = LocalDate.parse(StartDateStr);
-		String EndDateStr =
-				endDateStr.replace("endDate=", "").replace(",", "").trim();
-		LocalDate endDate = LocalDate.parse(EndDateStr);
+		// 解析活动详情字符串
+		String[] activityStrings = fullActivityDetailsAsString.split("Activity\\{");
 
 
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-		String startTimeStrCleaned = startTimeStr.replace("startTime=", "").replace(",", "").trim();
-		LocalTime startTime = LocalTime.parse(startTimeStrCleaned, timeFormatter);
-		String endTimeStrCleaned = endTimeStr.replace("endTime=", "").replace(",", "").trim();
-		LocalTime endTime = LocalTime.parse(endTimeStrCleaned, timeFormatter);
-
-		String[] conflictingCourTsexCtodeAndActivityId = null;
-		for(Timetable timetable: timetables){
-			conflictingCourTsexCtodeAndActivityId = timetable.checkConflicts(startDate,
-					startTime,endDate,endTime);
-		}
-
-		boolean unrecordedLecture1 = true;
-		boolean unrecordedLecture2 = true;
-
-		if(conflictingCourTsexCtodeAndActivityId != null){
-			for (Course course: courses){
-				unrecordedLecture1 =
-						course.isUnrecordedLecture(Integer.parseInt(activityId));
+		for (int i = 1; i < activityStrings.length; i++) {
+			String activityContent = activityStrings[i].replace("}", "").trim();
+			// 拆分 key=value 项
+			String[] parts = activityContent.split(",");
+			Map<String, String> values = new HashMap<>();
+			for (String part : parts) {
+				String[] keyValue = part.trim().split("=");
+				if (keyValue.length == 2) {
+					values.put(keyValue[0].trim(), keyValue[1].trim());
+				}
 			}
-			for (Course course: courses){
-				unrecordedLecture2 =
-						course.isUnrecordedLecture(Integer.parseInt(conflictingCourTsexCtodeAndActivityId[1]));
+
+			int activityId = Integer.parseInt(values.get("id"));
+			String day = values.get("day");
+			LocalDate startDate = LocalDate.parse(values.get("startDate"));
+			LocalDate endDate = LocalDate.parse(values.get("endDate"));
+			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+			LocalTime startTime = LocalTime.parse(values.get("startTime"), timeFormatter);
+			LocalTime endTime = LocalTime.parse(values.get("endTime"), timeFormatter);
+
+			// 检查时间冲突
+			String[] conflicting = timetable.checkConflicts(startDate, startTime, endDate, endTime);
+			boolean unrecordedLecture1 = true;
+			boolean unrecordedLecture2 = true;
+
+			if (conflicting != null) {
+				for (Course course : courses) {
+					unrecordedLecture1 =
+							course.isUnrecordedLecture(activityId);
+				}
+				for (Course course : courses) {
+					unrecordedLecture2 =
+							course.isUnrecordedLecture(Integer.parseInt(conflicting[1]));
+				}
+				if (unrecordedLecture1 || unrecordedLecture2) {
+					String errorMessage = "You have at least one clash win an unrecorded lecture. The course cannot be added to your timetable";
+					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+							Log.Status.FAILURE);
+					view.displayError(errorMessage);
+					return false;
+				} else {
+					String warningMessage = "You have at least one clash with another " +
+							"activity";
+					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+							Log.Status.FAILURE);
+					view.displayWarning(warningMessage);
+				}
 			}
-			if(unrecordedLecture1 || unrecordedLecture2 ){
-				String errorMessage = "You have at least one clash win an unrecorded lecture. The course cannot be added to your timetable";
-				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
-						Log.Status.FAILURE);
-				view.displayError(errorMessage);
-				return false;
-			}else{
-				String warningMessage = "You have at least one clash with another " +
-						"activity";
-				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
-						Log.Status.FAILURE);
-				view.displayWarning(warningMessage);
-			}
+
+			timetable.addTimeSlot(courseCode, DayOfWeek.valueOf(day.toUpperCase()),
+					startDate, startTime, endDate, endTime, activityId);
 		}
 
-		for(Timetable timetable:timetables){
-			timetable.addTimeSlot(courseCode,DayOfWeek.valueOf(day.toUpperCase()), startDate, startTime, endDate,
-					endTime, Integer.parseInt(activityId));
-		}
+		boolean requiredTutorial = checkChosenTutorials();
 
-		boolean requiredTutorials = checkChosenTutorials(courseCode,newtimetable);
-
-		if(requiredTutorials){
+		if(requiredTutorial){
 			String warningMessage = "You have to choose "+requiredTutorials+" tutorials" +
 					" " + "for this course" ;
 			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
@@ -267,9 +263,9 @@ public class CourseManager {
 			view.displayError(warningMessage);
 		}
 
-		boolean requiredLabs = checkChosenLabs(courseCode,newtimetable);
+		boolean requiredLab = checkChosenLabs();
 
-		if(requiredLabs){
+		if(requiredLab){
 			String warningMessage = "You have to choose "+requiredLabs+" labs for this course " ;
 			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
 					Log.Status.FAILURE);
@@ -302,39 +298,24 @@ public class CourseManager {
 	}
 
 
-	private boolean checkChosenTutorials(String courseCode, Timetable timetable){
-		int requiredTutorials = 0;
+	private boolean checkChosenTutorials(){
 		for(Course course:courses){
 			requiredTutorials = course.getRequiredTutorials();
 		}
 		return requiredTutorials > 0;
 	}
 
-	private boolean checkChosenLabs(String courseCode, Timetable timetable){
-		int requiredLabs = 0;
+	private boolean checkChosenLabs(){
 		for(Course course:courses){
 			requiredLabs = course.getRequiredLabs();
 		}
 		return requiredLabs > 0;
 	}
-/*
-	private Timetable getTimetable(String studentEmail){
-		for (Timetable timetable : timetabless.values()){
-			if(timetable.hasStudentEmail(studentEmail)){
-				return timetable;
-			}
-		}
 
-		Timetable newtimetable = new Timetable(studentEmail);
-		timetabless.put(studentEmail, newtimetable);
-		return newtimetable;
+	public Timetable getTimetableByEmail(String email) {
+		return timetabless.get(email);  // 如果没有找到，则返回 null
 	}
 
-	public void viewTimetable (String studentEmail){
-		Timetable timetable = getTimetable(studentEmail);
-		view.displayTimetable(timetable);
-	}
- */
 
 }
 
