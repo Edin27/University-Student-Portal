@@ -33,12 +33,25 @@ public class InquirerController extends Controller {
 
         int optionNo = 0;
         while (currentSection != null || optionNo != -1) {
-            if (currentSection == null) {
-                view.displayFAQ(sharedContext.getFAQ(), courseTag);
-                view.displayInfo("[-1] Return to main menu");
+            if (optionNo == -1) {
+                currentSection = currentSection.getParent();
+            }
+            if (courseTag.isEmpty()) {
+                if (currentSection == null) {
+                    view.displayFAQ(sharedContext.getFAQ());
+                    view.displayInfo("[-1] Return to main menu");
+                } else {
+                    view.displayFAQSection(currentSection);
+                    view.displayInfo("[-1] Return to " + (currentSection.getParent() == null ? "FAQ" : currentSection.getParent().getTopic()));
+                }
             } else {
-                view.displayFAQSection(currentSection, courseTag);
-                view.displayInfo("[-1] Return to " + (currentSection.getParent() == null ? "FAQ" : currentSection.getParent().getTopic()));
+                if (currentSection == null) {
+                    view.displayFAQ(sharedContext.getFAQ(), courseTag);
+                    view.displayInfo("[-1] Return to main menu");
+                } else {
+                    view.displayFAQSection(currentSection, courseTag);
+                    view.displayInfo("[-1] Return to " + (currentSection.getParent() == null ? "FAQ" : currentSection.getParent().getTopic()));
+                }
             }
 
             String input = view.getInput("Please choose an option: ");
@@ -55,13 +68,6 @@ public class InquirerController extends Controller {
                         }
                     } catch (IndexOutOfBoundsException e) {
                         view.displayError("Invalid option: " + optionNo);
-                    }
-                }
-                else {
-                    if (currentSection == null || currentSection.getParent() == null) {
-                        consultFAQ();
-                    } else {
-                        currentSection = currentSection.getParent();
                     }
                 }
 

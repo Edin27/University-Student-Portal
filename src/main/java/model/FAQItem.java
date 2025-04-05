@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class FAQItem {
     private final int id;
     private final String question;
@@ -10,7 +12,11 @@ public class FAQItem {
         this.id = id;
         this.question = question;
         this.answer = answer;
-        this.tag = tag;
+        if (tag == null || tag.isEmpty()) {
+            this.tag = "None";
+        } else {
+            this.tag = tag;
+        }
     }
 
     public String getQuestion() {
