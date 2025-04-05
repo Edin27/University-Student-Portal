@@ -2,6 +2,7 @@ package controller;
 
 import external.AuthenticationService;
 import external.EmailService;
+import external.Log;
 import model.*;
 import view.View;
 

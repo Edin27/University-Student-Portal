@@ -22,6 +22,7 @@ public class SharedContext {
     }
 
     public FAQ getFAQ() {
+
         return faq;
     }
 
@@ -45,6 +46,7 @@ public class SharedContext {
     }
 
     public CourseManager getCourseManager(){
+
         return courseManager;
     }
 }

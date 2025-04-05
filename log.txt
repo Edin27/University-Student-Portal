@@ -1,26 +1,30 @@
-2025/04/05 - 21:58:53 - Guest - ADD_ACTIVITY - 9 - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_ACTIVITY - 0 2025-09-12 12:00     Appleton Tower mon - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_ACTIVITY - 30122025 - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_ACTIVITY - 12pm - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_ACTIVITY - 2025-12-01, 2025-09-01 - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_ACTIVITY - 14:00, 13:00 - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_ACTIVITY - 2025-12-01, 2025-09-01 - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - CHOOSE_TUTORIAL_OR_lAB -  - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_ACTIVITY - a - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE - , , Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - FAILURE
-2025/04/05 - 21:58:53 - Guest - CHOOSE_TUTORIAL_OR_lAB - wrongday - FAILURE
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - SUCCESS
-2025/04/05 - 21:58:53 - Guest - ADD_COURSE -  - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY - 9 - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering2025/04/06 - 00:18:50 - admin1 - VIEW_COURSES -  - SUCCESS
+2025/04/06 - 00:19:03 - admin1 - REMOVE_COURSE - dcj - SUCCESS
+2025/04/06 - 00:19:11 - admin1 - VIEW_COURSES -  - SUCCESS
+2025/04/06 - 00:19:31 - admin1 - LOGOUT -  - SUCCESS
+2025/04/06 - 00:19:40 - Guest - LOGIN - student1, student1pass - SUCCESS
+2025/04/06 - 00:19:52 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.ukdcj - FAILURE
+2025/04/06 - 00:20:00 - student1 - LOGOUT -  - SUCCESS
+5/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY - 30122025 - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY - 12pm - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY - 2025-12-01, 2025-09-01 - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY - 14:00, 13:00 - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY - 2025-12-01, 2025-09-01 - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY -  - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY - a - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - , , Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Data Science, Students will learn data analysis through few assignments, true, Dr John, john@hindeburg.ac.uk, Lily, lily@hindeburg.ac.uk, 8, 6 - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_ACTIVITY - wrongday - FAILURE
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 00:15:26 - Guest - ADD_COURSE - INF-001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - FAILURE

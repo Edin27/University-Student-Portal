@@ -283,7 +283,7 @@ public class Course {
 			default:
 				String errorMessage = "Day provided is invalid";
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, day, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, day, Log.Status.FAILURE);
 				return null;
 		}
 
@@ -296,7 +296,7 @@ public class Course {
 		if(isAnyNullOrEmpty(recorded)){
 			String errorMessage = "Lecture info required not provided";
 			view.displayError(errorMessage);
-			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, recorded.toString(), Log.Status.FAILURE);
+			Log.AddLog(Log.ActionName.ADD_ACTIVITY, recorded.toString(), Log.Status.FAILURE);
 			return null;
 		}else{
 			Lecture newLecture = new Lecture(id, startDate, startTime, endDate,endTime, location, day, recorded);
@@ -314,7 +314,7 @@ public class Course {
 		Activity tutorialLab = null;
 		if(isAnyNullOrEmpty(capacity)){
 			view.displayError(errorMessage);
-			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
+			Log.AddLog(Log.ActionName.ADD_ACTIVITY, capacity, Log.Status.FAILURE);
 			return null;
 		}else{
 			Integer capacityInt = null;
@@ -322,12 +322,12 @@ public class Course {
 				capacityInt = Integer.parseInt(capacity);
 			} catch (NumberFormatException e) {
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, capacity, Log.Status.FAILURE);
 				return null;
 			}
 			if (capacityInt < 0 ) {
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, capacity, Log.Status.FAILURE);
 				return null;
 			}else{
 				if(actType == 1){

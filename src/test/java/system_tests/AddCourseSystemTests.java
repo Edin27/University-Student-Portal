@@ -1,10 +1,8 @@
 package system_tests;
 
 import controller.AdminStaffController;
-import external.AuthenticationService;
-import external.EmailService;
-import external.MockAuthenticationService;
-import external.MockEmailService;
+import controller.GuestController;
+import external.*;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.*;
@@ -17,10 +15,12 @@ import java.net.URISyntaxException;
 
 public class AddCourseSystemTests extends TUITest{
 
+
 	@Test
 	@DisplayName("Add course successfully")
 	public void testAddCourseSuccessfully() throws URISyntaxException, IOException,
 			ParseException {
+
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
 						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",

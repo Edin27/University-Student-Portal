@@ -2,9 +2,11 @@ package external;
 
 import model.Lab;
 import model.SharedContext;
+import view.View;
 import org.tinylog.Logger;
 
 public class Log {
+
     private static String userID = "Guest";
     public static void AddLog(ActionName action, String inputs, Status status) {
         Logger.info(userID + " - " + action + " - " + inputs + " - " + status);
