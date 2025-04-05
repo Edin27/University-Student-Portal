@@ -25,8 +25,8 @@ public class ConsultFAQQASystemTest extends TUITest {
     boolean b = faqSection1.getItems().add(new FAQItem(2, "Question2", "Answer2", ""));
 
     FAQSection faqSection2 = new FAQSection("Topic2");
-    boolean c = faqSection1.getItems().add(new FAQItem(1, "Question1", "Answer1", "course1"));
-    boolean d = faqSection1.getItems().add(new FAQItem(2, "Question2", "Answer2", "course1"));
+    boolean c = faqSection2.getItems().add(new FAQItem(1, "Question1", "Answer1", "course1"));
+    boolean d = faqSection2.getItems().add(new FAQItem(2, "Question2", "Answer2", "course1"));
 
     @Test
     @DisplayName("Consult the faq with no tag filter")
@@ -37,8 +37,8 @@ public class ConsultFAQQASystemTest extends TUITest {
         sharedContext.getFAQ().addSection(faqSection1);
         startOutputCapture();
         inquirerController.consultFAQ();
-        assertOutputContains("0) [Course: course1]\n" + "Question1\n" + "> Answer1");
-        assertOutputContains("1) [Course: None]\n" + "Question2\n" + "> Answer2");
+        assertOutputContains("1) [Course: course1]\n" + "Question1\n" + "> Answer1");
+        assertOutputContains("2) [Course: None]\n" + "Question2\n" + "> Answer2");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ConsultFAQQASystemTest extends TUITest {
     @Test
     @DisplayName("Consult the faq with a tag filter that empties topic")
     public void testConsultFAQFilterEmpty() throws URISyntaxException, IOException, ParseException {
-        setMockInput("course1", "0", "-1", "-1");
+        setMockInput("course2", "0", "-1", "-1");
         SharedContext sharedContext = new SharedContext(new TextUserInterface());
         InquirerController inquirerController = new InquirerController(sharedContext, new TextUserInterface(), new MockAuthenticationService(), new MockEmailService());
         sharedContext.getFAQ().addSection(faqSection2);
