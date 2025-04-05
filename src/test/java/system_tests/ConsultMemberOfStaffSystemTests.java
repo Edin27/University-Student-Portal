@@ -69,8 +69,7 @@ public class ConsultMemberOfStaffSystemTests extends TUITest {
         startOutputCapture();
         inquirerController.contactStaff();
         assertOutputContains("teacher1@hindeburg.ac.uk");
-        assertOutputContains("Your inquiry has been recorded. Someone will be in touch " +
-                "via email soon!");
+        assertOutputContains("Your inquiry has been recorded. Someone will be in touch via email soon!");
     }
 
     @Test
