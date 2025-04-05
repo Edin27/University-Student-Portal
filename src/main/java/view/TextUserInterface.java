@@ -84,6 +84,7 @@ public class TextUserInterface implements View {
         System.out.println(section.getTopic());
         displayDivider();
         for (FAQItem item : section.getItems()) { {
+            System.out.println(item.getId() + ") [Course: " + item.getTag() + "]");
             System.out.println(item.getQuestion());
             System.out.print("> ");
             System.out.println(item.getAnswer());
@@ -182,7 +183,6 @@ public class TextUserInterface implements View {
 
         for (FAQItem item : section.getItems()) {
             if (tagFilter == null || (item.getTag() != null && item.getTag().toLowerCase().contains(tagFilter.toLowerCase()))) {
-                System.out.println(item.getId() + ") [Course: " + item.getTag() + "]");
                 System.out.println(item.getQuestion());
                 System.out.print("> ");
                 System.out.println(item.getAnswer());
