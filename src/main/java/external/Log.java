@@ -27,6 +27,7 @@ public class Log {
         MANAGE_RECEIVED_QUERIES,
         VIEW_COURSES,
         ADD_COURSE,
+        ADD_ACTIVITY,
         ADD_COURSE_TO_TIMETABLE,
         CHOOSE_TUTORIAL_OR_lAB,
         VIEW_TIMETABLE,

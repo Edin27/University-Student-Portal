@@ -252,17 +252,19 @@ public class AdminStaffController extends StaffController {
         String courseSecretaryName = view.getInput("Enter the course secretary's name: ");
         String courseSecretaryEmail = view.getInput("Enter the course secretary's " +
                 "email: ");
+
         String requiredTutorials = view.getInput("Enter the number of required " +
                 "tutorials: ");
-        String requiredLabs = view.getInput("Enter the number of required labs: ");
         Integer reqTutorials = null;
-        Integer reqLabs = null;
         try{
             reqTutorials = Integer.parseInt(requiredTutorials);
         }catch(NumberFormatException e){
             view.displayError("Invalid input: " + requiredTutorials);
             return;
         }
+
+        String requiredLabs = view.getInput("Enter the number of required labs: ");
+        Integer reqLabs = null;
         try{
             reqLabs = Integer.parseInt(requiredLabs);
         }catch(NumberFormatException e){

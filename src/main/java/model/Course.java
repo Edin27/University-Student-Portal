@@ -150,7 +150,7 @@ public class Course {
 				location, day)) {
 			String errorMessage = "Required activity info not provided";
 			view.displayError(errorMessage);
-			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB,
+			Log.AddLog(Log.ActionName.ADD_ACTIVITY,
 					activityType+" "+startDate+" "+startTime+" "+endDate+" "+endTime+" "+location+" "+day, Log.Status.FAILURE);
 			return null;
 		} else {
@@ -163,12 +163,13 @@ public class Course {
 			sTime = checkTime(startTime);
 			eDate = checkDate(endDate);
 			eTime = checkTime(endTime);
-			if(isAnyNullOrEmpty(sDate, sTime, eDate, eTime)){
+			frequencyDay = checkDay(day);
+			if(isAnyNullOrEmpty(sDate, sTime, eDate, eTime, frequencyDay)){
 				return null;
 			}
 
-			frequencyDay = checkDay(day);
-			if(isAnyNullOrEmpty(frequencyDay)){
+			boolean checkEndDateAftStartDate = endDateAftStartDate(sDate,eDate);
+			if(checkEndDateAftStartDate|| !endTimeAftStartTime(sTime, eTime)){
 				return null;
 			}
 		}
@@ -192,11 +193,11 @@ public class Course {
 			actType = Integer.parseInt(activityType);
 			if (actType < 0 || actType > 2) {
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, activityType, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, activityType, Log.Status.FAILURE);
 			}
 		} catch (NumberFormatException e) {
 			view.displayError(errorMessage);
-			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, activityType, Log.Status.FAILURE);
+			Log.AddLog(Log.ActionName.ADD_ACTIVITY, activityType, Log.Status.FAILURE);
 		}
 
 		return actType;
@@ -214,10 +215,21 @@ public class Course {
 			} catch (DateTimeParseException e2) {
 				String errorMessage = "Start date or end date provided is invalid";
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, date, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, date, Log.Status.FAILURE);
 			}
 		}
 		return startEndDate;
+	}
+
+	private boolean endDateAftStartDate (LocalDate startDate, LocalDate endDate){
+		if(endDate.isAfter(startDate)){
+			return true;
+		}
+		String errorMessage = "End date cannot be earlier than start date";
+		view.displayError(errorMessage);
+		Log.AddLog(Log.ActionName.ADD_ACTIVITY, String.format("%s, %s", startDate, endDate),
+				Log.Status.FAILURE);
+		return false;
 	}
 
 	private LocalTime checkTime(String time) {
@@ -226,15 +238,26 @@ public class Course {
 			startEndTime = LocalTime.parse(time);
 		} catch (DateTimeParseException e1) {
 			try {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH.mm");
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmm");
 				startEndTime = LocalTime.parse(time, formatter);
 			} catch (DateTimeParseException e2) {
 				String errorMessage = "Start time or end time provided is invalid";
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, time, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, time, Log.Status.FAILURE);
 			}
 		}
 		return startEndTime;
+	}
+
+	private boolean endTimeAftStartTime (LocalTime startTime, LocalTime endTime){
+		if(endTime.isAfter(startTime)){
+			return true;
+		}
+		String errorMessage = "End time cannot be earlier than start time";
+		view.displayError(errorMessage);
+		Log.AddLog(Log.ActionName.ADD_ACTIVITY, String.format("%s, %s", startTime, endTime),
+				Log.Status.FAILURE);
+		return false;
 	}
 
 	private DayOfWeek checkDay(String day){

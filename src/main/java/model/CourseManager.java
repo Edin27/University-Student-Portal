@@ -52,7 +52,10 @@ public class CourseManager {
 		if (isAnyNullOrEmpty(code, name, description, requiresComputers, COName,
 				COEmail, CSName, CSEmail, reqTutorials, reqLabs)) {
 			String errorMessage = "Required course info not provided";
-			Log.AddLog(Log.ActionName.ADD_COURSE, "", Log.Status.FAILURE);
+			Log.AddLog(Log.ActionName.ADD_COURSE, String.format("%s, %s, %s, %b, %s, " +
+							"%s, %s, %s, %d, %d" , code, name, description,
+							requiresComputers, COName, COEmail, CSName, CSEmail,
+							reqTutorials, reqLabs), Log.Status.FAILURE);
 			view.displayError(errorMessage);
 			return false;
 		}
@@ -85,7 +88,7 @@ public class CourseManager {
 		int id = 0;
 
 		while (true) {
-			view.displayInfo("===Add Course - Activities===");
+			view.displayInfo("===Add Course Activities===");
 			view.displayInfo("[0] Add Activity");
 			view.displayInfo("[-1] Return to manage courses");
 			String input = view.getInput("Please choose an option: ");
@@ -94,7 +97,9 @@ public class CourseManager {
 				if (optionNo == 0) {
 					//TODO:check this part and think of how to generate id for activities
 					Activity activity = newCourse.addActivity(id);
-					if (activity != null){id+=1;}
+					if (activity != null){
+						id+=1;
+					}
 				} else if (optionNo == -1) {
 					break;
 				} else {

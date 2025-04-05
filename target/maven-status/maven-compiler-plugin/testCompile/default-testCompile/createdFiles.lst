@@ -1,0 +1,12 @@
+system_tests\LogoutSystemTests.class
+system_tests\ConsultMemberOfStaffSystemTests.class
+system_tests\TUITest.class
+unit_tests\TestMockAuthenticationService$1.class
+unit_tests\TestMockAuthenticationService$2.class
+unit_tests\TestMockAuthenticationService$4.class
+unit_tests\TestMockAuthenticationService.class
+unit_tests\TestMockAuthenticationService$6.class
+unit_tests\TestMockAuthenticationService$3.class
+unit_tests\TestMockAuthenticationService$5.class
+unit_tests\TestMockEmailService.class
+system_tests\LoginSystemTests.class
