@@ -3,18 +3,18 @@ package model;
 import external.Log;
 import view.View;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.time.LocalTime;
-import java.time.LocalDate;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 public class Course {
 	protected final View view;
-	protected final SharedContext sharedContext;
 	private String courseCode;
 	private String name;
 	private String description;
@@ -25,18 +25,16 @@ public class Course {
 	private String courseSecretaryEmail;
 	private int requiredTutorials;
 	private int requiredLabs;
-	private Collection<Activity> lectures = new ArrayList<>();
-	private Collection<Activity> labs = new ArrayList<>();
-	private Collection<Activity> tutorials = new ArrayList<>();
+	private List<Activity> lectures = new ArrayList<>();
+	private List<Activity> tutorials = new ArrayList<>();
+	private List<Activity> labs = new ArrayList<>();
 
 
-
-	public Course(View view,SharedContext sharedContext, String code, String name,
-				  String description,
+	public Course(View view, String code, String name, String description,
 				  boolean requiresComputers, String COName, String COEmail,
-				  String CSName, String CSEmail, int reqTutorials, int reqLabs){
+				  String CSName, String CSEmail, int reqTutorials, int reqLabs,
+				  List<Activity> lectures, List<Activity> tutorials, List<Activity> labs){
 		this.view = view;
-		this.sharedContext = sharedContext;
 		this.courseCode = code;
 		this.name = name;
 		this.description = description;
@@ -47,7 +45,9 @@ public class Course {
 		this.courseSecretaryEmail = CSEmail;
 		this.requiredTutorials = reqTutorials;
 		this.requiredLabs = reqLabs;
-
+		this.lectures = lectures;
+		this.tutorials = tutorials;
+		this.labs = labs;
 	}
 
 
@@ -62,22 +62,50 @@ public class Course {
 
 	public String getActivityAsString() {
 		StringBuilder sb = new StringBuilder();
-		for(Activity lecture:lectures){
+		for (Activity lecture : lectures) {
 			sb.append(lecture.toString()).append("\n");
 		}
-		for(Activity tutorial:tutorials){
-			sb.append(tutorial .toString()).append("\n");
+		for (Activity tutorial : tutorials) {
+			sb.append(tutorial.toString()).append("\n");
 		}
-		for(Activity lab:labs){
+		for (Activity lab : labs) {
 			sb.append(lab.toString()).append("\n");
 		}
 		String ActivityDetailAsString = sb.toString();
 		return ActivityDetailAsString;
 	}
 
+	public List<Activity> getLectures() {
+		return lectures;
+	}
+
+	public List<Activity> getTutorials() {
+		return tutorials;
+	}
+
+	public List<Activity> getLabs() {
+		return labs;
+	}
+
+	public String getCourseOrganiserName() { return courseOrganiserName; }
+
 	public String getCourseOrganiserEmail() {
 		return couresOrganiserEmail;
 	}
+
+	public String getCourseSecretaryName() { return courseSecretaryName; }
+
+	public String getCourseSecretaryEmail() {
+		return courseSecretaryEmail;
+	}
+
+	public String getDescription() { return description; }
+
+	public boolean getRequiresComputers() { return requiresComputers; }
+
+	public int getRequiredTutorials() { return requiredTutorials; }
+
+	public int getRequiredLabs() { return requiredLabs; }
 
 	public String getName() {
 		return name;
@@ -139,9 +167,6 @@ public class Course {
 				return null;
 			}
 
-			//TODO: check location and whether it has computers for requiresComputers
-			// courses?
-
 			frequencyDay = checkDay(day);
 			if(isAnyNullOrEmpty(frequencyDay)){
 				return null;
@@ -167,9 +192,7 @@ public class Course {
 			actType = Integer.parseInt(activityType);
 			if (actType < 0 || actType > 2) {
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB,
-						activityType,
-						Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, activityType, Log.Status.FAILURE);
 			}
 		} catch (NumberFormatException e) {
 			view.displayError(errorMessage);
@@ -309,7 +332,4 @@ public class Course {
 		return false;
 	}
 
-	public int getRequiredTutorials(){return requiredTutorials;}
-
-	public int getRequiredLabs() {return requiredLabs;}
 }

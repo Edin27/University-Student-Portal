@@ -1,14 +1,17 @@
 package external;
 
+import model.Lab;
 import model.SharedContext;
 import org.tinylog.Logger;
 
 public class Log {
     private static String userID = "Guest";
     public static void AddLog(ActionName action, String inputs, Status status) {
-
-        // adds line to log file
         Logger.info(userID + " - " + action + " - " + inputs + " - " + status);
+    }
+
+    public static void setUserID(String userID) {
+        Log.userID = userID;
     }
 
     public enum Status {
@@ -22,10 +25,14 @@ public class Log {
         CONSULT_FAQ,
         CONTACT_STAFF,
         MANAGE_RECEIVED_QUERIES,
-        ADD_COURSE_TO_TIMETABLE,
         VIEW_COURSES,
-        CHOOSE_TUTORIAL_OR_lAB,
         ADD_COURSE,
+        ADD_COURSE_TO_TIMETABLE,
+        CHOOSE_TUTORIAL_OR_lAB,
+        VIEW_TIMETABLE,
+        REMOVE_COURSE,
+        ADD_FAQ,
+        REMOVE_FAQ,
         // ect, ect
     }
 }

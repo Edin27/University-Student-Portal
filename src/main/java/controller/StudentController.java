@@ -5,6 +5,9 @@ import external.EmailService;
 import model.*;
 import view.View;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class StudentController extends Controller {
@@ -17,6 +20,7 @@ public class StudentController extends Controller {
 
         while (true) {
             view.displayInfo("[1] Add Course to Timetable");
+            view.displayInfo("[2] View Timetable");
             view.displayInfo("[-1] Return to main menu");
 
             String input = view.getInput("Please choose an option: ");
@@ -32,6 +36,8 @@ public class StudentController extends Controller {
                     break;
                 } else if (optionNo == 1) {
                     addCourseToTimetable();
+                } else if (optionNo == 2) {
+                    viewTimetable();
                 } else {
                     view.displayError("Invalid option: " + input);
                 }
@@ -51,8 +57,26 @@ public class StudentController extends Controller {
 
     }
 
-    private void removeCourseFromTimetable(){}
-    private void viewTimetable(){}
 
+
+    private void removeCourseFromTimetable(){}
+    private void viewTimetable(){
+        if (!(sharedContext.currentUser instanceof AuthenticatedUser)) {
+            view.displayError("You must be logged in to view the timetable.");
+            return;
+        }
+
+        String email = sharedContext.getCurrentUserEmail();
+        CourseManager courseManager = sharedContext.getCourseManager();
+
+        // 直接从 CourseManager 获取 Timetable 对象
+        Timetable studentTimetable = courseManager.getTimetableByEmail(email);
+
+        if (studentTimetable == null) {
+            view.displayInfo("You have not added any courses to your timetable.");
+        } else {
+            view.displayTimetable(studentTimetable);
+        }
+    }
     private void chooseActivityForCourse(){}
 }

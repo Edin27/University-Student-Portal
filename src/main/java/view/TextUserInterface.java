@@ -4,7 +4,9 @@ import model.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class TextUserInterface implements View {
@@ -81,7 +83,7 @@ public class TextUserInterface implements View {
     public void displayFAQSection(FAQSection section) {
         System.out.println(section.getTopic());
         displayDivider();
-        for (FAQItem item : section.getItems()) {
+        for (FAQItem item : section.getItems()) { {
             System.out.println(item.getQuestion());
             System.out.print("> ");
             System.out.println(item.getAnswer());
@@ -95,7 +97,7 @@ public class TextUserInterface implements View {
             System.out.print("] ");
             System.out.println(subsection.getTopic());
         }
-    }
+    }}
 
     @Override
     public void displayInquiry(Inquiry inquiry) {
@@ -108,14 +110,92 @@ public class TextUserInterface implements View {
 
     @Override
     public void displayCourses(CourseManager courseManager) {
-        if (courseManager.getCourses() != null) {
-            Iterator<Course> courses = courseManager.getCourses().iterator();
-            while (courses.hasNext()) {
-                Course course = courses.next();
-                System.out.println("Course Name: " + course.getName() + "Course Code: " + course.getCourseCode());
+        Collection<Course> courses = courseManager.getCourses();
+        if (courses.isEmpty()) {
+            System.out.println("no courses");
+        } else{
+            for (Course course : courseManager.getCourses()) {
+                System.out.println("Course Name: " + course.getName() + "   Course Code: " + course.getCourseCode());
             }
         }
     }
 
-    
+    @Override
+    public void displayCourse(Course course) {
+        System.out.println("Course Code: " + course.getCourseCode());
+        System.out.println("Name: " + course.getName());
+        System.out.println("Description: " + course.getDescription());
+        System.out.println("Requires Computers: " + course.getRequiresComputers());
+        System.out.println("Organiser Name: " + course.getCourseOrganiserName());
+        System.out.println("Organiser Email: " + course.getCourseOrganiserEmail());
+        System.out.println("Secretary Name: " + course.getCourseSecretaryName());
+        System.out.println("Secretary Email: " + course.getCourseSecretaryEmail());
+        System.out.println("Required Tutorials: " + course.getRequiredTutorials());
+        System.out.println("Required Labs: " + course.getRequiredLabs());
+        System.out.println("Lectures");
+        displayActivities(course.getLectures());
+        System.out.println("Tutorials");
+        displayActivities(course.getTutorials());
+        System.out.println("Labs");
+        displayActivities(course.getLabs());
+    }
+
+    private void displayActivities(List<Activity> activities) {
+        if (activities.isEmpty()) {System.out.println("none");return;}
+        for (Activity activity: activities) {
+            System.out.println("["+activity.getStartDate()+" -> "+activity.getEndDate());
+            System.out.println(" "+activity.getDay().toString().toLowerCase()+", "+activity.getStartTime()+" -> "+activity.getEndTime()+"]");
+        }
+    }
+
+    @Override
+    public void displayTimetable(Timetable timetable) {
+        System.out.println(timetable.getStudentEmail() + " Timetable");
+        List<Timetable.TimeSlot> timeSlots = timetable.getTimeSlots();
+        for (Timetable.TimeSlot timeSlot : timeSlots) {
+            System.out.println(timeSlot);
+        }
+    }
+
+    @Override
+    public void displayFAQ(FAQ faq, String tagFilter) {
+        System.out.println("Frequently Asked Questions");
+        displayDivider();
+        int i = 0;
+        for (FAQSection section : faq.getSections()) {
+            System.out.print("[");
+            System.out.print(i++);
+            System.out.print("] ");
+            System.out.println(section.getTopic());
+        }
+
+        // Also show filtered items at root level (optional)
+        for (FAQSection section : faq.getSections()) {
+            displayFAQSection(section, tagFilter);
+        }
+    }
+
+    @Override
+    public void displayFAQSection(FAQSection section, String tagFilter) {
+        System.out.println(section.getTopic());
+        displayDivider();
+
+        for (FAQItem item : section.getItems()) {
+            if (tagFilter == null || (item.getTag() != null && item.getTag().toLowerCase().contains(tagFilter.toLowerCase()))) {
+                System.out.println(item.getId() + ") [Course: " + item.getTag() + "]");
+                System.out.println(item.getQuestion());
+                System.out.print("> ");
+                System.out.println(item.getAnswer());
+            }
+        }
+
+        System.out.println("Subsections:");
+        int i = 0;
+        for (FAQSection subsection : section.getSubsections()) {
+            System.out.print("[");
+            System.out.print(i++);
+            System.out.print("] ");
+            System.out.println(subsection.getTopic());
+        }
+    }  
 }

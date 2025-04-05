@@ -2,19 +2,19 @@ package controller;
 
 import external.AuthenticationService;
 import external.EmailService;
+import external.Log;
 import model.*;
 import view.View;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.List;
+import java.util.*;
 
 public class AdminStaffController extends StaffController {
     public AdminStaffController(SharedContext sharedContext, View view, AuthenticationService auth, EmailService email) {
         super(sharedContext, view, auth, email);
     }
+
+    private int offset = 0;
     
     public void manageFAQ() {
         FAQSection currentSection = null;
@@ -28,12 +28,15 @@ public class AdminStaffController extends StaffController {
                 view.displayInfo("[-1] Return to " + (currentSection.getParent() == null ? "FAQ" : currentSection.getParent().getTopic()));
             }
             view.displayInfo("[-2] Add FAQ item");
+            view.displayInfo("[-3] Remove FAQ item");
             String input = view.getInput("Please choose an option: ");
             try {
                 int optionNo = Integer.parseInt(input);
 
                 if (optionNo == -2) {
                     addFAQItem(currentSection);
+                } else if (optionNo ==-3) {
+                    removeFAQItem(currentSection);
                 } else if (optionNo == -1) {
                     if (currentSection == null) {
                         break;
@@ -89,8 +92,19 @@ public class AdminStaffController extends StaffController {
 
         String question = view.getInput("Enter the question for new FAQ item: ");
         String answer = view.getInput("Enter the answer for new FAQ item: ");
-        currentSection.getItems().add(new FAQItem(question, answer));
-
+        String course = view.getInput("Enter course tag: ");
+        String tag = view.getInput("Enter course tag for this item (or leave empty): ").trim();
+        int newId = currentSection.getItems().size();
+        currentSection.getItems().add(new FAQItem(newId, question, answer, tag.isEmpty() ? null : tag));
+        if (!course.isEmpty() && sharedContext.getCourseManager().findCourse(course) == null) {
+            view.displayError("Course code does not exist");
+            Log.AddLog(Log.ActionName.ADD_FAQ, course, Log.Status.FAILURE);
+            return;
+        }
+        
+        newId = currentSection.getItems().size() + offset;
+        currentSection.getItems().add(new FAQItem(newId, question, answer, course));
+        
         String emailSubject = "FAQ topic '" + currentSection.getTopic() + "' updated";
         StringBuilder emailContentBuilder = new StringBuilder();
         emailContentBuilder.append("Updated Q&As:");
@@ -101,6 +115,9 @@ public class AdminStaffController extends StaffController {
             emailContentBuilder.append("\n");
             emailContentBuilder.append("A: ");
             emailContentBuilder.append(item.getAnswer());
+            emailContentBuilder.append("\n");
+            emailContentBuilder.append("course: ");
+            emailContentBuilder.append(item.getTag());
         }
         String emailContent = emailContentBuilder.toString();
 
@@ -114,6 +131,46 @@ public class AdminStaffController extends StaffController {
         view.displaySuccess("Created new FAQ item");
     }
 
+    private void removeFAQItem(FAQSection currentSection) {
+        if (currentSection == null) {
+            view.displayError("You must be inside a topic to remove an FAQ item.");
+            return;
+        }
+
+        if (currentSection.getItems().isEmpty()) {
+            view.displayWarning("This topic has no FAQ items to remove.");
+            return;
+        }
+
+        view.displayFAQSection(currentSection);
+        String input = view.getInput("Enter the ID of the FAQ item to remove: ");
+        try {
+            int id = Integer.parseInt(input);
+            boolean removed = currentSection.removeItem(id);
+            if (removed) {
+                offset += 1;
+                view.displaySuccess("FAQ item removed.");
+
+                if (currentSection.getItems().isEmpty()) {
+                    FAQSection parent = currentSection.getParent();
+                    if (parent != null) {
+                        parent.removeSubsection(currentSection);
+                        view.displayInfo("This topic was empty and has been removed from its parent.");
+                        manageFAQ();
+                    } else {
+                        sharedContext.getFAQ().removeSection(currentSection);
+                        view.displayInfo("This topic was empty and has been removed from the root FAQ.");
+                        manageFAQ();
+                    }
+                }
+            } else {
+                view.displayError("No item found with ID " + id);
+            }
+        } catch (NumberFormatException e) {
+            view.displayError("Invalid ID: " + input);
+        }
+    }
+    
     public void manageInquiries() {
         String[] inquiryTitles = getInquiryTitles(sharedContext.inquiries);
 
@@ -146,7 +203,7 @@ public class AdminStaffController extends StaffController {
     }
 
     private void redirectInquiry(Inquiry inquiry) {
-        inquiry.setAssignedTo(view.getInput("Enter assignee email: "));
+        inquiry.setAssignedTo(view.getInput("Enter assigned email: "));
         email.sendEmail(
                 SharedContext.ADMIN_STAFF_EMAIL,
                 inquiry.getAssignedTo(),
@@ -215,9 +272,8 @@ public class AdminStaffController extends StaffController {
 
         String currentUserEmail = sharedContext.getCurrentUserEmail();
         CourseManager courseManager = sharedContext.getCourseManager();
-        boolean added = courseManager.addCourse(sharedContext, view, courseCode, name,
-                description,
-                requiresComputers, courseOrganiserName,courseOrganiserEmail,
+        boolean added = courseManager.addCourse(courseCode, name,
+                description, requiresComputers, courseOrganiserName,courseOrganiserEmail,
                 courseSecretaryName, courseSecretaryEmail,reqTutorials, reqLabs);
 
         if(added){
@@ -236,7 +292,20 @@ public class AdminStaffController extends StaffController {
 
     }
 
-    private void removeCourse(){}
+    private void removeCourse(){
+        view.displayInfo("===Remove Course===");
+        String courseCode = view.getInput("Enter the course code of the course to " +
+                "be removed: ");
+        CourseManager courseManager = sharedContext.getCourseManager();
 
-
+        //remove course from course list and timetables and get the emails of related
+        // students and organiser
+        List<String> emailsCourseRemoved = courseManager.removeCourse(courseCode);
+        for(String emailCourseRemoved: emailsCourseRemoved ){
+            email.sendEmail(sharedContext.ADMIN_STAFF_EMAIL, emailCourseRemoved,
+                    "Course Removed-" + courseCode, String.format("The course " +
+                            "with course code %s has been removed from the course list " +
+                            "and student timetables.", courseCode));
+        }
+    }
 }

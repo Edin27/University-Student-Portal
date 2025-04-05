@@ -21,5 +21,6 @@ public class AuthenticatedUserController extends Controller {
         sharedContext.currentUser = new Guest();
         view.displaySuccess("Logged out!");
         Log.AddLog(Log.ActionName.LOGOUT, "", Log.Status.SUCCESS);
+        Log.setUserID("Guest");
     }
 }

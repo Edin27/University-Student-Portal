@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -74,6 +75,10 @@ public class Timetable {
 		timeSlots.removeIf(slot -> slot.getCourseCode().equals(courseCode));
 		courseActivityCount.remove(courseCode);
 	}
+
+	public List<TimeSlot> getTimeSlots() { return timeSlots; }
+
+	public String getStudentEmail() {return studentEmail;}
 
 	@Override
 	public String toString() {

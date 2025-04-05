@@ -82,7 +82,10 @@ public class MenuController extends Controller {
                     email).consultFAQ();
             case CONTACT_STAFF -> new InquirerController(sharedContext, view, auth,
                     email).contactStaff();
-            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
+            case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
+                    email).viewCourses();
+            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+                    email).viewSpecificCourse();
         }
         return false;
     }
@@ -102,7 +105,10 @@ public class MenuController extends Controller {
                     email).contactStaff();
             case MANAGE_TIMETABLE -> new StudentController(sharedContext, view, auth,
                     email).manageTimetable();
-            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
+            case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
+                    email).viewCourses();
+            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+                    email).viewSpecificCourse();
         }
         return false;
     }
@@ -118,7 +124,10 @@ public class MenuController extends Controller {
                     email).logout();
             case MANAGE_RECEIVED_QUERIES -> new TeachingStaffController(sharedContext,
                     view, auth, email).manageReceivedInquiries();
-            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
+            case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
+                    email).viewCourses();
+            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+                    email).viewSpecificCourse();
         }
         return false;
     }
@@ -138,7 +147,10 @@ public class MenuController extends Controller {
                     email).manageInquiries();
             case MANAGE_COURSES -> new AdminStaffController(sharedContext, view, auth,
                     email).manageCourses();
-            case VIEW_COURSES -> view.displayCourses(sharedContext.courseManager);
+            case VIEW_COURSES -> new ViewerController(sharedContext, view, auth,
+                    email).viewCourses();
+            case VIEW_SPECIFIC_COURSE -> new ViewerController(sharedContext, view, auth,
+                    email).viewSpecificCourse();
         }
         return false;
     }

@@ -45,5 +45,6 @@ public class GuestController extends Controller {
 
         view.displaySuccess("Logged in as " + username);
         Log.AddLog(Log.ActionName.LOGIN, username + ", " + password, Log.Status.SUCCESS);
+        Log.setUserID(username);
     }
 }
