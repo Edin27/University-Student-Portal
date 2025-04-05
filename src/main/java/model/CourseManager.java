@@ -80,7 +80,7 @@ public class CourseManager {
 		while (true) {
 			view.displayInfo("===Add Course Activities===");
 			view.displayInfo("[0] Add Activity");
-			view.displayInfo("[-1] Return to manage courses");
+			view.displayInfo("[-1] Create course and return to manage courses");
 			String input = view.getInput("Please choose an option: ");
 			try {
 				int optionNo = Integer.parseInt(input);
@@ -91,7 +91,11 @@ public class CourseManager {
 						id+=1;
 					}
 				} else if (optionNo == -1) {
-					break;
+					if (lectures.isEmpty() && tutorials.isEmpty() && labs.isEmpty()) {
+						view.displayWarning("Add at least one activity before exiting!");
+					} else {
+						break;
+					}
 				} else {
 					view.displayError("Invalid option: " + input);
 				}
