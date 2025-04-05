@@ -1,11 +1,8 @@
 package system_tests;
 
 import controller.InquirerController;
-import external.AuthenticationService;
-import external.EmailService;
 import external.MockAuthenticationService;
 import external.MockEmailService;
-import model.Course;
 import model.FAQItem;
 import model.FAQSection;
 import model.SharedContext;
@@ -13,12 +10,11 @@ import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import view.TextUserInterface;
-import view.View;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class ConsultFAQQASystemTest extends TUITest {
+public class ConsultFAQQASystemTests extends TUITest {
 
     FAQSection faqSection1 = new FAQSection("Topic1");
     boolean a = faqSection1.getItems().add(new FAQItem(1, "Question1", "Answer1", "course1"));
