@@ -33,6 +33,7 @@ public class Log {
         REMOVE_COURSE,
         ADD_FAQ,
         REMOVE_FAQ,
+        CHOOSE_ACTIVITY,
         // ect, ect
     }
 }
