@@ -70,8 +70,6 @@ public class StudentController extends Controller {
 
         String email = sharedContext.getCurrentUserEmail();
         CourseManager courseManager = sharedContext.getCourseManager();
-
-        // 直接从 CourseManager 获取 Timetable 对象
         Timetable studentTimetable = courseManager.getTimetableByEmail(email);
 
         if (studentTimetable == null) {

@@ -20,9 +20,10 @@ public class CourseManager {
 	private final Collection<Timetable> timetables = new ArrayList<>();
 	private final Map<String, Timetable> timetabless = new HashMap<>();
 
-	String fullActivityDetailsAsString;
-	int requiredTutorials = 0;
 	int requiredLabs = 0;
+	int requiredTutorials = 0;
+
+	String fullActivityDetailsAsString;
 
     public CourseManager(View view) {
         this.view = view;
@@ -276,27 +277,27 @@ public class CourseManager {
 					startDate, startTime, endDate, endTime, activityId, activityType);
 		}
 
-		for(Course course:courses){
+		for(Course course : courses) {
 			requiredTutorials = course.getRequiredTutorials();
 		}
 
-		if(requiredTutorials > 0){
-			String warningMessage = "You have to choose "+requiredTutorials+" tutorials for this course ";
-			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
-					Log.Status.FAILURE);
-			view.displayWarning(warningMessage);
-		}
+			if (requiredTutorials > 0) {
+				String warningMessage = "You have to choose " + requiredTutorials + " tutorials for this course ";
+				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+						Log.Status.FAILURE);
+				view.displayWarning(warningMessage);
+			}
 
-		for(Course course:courses){
+		for(Course course:courses) {
 			requiredLabs = course.getRequiredLabs();
 		}
 
-		if(requiredLabs >0){
-			String warningMessage = "You have to choose "+requiredLabs+" labs for this course " ;
-			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
-					Log.Status.FAILURE);
-			view.displayWarning(warningMessage);
-		}
+			if (requiredLabs > 0) {
+				String warningMessage = "You have to choose " + requiredLabs + " labs for this course ";
+				Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+						Log.Status.FAILURE);
+				view.displayWarning(warningMessage);
+			}
 
 		String successMessage = "The course was successfully added to your timetable" ;
 		Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
