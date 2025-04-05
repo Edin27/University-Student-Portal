@@ -1,12 +1,10 @@
 package system_tests;
 
-
 import controller.AdminStaffController;
 import external.AuthenticationService;
 import external.EmailService;
 import external.MockAuthenticationService;
 import external.MockEmailService;
-import model.Course;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.*;
@@ -17,7 +15,7 @@ import java.net.URISyntaxException;
 
 
 
-public class AddCourseTests extends TUITest{
+public class AddCourseSystemTests extends TUITest{
 
 	@Test
 	@DisplayName("Add course successfully")
@@ -175,7 +173,9 @@ public class AddCourseTests extends TUITest{
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "9", "-1", "-1");
+				"sarah@hindeburg.ac.uk", "7", "5", "9","0", "0", "2025-09" +
+						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
+				"y",  "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -194,7 +194,9 @@ public class AddCourseTests extends TUITest{
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "a", "-1", "-1");
+				"sarah@hindeburg.ac.uk", "7", "5", "a","0", "0", "2025-09" +
+						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
+				"y",  "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -215,6 +217,8 @@ public class AddCourseTests extends TUITest{
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
 				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-09" +
 						"-12", "12:00","  ", "", "Appleton Tower", "mon",
+				"y", "0", "0", "2025-09" +
+						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon",
 				"y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
@@ -234,6 +238,7 @@ public class AddCourseTests extends TUITest{
 						"software engineering through a series of group assignments",
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
 				"sarah@hindeburg.ac.uk", "7", "5", "0", "9", "2025-09" +
+						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon", "0", "0", "2025-09" +
 						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon",
 				"y", "-1", "-1");
 		View view = new TextUserInterface();
@@ -255,6 +260,8 @@ public class AddCourseTests extends TUITest{
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
 				"sarah@hindeburg.ac.uk", "7", "5", "0", "a", "2025-09" +
 						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon",
+				"y","0", "0", "2025-09" +
+						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon",
 				"y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
@@ -274,7 +281,9 @@ public class AddCourseTests extends TUITest{
 						"software engineering through a series of group assignments",
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
 				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "30122025", "12:00",
-				"2025-12-01", "13:00", "Appleton Tower", "mon", "-1", "-1");
+				"2025-12-01", "13:00", "Appleton Tower", "mon","0", "0", "2025-09-01",
+				"12:00",
+				"2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -293,7 +302,9 @@ public class AddCourseTests extends TUITest{
 						"software engineering through a series of group assignments",
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
 				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-09-01", "12pm",
-				"2025-12-01", "13:00", "Appleton Tower", "mon", "y" ,"-1", "-1");
+				"2025-12-01", "13:00", "Appleton Tower", "mon", "y" ,"0", "0", "2025-09-01",
+				"12:00",
+				"2025-12-01", "13:00", "Appleton Tower", "mon", "y","-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -311,8 +322,10 @@ public class AddCourseTests extends TUITest{
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "12pm",
-				"2025-09-01", "13:00", "Appleton Tower", "mon", "-1", "-1");
+				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "12:00",
+				"2025-09-01", "13:00", "Appleton Tower", "mon", "y", "0", "0", "2025-09-01",
+				"12:00",
+				"2025-12-01", "13:00", "Appleton Tower", "mon", "y","-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -322,6 +335,73 @@ public class AddCourseTests extends TUITest{
 		adminStaffController.manageCourses();
 		assertOutputContains("End date cannot be earlier than start date");
 	}
+
+	@Test
+	@DisplayName("Test end time earlier than start time")
+	public void testEndTimeBeforeStartTime() throws URISyntaxException, IOException,
+			ParseException {
+		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
+				"software engineering through a series of group assignments",
+				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "14:00",
+				"2025-09-01", "13:00", "Appleton Tower", "mon", "y","0", "0", "2025-09-01",
+				"12:00",
+				"2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
+		View view = new TextUserInterface();
+		SharedContext sharedContext = new SharedContext(view);
+		AuthenticationService auth = new MockAuthenticationService();
+		EmailService email = new MockEmailService();
+		AdminStaffController adminStaffController = new AdminStaffController(sharedContext, view, auth, email);
+		startOutputCapture();
+		adminStaffController.manageCourses();
+		assertOutputContains("End time cannot be earlier than start time");
+	}
+
+	@Test
+	@DisplayName("Test invalid day")
+	public void testInvalidDay() throws URISyntaxException, IOException,
+			ParseException {
+		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
+						"software engineering through a series of group assignments",
+				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "14:00",
+				"2025-09-01", "13:00", "Appleton Tower", "wrongday", "y", "0", "0", "2025-09-01",
+				"12:00",
+				"2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
+		View view = new TextUserInterface();
+		SharedContext sharedContext = new SharedContext(view);
+		AuthenticationService auth = new MockAuthenticationService();
+		EmailService email = new MockEmailService();
+		AdminStaffController adminStaffController = new AdminStaffController(sharedContext, view, auth, email);
+		startOutputCapture();
+		adminStaffController.manageCourses();
+		assertOutputContains("Day provided is invalid");
+	}
+
+	@Test
+	@DisplayName("Test Tutorial or Lab Info Empty")
+	public void testEmptyTutLabInfo() throws URISyntaxException, IOException,
+			ParseException {
+		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
+						"software engineering through a series of group assignments",
+				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+				"sarah@hindeburg.ac.uk", "7", "5", "0", "1", "2025-09" +
+						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
+				"", "0", "1", "2025-09" +
+						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
+				"50", "-1", "-1");
+		View view = new TextUserInterface();
+		SharedContext sharedContext = new SharedContext(view);
+		AuthenticationService auth = new MockAuthenticationService();
+		EmailService email = new MockEmailService();
+		AdminStaffController adminStaffController = new AdminStaffController(sharedContext, view, auth, email);
+		startOutputCapture();
+		adminStaffController.manageCourses();
+		assertOutputContains("Tutorial or Lab info required not provided");
+	}
+
+
+
 
 
 

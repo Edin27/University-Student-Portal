@@ -169,7 +169,8 @@ public class Course {
 			}
 
 			boolean checkEndDateAftStartDate = endDateAftStartDate(sDate,eDate);
-			if(checkEndDateAftStartDate|| !endTimeAftStartTime(sTime, eTime)){
+			boolean checkEndTimeAftStartTime = endTimeAftStartTime(sTime, eTime);
+			if(!checkEndDateAftStartDate|| !checkEndTimeAftStartTime){
 				return null;
 			}
 		}
