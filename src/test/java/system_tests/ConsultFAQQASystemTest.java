@@ -10,6 +10,7 @@ import model.FAQItem;
 import model.FAQSection;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import view.TextUserInterface;
 import view.View;
@@ -28,6 +29,7 @@ public class ConsultFAQQASystemTest extends TUITest {
     boolean d = faqSection1.getItems().add(new FAQItem(2, "Question2", "Answer2", "course1"));
 
     @Test
+    @DisplayName("Consult the faq with no tag filter")
     public void testConsultFAQNoFilter() throws URISyntaxException, IOException, ParseException {
         setMockInput("", "0", "-1", "-1");
         SharedContext sharedContext = new SharedContext(new TextUserInterface());
@@ -40,6 +42,7 @@ public class ConsultFAQQASystemTest extends TUITest {
     }
 
     @Test
+    @DisplayName("Consult the faq with a tag filter")
     public void testConsultFAQFilter() throws URISyntaxException, IOException, ParseException {
         setMockInput("course1", "0", "-1", "-1");
         SharedContext sharedContext = new SharedContext(new TextUserInterface());
@@ -51,6 +54,7 @@ public class ConsultFAQQASystemTest extends TUITest {
     }
 
     @Test
+    @DisplayName("Consult the faq with a tag filter that empties topic")
     public void testConsultFAQFilterEmpty() throws URISyntaxException, IOException, ParseException {
         setMockInput("course1", "0", "-1", "-1");
         SharedContext sharedContext = new SharedContext(new TextUserInterface());
