@@ -194,13 +194,12 @@ public class CourseManager {
 			timetabless.put(email, timetable);
 		}
 
-		// 解析活动详情字符串
+		// Activity detail
 		String[] activityStrings = fullActivityDetailsAsString.split("Activity\\{");
 
 
 		for (int i = 1; i < activityStrings.length; i++) {
 			String activityContent = activityStrings[i].replace("}", "").trim();
-			// 拆分 key=value 项
 			String[] parts = activityContent.split(",");
 			Map<String, String> values = new HashMap<>();
 			for (String part : parts) {
@@ -218,7 +217,7 @@ public class CourseManager {
 			LocalTime startTime = LocalTime.parse(values.get("startTime"), timeFormatter);
 			LocalTime endTime = LocalTime.parse(values.get("endTime"), timeFormatter);
 
-			// 检查时间冲突
+			// Check for time conflicts
 			String[] conflicting = timetable.checkConflicts(startDate, startTime, endDate, endTime);
 			boolean unrecordedLecture1 = true;
 			boolean unrecordedLecture2 = true;
@@ -334,7 +333,7 @@ public class CourseManager {
 				count++;
 			}
 		}
-		// 从课程本身获取需要多少个 Tutorials 并比较
+		// Get how many Tutorials are needed from the course itself and compare
 		return count >= this.requiredTutorials;
 	}
 
@@ -347,12 +346,11 @@ public class CourseManager {
 				count++;
 			}
 		}
-		// 从课程本身获取需要多少个 Labs 并比较
 		return count >= this.requiredLabs;
 	}
 
 	public Timetable getTimetableByEmail(String email) {
-		return timetabless.get(email);  // 如果没有找到，则返回 null
+		return timetabless.get(email);  // if not find, return null
 	}
 
 	public boolean chooseActivityForCourse(String studentEmail, String courseCode, String activityType) {
@@ -388,14 +386,14 @@ public class CourseManager {
 			return false;
 		}
 
-		// 调用显示时间段的函数
+		// view available time period
 		List<Timetable.TimeSlot> availableSlots = displayAvailableTimeSlots(timetable, course, courseCode, activityType);
 		if (availableSlots.isEmpty()) {
 			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
 			return false;
 		}
 
-		// 获取用户选择的时间段
+		// Get the time period selected by the user
 		LocalDate startDate = null;
 		LocalTime startTime = null;
 		LocalDate endDate = null;
@@ -423,7 +421,7 @@ public class CourseManager {
 			return false;
 		}
 
-		// 选择时间段
+		// Select time period
 		boolean success = timetable.chooseActivityByTime(courseCode, activityType, startDate, startTime, endDate, endTime);
 		if (!success) {
 			view.displayError("Failed to choose " + activityType + " for course " + courseCode +
@@ -439,7 +437,7 @@ public class CourseManager {
 		boolean tutorialsSatisfied = checkChosenTutorials(courseCode, timetable);
 		boolean labsSatisfied = checkChosenLabs(courseCode, timetable);
 
-		// 根据活动类型检查并显示结果
+		// Check if the requirements are met
 		if ("Tutorial".equalsIgnoreCase(activityType)) {
 			if (tutorialsSatisfied) {
 				view.displaySuccess("You have successfully chosen all required Tutorials for " + courseCode + "!");
@@ -448,7 +446,7 @@ public class CourseManager {
 						(requiredTutorials - timetable.numChosenTutorials(courseCode)) +
 						" more tutorials for " + courseCode);
 				Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
-				return false; // 返回上一层主菜单
+				return false; // back to main
 			}
 		} else if ("Lab".equalsIgnoreCase(activityType)) {
 			if (labsSatisfied) {
@@ -458,11 +456,11 @@ public class CourseManager {
 						(requiredLabs - timetable.numChosenLabs(courseCode)) +
 						" more labs for " + courseCode);
 				Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
-				return false; // 返回上一层主菜单
+				return false; // back to main
 			}
 		}
 
-		// 如果 Tutorial 和 Lab 都满足要求，显示整体成功信息
+		// If both Tutorial and Lab meet the requirements, display the overall success information
 		if (tutorialsSatisfied && labsSatisfied) {
 			view.displaySuccess("All required activities for " + courseCode + " have been chosen!");
 		}

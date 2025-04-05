@@ -34,7 +34,7 @@ public class Timetable {
 				return slot.getStatus() == Status.CHOSEN;
 			}
 		}
-		return false; // 如果没有找到对应的时间段，默认返回false
+		return false; // If no corresponding time period is found, false is returned by default
 	}
 
 	public void addTimeSlot(
@@ -50,7 +50,6 @@ public class Timetable {
 		timeSlots.add(new TimeSlot(courseCode, day, startDate, startTime,
 				endDate, endTime, activityId, activityType));
 
-		// 如果是 Lecture（CHOSEN），更新计数
 		if ("Lecture".equalsIgnoreCase(activityType)) {
 			courseActivityCount.put(courseCode,
 					courseActivityCount.getOrDefault(courseCode, 0) + 1);
@@ -61,9 +60,9 @@ public class Timetable {
 	public int numChosenTutorials(String courseCode) {
 		int count = 0;
 		for (TimeSlot slot : timeSlots) {
-			if (slot.getCourseCode().equals(courseCode) &&
-					slot.getStatus() == Status.CHOSEN &&
-					slot.getActivityId() == 1) { // 假设 0 表示 Tutorial
+			if (slot.courseCode.equals(courseCode) &&
+					slot.status == Status.CHOSEN &&
+					"Tutorial".equalsIgnoreCase(slot.activityType)) {
 				count++;
 			}
 		}
@@ -73,9 +72,9 @@ public class Timetable {
 	public int numChosenLabs(String courseCode) {
 		int count = 0;
 		for (TimeSlot slot : timeSlots) {
-			if (slot.getCourseCode().equals(courseCode) &&
-					slot.getStatus() == Status.CHOSEN &&
-					slot.getActivityId() == 2) { // 假设 1 表示 Lab
+			if (slot.courseCode.equals(courseCode) &&
+					slot.status == Status.CHOSEN &&
+					"Lab".equalsIgnoreCase(slot.activityType)) {
 				count++;
 			}
 		}
@@ -103,7 +102,7 @@ public class Timetable {
 
 	public boolean chooseActivityByTime(
 			String courseCode,
-			String activityType, // 替换 activityId 为 activityType
+			String activityType,
 			LocalDate startDate,
 			LocalTime startTime,
 			LocalDate endDate,
@@ -111,7 +110,7 @@ public class Timetable {
 	) {
 		for (TimeSlot slot : timeSlots) {
 			if (slot.courseCode.equals(courseCode) &&
-					slot.activityType.equalsIgnoreCase(activityType) && // 使用 activityType 匹配
+					slot.activityType.equalsIgnoreCase(activityType) &&
 					slot.startDate.equals(startDate) &&
 					slot.startTime.equals(startTime) &&
 					slot.endDate.equals(endDate) &&
@@ -122,30 +121,10 @@ public class Timetable {
 							courseActivityCount.getOrDefault(courseCode, 0) + 1);
 					return true;
 				}
-				return false; // 已经是 CHOSEN 状态
+				return false; // already CHOSEN
 			}
 		}
-		return false; // 没有找到匹配的时间段
-	}
-
-	public boolean chooseActivity(String courseCode, int activityId) {
-		for (TimeSlot slot : timeSlots) {
-			if (slot.getCourseCode().equals(courseCode) &&
-					slot.getActivityId() == activityId) {
-				if (slot.getStatus() == Status.UNCHOSEN) {
-					slot.setStatus(Status.CHOSEN);
-					courseActivityCount.put(courseCode,
-							courseActivityCount.getOrDefault(courseCode, 0) + 1);
-					return true;
-				}
-				return false; // 已经是CHOSEN状态
-			}
-		}
-		return false; // 没有找到对应的时间段
-	}
-
-	public boolean hasSlotsForCourse(String courseCode) {
-		return timeSlots.stream().anyMatch(slot -> slot.getCourseCode().equals(courseCode));
+		return false; // No matching time period found
 	}
 
 	public boolean removeSlotsForCourse(String courseCode) {
@@ -183,7 +162,7 @@ public class Timetable {
 				LocalDate endDate,
 				LocalTime endTime,
 				int activityId,
-				String activityType // 改为接受 activityType
+				String activityType
 		) {
 			this.courseCode = courseCode;
 			this.day = day;
@@ -193,7 +172,6 @@ public class Timetable {
 			this.endTime = endTime;
 			this.activityId = activityId;
 			this.activityType = activityType;
-			// 根据 activityType 设置默认状态
 			this.status = "Lecture".equalsIgnoreCase(activityType) ? Status.CHOSEN : Status.UNCHOSEN;
 		}
 
