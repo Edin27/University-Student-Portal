@@ -1,0 +1,20 @@
+[
+  {
+    "username": "admin1",
+    "password": "admin1pass",
+    "email": "admin1@hindeburg.ac.uk",
+    "role": "AdminStaff"
+  },
+  {
+    "username": "admin2",
+    "password": null,
+    "email": "admin2@hindeburg.ac.uk",
+    "role": "AdminStaff"
+  },
+  {
+    "username": "admin3",
+    "password": "",
+    "email": "admin3@hindeburg.ac.uk",
+    "role": "AdminStaff"
+  }
+]

@@ -2,7 +2,7 @@ package unit_tests;
 
 import external.EmailService;
 import external.MockEmailService;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import system_tests.TUITest;
 
@@ -17,7 +17,7 @@ public class TestMockEmailService extends TUITest {
 		String content = "email content";
 		int status = email.sendEmail(sender, recipient, subject, content);
 		assertOutputContains("Email from " + sender + " to " + recipient);
-		Assertions.assertEquals(EmailService.STATUS_SUCCESS, status);
+		assertEquals(EmailService.STATUS_SUCCESS, status);
 	}
 
 	@Test
@@ -30,7 +30,7 @@ public class TestMockEmailService extends TUITest {
 		String content = "email content";
 		int status = email.sendEmail(sender, recipient, subject, content);
 		assertOutputContains("Email from " + sender + " to " + recipient);
-		Assertions.assertEquals(EmailService.STATUS_SUCCESS, status);
+		assertEquals(EmailService.STATUS_SUCCESS, status);
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class TestMockEmailService extends TUITest {
 		String subject = "email subject";
 		String content = "email content";
 		int status = email.sendEmail(sender, recipient, subject, content);
-		Assertions.assertEquals(EmailService.STATUS_INVALID_SENDER_EMAIL, status);
+		assertEquals(EmailService.STATUS_INVALID_SENDER_EMAIL, status);
 	}
 
 	@Test
@@ -54,6 +54,6 @@ public class TestMockEmailService extends TUITest {
 		String subject = "email subject";
 		String content = "email content";
 		int status = email.sendEmail(sender, recipient, subject, content);
-		Assertions.assertEquals(EmailService.STATUS_INVALID_RECIPIENT_EMAIL, status);
+		assertEquals(EmailService.STATUS_INVALID_RECIPIENT_EMAIL, status);
 	}
 }

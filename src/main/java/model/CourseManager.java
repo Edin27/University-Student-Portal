@@ -155,8 +155,7 @@ public class CourseManager {
 					courses.removeIf(course -> course.getCourseCode().equals(courseCode));
 
 			for(Timetable timetable: timetables){
-				boolean removedTimeSlot =
-						timetable.getTimeSlots().removeIf(timeslot -> timeslot.getCourseCode().equals(courseCode));
+				boolean removedTimeSlot = timetable.removeSlotsForCourse(courseCode);
 				if(removedTimeSlot){
 					emailsToNotifyCourseRemoved.add(timetable.getStudentEmail());
 				}
@@ -169,8 +168,7 @@ public class CourseManager {
 		}
 		else{
 			String errorMessage = "Course code provided does not exist in the system";
-			Log.AddLog(Log.ActionName.REMOVE_COURSE, courseCode,
-					Log.Status.FAILURE);
+			Log.AddLog(Log.ActionName.REMOVE_COURSE, courseCode, Log.Status.FAILURE);
 			view.displayError(errorMessage);
 		}
 		return emailsToNotifyCourseRemoved;

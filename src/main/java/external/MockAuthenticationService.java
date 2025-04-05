@@ -39,16 +39,50 @@ public class MockAuthenticationService implements AuthenticationService {
      * @throws NullPointerException occurs if the file does not exist
      */
     public MockAuthenticationService() throws URISyntaxException, IOException, ParseException, NullPointerException {
-        URL dataPath = getClass().getResource("/MockUserData.json");
+        URL dataPath = getUserDataResource();
         Objects.requireNonNull(dataPath);
-        File dataFile = Paths.get(dataPath.toURI()).toFile();
+        File dataFile = getDataFileFromURL(dataPath);
 
         JSONParser parser = new JSONParser();
-        JSONArray userDataArray = (JSONArray) parser.parse(new FileReader(dataFile));
+        JSONArray userDataArray = (JSONArray) parser.parse(createFileReader(dataFile));
         for (Object userData: userDataArray) {
             JSONObject user = (JSONObject) userData;
             String username = (String) user.get("username");
+            validateUserObject(user);
             users.put(username, user);
+        }
+    }
+
+    protected URL getUserDataResource() {
+        return getClass().getResource("/MockUserData.json");
+    }
+
+    protected File getDataFileFromURL(URL url) throws URISyntaxException {
+        return Paths.get(url.toURI()).toFile();
+    }
+
+    protected FileReader createFileReader(File file) throws IOException {
+        return new FileReader(file);
+    }
+
+    private void validateUserObject(JSONObject user) throws ParseException {
+        String[] requiredFields = {"username", "password", "email", "role"};
+        //check that the JSON file has "username", "password", "email", "role" fields
+        for (String field : requiredFields) {
+            if (!user.containsKey(field)) {
+                throw new ParseException(
+                        ParseException.ERROR_UNEXPECTED_TOKEN,
+                        "Missing required field: " + field
+                );
+            }
+            // Check if field is non-empty
+            Object value = user.get(field);
+            if (value == null || value.toString().trim().isEmpty()) {
+                throw new ParseException(
+                        ParseException.ERROR_UNEXPECTED_TOKEN,
+                        "Field '" + field + "' cannot be empty or null"
+                );
+            }
         }
     }
 
