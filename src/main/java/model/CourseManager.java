@@ -15,7 +15,6 @@ import java.util.*;
 
 public class CourseManager {
 	protected final View view;
-	private static volatile CourseManager courseManagerInstance;
 	private final Collection<Course> courses = new ArrayList<>();
 	private final Collection<Timetable> timetables = new ArrayList<>();
 	private final Map<String, Timetable> timetabless = new HashMap<>();
@@ -25,18 +24,6 @@ public class CourseManager {
         this.view = view;
     }
 
-    public static CourseManager getCourseManager(View view) {
-		CourseManager result = courseManagerInstance;
-		if (courseManagerInstance == null) {
-			synchronized (CourseManager.class) {
-				result = courseManagerInstance;
-				if (result == null) {
-					courseManagerInstance = result = new CourseManager(view);
-				}
-			}
-		}
-		return result;
-	}
 
 	public Collection<Course> getCourses() {
 		return courses;
