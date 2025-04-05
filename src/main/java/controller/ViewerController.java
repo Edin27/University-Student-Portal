@@ -16,19 +16,20 @@ public class ViewerController extends Controller {
 
     public void viewCourses() {
         view.displayCourses(sharedContext.getCourseManager());
+        Log.AddLog(Log.ActionName.VIEW_COURSES, "", Log.Status.SUCCESS);
     }
 
     public void viewSpecificCourse() {
         String code = view.getInput("Input course code: ");
-        if (sharedContext.courseManager.getCourses() != null) {
-            Iterator<Course> courses = sharedContext.courseManager.getCourses().iterator();
-            while (courses.hasNext()) {
-                Course course = courses.next();
-                if (course.getCourseCode().equals(code)) {
-                    view.displayCourse(course);
-                }
-            }
+        Course course = sharedContext.courseManager.findCourse(code);
+        if (course != null) {
+            view.displayCourse(course);
+            Log.AddLog(Log.ActionName.VIEW_COURSES, code, Log.Status.SUCCESS);
+        } else {
+            view.displayError("This course does not exist!");
+            Log.AddLog(Log.ActionName.VIEW_COURSES, code, Log.Status.FAILURE);
         }
     }
+    }
 
-}
+

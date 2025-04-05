@@ -67,6 +67,13 @@ public class AdminStaffController extends StaffController {
             createSection = view.getYesNoInput("Would you like to create a new topic for the FAQ item?");
         }
 
+        String tag = view.getInput("Enter course tag for this item (or leave empty): ").trim();
+        if (!tag.isEmpty() && sharedContext.getCourseManager().findCourse(tag) == null) {
+            view.displayError("Course code does not exist");
+            Log.AddLog(Log.ActionName.ADD_FAQ, tag, Log.Status.FAILURE);
+            return;
+        }
+
         if (createSection) {
             String newTopic = view.getInput("Enter new topic title: ");
             FAQSection newSection = new FAQSection(newTopic);
@@ -92,18 +99,6 @@ public class AdminStaffController extends StaffController {
 
         String question = view.getInput("Enter the question for new FAQ item: ");
         String answer = view.getInput("Enter the answer for new FAQ item: ");
-        String course = view.getInput("Enter course tag: ");
-        String tag = view.getInput("Enter course tag for this item (or leave empty): ").trim();
-        int newId = currentSection.getItems().size();
-        currentSection.getItems().add(new FAQItem(newId, question, answer, tag.isEmpty() ? null : tag));
-        if (!course.isEmpty() && sharedContext.getCourseManager().findCourse(course) == null) {
-            view.displayError("Course code does not exist");
-            Log.AddLog(Log.ActionName.ADD_FAQ, course, Log.Status.FAILURE);
-            return;
-        }
-        
-        newId = currentSection.getItems().size() + offset;
-        currentSection.getItems().add(new FAQItem(newId, question, answer, course));
         
         String emailSubject = "FAQ topic '" + currentSection.getTopic() + "' updated";
         StringBuilder emailContentBuilder = new StringBuilder();
@@ -128,6 +123,8 @@ public class AdminStaffController extends StaffController {
                 emailContent
         );
 
+        int newId = currentSection.getItems().size() + offset;
+        currentSection.getItems().add(new FAQItem(newId, question, answer, tag.isEmpty() ? null : tag));
         view.displaySuccess("Created new FAQ item");
     }
 

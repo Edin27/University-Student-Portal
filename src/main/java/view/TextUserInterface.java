@@ -84,6 +84,7 @@ public class TextUserInterface implements View {
         System.out.println(section.getTopic());
         displayDivider();
         for (FAQItem item : section.getItems()) { {
+            System.out.println(item.getId() + ") [Course: " + item.getTag() + "]");
             System.out.println(item.getQuestion());
             System.out.print("> ");
             System.out.println(item.getAnswer());
@@ -115,7 +116,7 @@ public class TextUserInterface implements View {
             System.out.println("no courses");
         } else{
             for (Course course : courseManager.getCourses()) {
-                System.out.println("Course Name: " + course.getName() + "   Course Code: " + course.getCourseCode());
+                System.out.println("Course Name: " + course.getName() + ", Course Code: " + course.getCourseCode());
             }
         }
     }
@@ -141,7 +142,7 @@ public class TextUserInterface implements View {
     }
 
     private void displayActivities(List<Activity> activities) {
-        if (activities.isEmpty()) {System.out.println("none");return;}
+        if (activities == null || activities.isEmpty()) {System.out.println("none");return;}
         for (Activity activity: activities) {
             System.out.println("["+activity.getStartDate()+" -> "+activity.getEndDate());
             System.out.println(" "+activity.getDay().toString().toLowerCase()+", "+activity.getStartTime()+" -> "+activity.getEndTime()+"]");
@@ -182,7 +183,6 @@ public class TextUserInterface implements View {
 
         for (FAQItem item : section.getItems()) {
             if (tagFilter == null || (item.getTag() != null && item.getTag().toLowerCase().contains(tagFilter.toLowerCase()))) {
-                System.out.println(item.getId() + ") [Course: " + item.getTag() + "]");
                 System.out.println(item.getQuestion());
                 System.out.print("> ");
                 System.out.println(item.getAnswer());
