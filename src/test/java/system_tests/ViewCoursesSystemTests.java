@@ -10,6 +10,9 @@ import model.CourseManager;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Assertions;
+
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import view.TextUserInterface;
 import view.View;
@@ -27,6 +30,7 @@ public class ViewCoursesSystemTests extends TUITest{
     Course course3 = new Course(new TextUserInterface(), "3", "course3", "desc3", false, "teacher1", "teacher1@hindeburg.ac.uk", "teacher2", "teacher2@hindeburg.ac.uk", 0, 0, null, null, null);
 
     @Test
+    @DisplayName("View courses when no courses are added")
     public void testViewCoursesNoCourses() throws URISyntaxException, IOException, ParseException {
         SharedContext context = new SharedContext(new TextUserInterface());
         ViewerController viewerController = new ViewerController(context, new TextUserInterface(), new MockAuthenticationService(), new MockEmailService());;
@@ -36,6 +40,7 @@ public class ViewCoursesSystemTests extends TUITest{
     }
 
     @Test
+    @DisplayName("View courses with three courses added")
     public void testViewCoursesStandard() throws URISyntaxException, IOException, ParseException {
         SharedContext context = new SharedContext(new TextUserInterface());
         context.getCourseManager().getCourses().add(course1);
@@ -53,6 +58,7 @@ public class ViewCoursesSystemTests extends TUITest{
     }
 
     @Test
+    @DisplayName("View valid course returns course info")
     public void testViewCourseStandard() throws URISyntaxException, IOException, ParseException {
         setMockInput("2");
         SharedContext context = new SharedContext(new TextUserInterface());
@@ -69,6 +75,7 @@ public class ViewCoursesSystemTests extends TUITest{
     }
 
     @Test
+    @DisplayName("View invalid course returns error")
     public void testViewCourseFailure() throws URISyntaxException, IOException, ParseException {
         setMockInput("jfcds");
         SharedContext context = new SharedContext(new TextUserInterface());

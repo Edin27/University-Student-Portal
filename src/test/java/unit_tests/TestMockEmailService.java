@@ -3,11 +3,15 @@ package unit_tests;
 import external.EmailService;
 import external.MockEmailService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import system_tests.TUITest;
 
 public class TestMockEmailService extends TUITest {
+
 	@Test
+	@DisplayName("Standard email returns success")
 	public void testSendEmailFrequent() {
 		EmailService email = new MockEmailService();
 		startOutputCapture();
@@ -21,6 +25,7 @@ public class TestMockEmailService extends TUITest {
 	}
 
 	@Test
+	@DisplayName("Unusual email addresses returns success")
 	public void testSendEmailBoundary() {
 		EmailService email = new MockEmailService();
 		startOutputCapture();
@@ -34,6 +39,7 @@ public class TestMockEmailService extends TUITest {
 	}
 
 	@Test
+	@DisplayName("Invalid sender email returns error")
 	public void testSendEmailIncorrectSender() {
 		EmailService email = new MockEmailService();
 		startOutputCapture();
@@ -46,6 +52,7 @@ public class TestMockEmailService extends TUITest {
 	}
 
 	@Test
+	@DisplayName("Invalid recipient email returns error")
 	public void testSendEmailIncorrectRecipient() {
 		EmailService email = new MockEmailService();
 		startOutputCapture();

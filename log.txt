@@ -17,3 +17,5 @@
 2025/04/05 - 20:40:48 - Guest - ADD_COURSE -  - FAILURE
 2025/04/05 - 20:40:48 - Guest - ADD_COURSE -  - SUCCESS
 2025/04/05 - 20:40:48 - Guest - ADD_COURSE -  - FAILURE
+2025/04/05 - 20:17:10 - Guest - LOGIN - admin1, admin1pass - SUCCESS
+
