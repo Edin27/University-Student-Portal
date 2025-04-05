@@ -94,8 +94,8 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "a", "-1");
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "a", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -131,8 +131,8 @@ public class AddCourseSystemTests extends TUITest{
 		setMockInput("0", "INF-001", "Software Engineering", "Students will learn " +
 						"software engineering " +
 						"through a series of group assignments", "y", "Dr James",
-				"james@hindeburg.ac.uk", "Sarah", "sarah@hindeburg.ac.uk", "7",
-				"5", "-1");
+						"james@hindeburg.ac.uk", "Sarah", "sarah@hindeburg.ac.uk", "7",
+						"5", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -149,13 +149,13 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-09" +
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-09" +
 						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
-				"y", "-1", "0", "INF001", "Data Science", "Students will learn " +
+						"y", "-1", "0", "INF001", "Data Science", "Students will learn " +
 						"data analysis through few assignments",
-				"y", "Dr John", "john@hindeburg.ac.uk", "Lily",
-				"lily@hindeburg.ac.uk", "8", "6", "-1");
+						"y", "Dr John", "john@hindeburg.ac.uk", "Lily",
+						"lily@hindeburg.ac.uk", "8", "6", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -172,10 +172,10 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "9","0", "0", "2025-09" +
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "9","0", "0", "2025-09" +
 						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
-				"y",  "-1", "-1");
+						"y",  "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -193,10 +193,10 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "a","0", "0", "2025-09" +
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "a","0", "0", "2025-09" +
 						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
-				"y",  "-1", "-1");
+						"y",  "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -214,12 +214,12 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-09" +
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-09" +
 						"-12", "12:00","  ", "", "Appleton Tower", "mon",
-				"y", "0", "0", "2025-09" +
+						"y", "0", "0", "2025-09" +
 						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon",
-				"y", "-1", "-1");
+						"y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -236,11 +236,11 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "9", "2025-09" +
-						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon", "0", "0", "2025-09" +
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "0", "9", "2025-09" +
 						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon",
-				"y", "-1", "-1");
+						"0", "0", "2025-09-12", "12:00","2025-12-01", "13:00",
+						"Appleton Tower", "mon", "y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -257,12 +257,11 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "a", "2025-09" +
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "0", "a", "2025-09" +
 						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon",
-				"y","0", "0", "2025-09" +
-						"-12", "12:00","2025-12-01", "13:00", "Appleton Tower", "mon",
-				"y", "-1", "-1");
+						"y","0", "0", "2025-09-12", "12:00","2025-12-01", "13:00",
+						"Appleton Tower", "mon", "y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -279,11 +278,10 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "30122025", "12:00",
-				"2025-12-01", "13:00", "Appleton Tower", "mon","0", "0", "2025-09-01",
-				"12:00",
-				"2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "30122025", "12:00",
+						"2025-12-01", "13:00", "Appleton Tower", "mon","0", "0", "2025-09-01",
+						"12:00", "2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -300,11 +298,10 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-09-01", "12pm",
-				"2025-12-01", "13:00", "Appleton Tower", "mon", "y" ,"0", "0", "2025-09-01",
-				"12:00",
-				"2025-12-01", "13:00", "Appleton Tower", "mon", "y","-1", "-1");
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-09-01", "12pm",
+						"2025-12-01", "13:00", "Appleton Tower", "mon", "y" ,"0", "0", "2025-09-01",
+						"12:00", "2025-12-01", "13:00", "Appleton Tower", "mon", "y","-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -321,11 +318,11 @@ public class AddCourseSystemTests extends TUITest{
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "12:00",
-				"2025-09-01", "13:00", "Appleton Tower", "mon", "y", "0", "0", "2025-09-01",
-				"12:00",
-				"2025-12-01", "13:00", "Appleton Tower", "mon", "y","-1", "-1");
+						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+						"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "12:00",
+						"2025-09-01", "13:00", "Appleton Tower", "mon", "y", "0", "0", "2025-09-01",
+						"12:00", "2025-12-01", "13:00", "Appleton Tower", "mon", "y",
+						"-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -345,8 +342,7 @@ public class AddCourseSystemTests extends TUITest{
 				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
 				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "14:00",
 				"2025-09-01", "13:00", "Appleton Tower", "mon", "y","0", "0", "2025-09-01",
-				"12:00",
-				"2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
+				"12:00", "2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -362,12 +358,11 @@ public class AddCourseSystemTests extends TUITest{
 	public void testInvalidDay() throws URISyntaxException, IOException,
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
-						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "14:00",
-				"2025-09-01", "13:00", "Appleton Tower", "wrongday", "y", "0", "0", "2025-09-01",
-				"12:00",
-				"2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
+					"software engineering through a series of group assignments",
+					"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+					"sarah@hindeburg.ac.uk", "7", "5", "0", "0", "2025-12-01", "14:00",
+					"2025-09-01", "13:00", "Appleton Tower", "wrongday", "y", "0", "0", "2025-09-01",
+					"12:00", "2025-12-01", "13:00", "Appleton Tower", "mon", "y", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -383,13 +378,12 @@ public class AddCourseSystemTests extends TUITest{
 	public void testEmptyTutLabInfo() throws URISyntaxException, IOException,
 			ParseException {
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
-						"software engineering through a series of group assignments",
-				"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-				"sarah@hindeburg.ac.uk", "7", "5", "0", "1", "2025-09" +
-						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
-				"", "0", "1", "2025-09" +
-						"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
-				"50", "-1", "-1");
+					"software engineering through a series of group assignments",
+					"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
+					"sarah@hindeburg.ac.uk", "7", "5", "0", "1", "2025-09" +
+					"-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
+					"", "0", "1", "2025-09-12", "12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
+					"50", "-1", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
 		AuthenticationService auth = new MockAuthenticationService();
@@ -399,19 +393,6 @@ public class AddCourseSystemTests extends TUITest{
 		adminStaffController.manageCourses();
 		assertOutputContains("Tutorial or Lab info required not provided");
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
