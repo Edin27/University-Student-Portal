@@ -270,8 +270,8 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"Foundation of Data science",        // Name
 				"FDS",                               // Description
 				"Y",                                 // require computers
-				"Professor H",                 // Course organiser name
-				"H@university.edu",            // Course organiser email
+				"Professor H",                       // Course organiser name
+				"H@university.edu",                  // Course organiser email
 				"Mary Jane",                       // Course secretary name
 				"MJ@university.edu",                // Course secretary email
 				"4",                                 // Required tutorials
