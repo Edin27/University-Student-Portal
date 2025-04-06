@@ -49,7 +49,7 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				// ADD Lecture
 				"0",                                 // ADD Activity
 				"0",                                 // ADD Lecture
-				"2025-01-01",                        // Start date
+				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
 				"2025-12-31",                        // End date
 				"10:30",                             // End time
