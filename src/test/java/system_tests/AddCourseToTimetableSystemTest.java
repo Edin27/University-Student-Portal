@@ -330,7 +330,7 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 		menuController.mainMenu();
 
 		// Verify output contains success message
-		assertOutputContains("You have at least one clash with another activity");
+		assertOutputContains("Some activities have clashes, please choose carefully");
 		assertOutputContains("You have to choose 4 tutorials for this course");
 		assertOutputContains("You have to choose 4 labs for this course");
 		assertOutputContains("The course was successfully added to your timetable");
