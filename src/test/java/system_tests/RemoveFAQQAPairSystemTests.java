@@ -59,6 +59,7 @@ public class RemoveFAQQAPairSystemTests extends TUITest{
         startOutputCapture();
         menuController.mainMenu();
         assertOutputContains("FAQ item removed.");
+        assertOutputContains("[1] Topic1.1");
     }
 
     @Test
