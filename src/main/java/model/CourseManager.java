@@ -401,33 +401,28 @@ public class CourseManager {
 		}
 
 
-		// Get the time period selected by the user
-		LocalDate startDate = null;
-		LocalTime startTime = null;
-		LocalDate endDate = null;
-		LocalTime endTime = null;
+		// Get the time slot selected by the user
+		Integer slotChosenInt = null;
 
-		view.displayInfo("Please enter the time slot details you want to choose:");
+
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
 		try {
-			String startDateStr = view.getInput("Start date (yyyy-MM-dd): ");
-			startDate = LocalDate.parse(startDateStr, dateFormatter);
+			String slotChosen = view.getInput("Please choose the activity timeslot :");
+			slotChosenInt = Integer.parseInt(slotChosen);
 
-			String startTimeStr = view.getInput("Start time (HH:mm): ");
-			startTime = LocalTime.parse(startTimeStr, timeFormatter);
-
-			String endDateStr = view.getInput("End date (yyyy-MM-dd): ");
-			endDate = LocalDate.parse(endDateStr, dateFormatter);
-
-			String endTimeStr = view.getInput("End time (HH:mm): ");
-			endTime = LocalTime.parse(endTimeStr, timeFormatter);
-		} catch (DateTimeParseException e) {
-			view.displayError("Invalid date or time format. Please use yyyy-MM-dd for dates and HH:mm for times.");
+		} catch (NumberFormatException e) {
+			view.displayError("Invalid timeslot option");
 			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
 			return false;
 		}
+
+		Timetable.TimeSlot timeslotChosen = availableSlots.get(slotChosenInt);
+		LocalDate startDate = timeslotChosen.getStartDate();
+		LocalTime startTime = timeslotChosen.getStartTime();
+		LocalDate endDate = timeslotChosen.getEndDate();
+		LocalTime endTime = timeslotChosen.getEndTime();
 
 		// Select time period
 		boolean success = timetable.chooseActivityByTime(courseCode, activityType, startDate, startTime, endDate, endTime);
