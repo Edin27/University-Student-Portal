@@ -62,16 +62,22 @@ public class ViewCoursesSystemTests extends TUITest{
     public void testViewCourseStandard() throws URISyntaxException, IOException, ParseException {
         setMockInput("2");
         SharedContext context = new SharedContext(new TextUserInterface());
-        context.getCourseManager().getCourses().add(course1);
         context.getCourseManager().getCourses().add(course2);
-        context.getCourseManager().getCourses().add(course3);
         ViewerController viewerController = new ViewerController(context, new TextUserInterface(), new MockAuthenticationService(), new MockEmailService());
         startOutputCapture();
         viewerController.viewSpecificCourse();
         assertOutputContains("Course Code: 2");
-        context.getCourseManager().getCourses().remove(course1);
+        assertOutputContains("Name: course2");
+        assertOutputContains("Description: desc2");
+        assertOutputContains("Requires Computers: false");
+        assertOutputContains("Organiser Name: teacher1");
+        assertOutputContains("Organiser Email: teacher1@hindeburg.ac.uk");
+        assertOutputContains("Secretary Name: teacher2");
+        assertOutputContains("Secretary Email: teacher2@hindeburg.ac.uk");
+        assertOutputContains("Required Tutorials: 0");
+        assertOutputContains("Required Labs: 0");
+        assertOutputContains("none");
         context.getCourseManager().getCourses().remove(course2);
-        context.getCourseManager().getCourses().remove(course3);
     }
 
     @Test

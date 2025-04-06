@@ -24,4 +24,4 @@
 2025/04/06 - 17:42:59 - Guest - LOGIN - student1, student1pass - SUCCESS
 2025/04/06 - 17:42:59 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - FAILURE
 2025/04/06 - 17:42:59 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - SUCCESS
-
+2025/04/06 - 18:03:50 - Guest - VIEW_COURSES - 2 - SUCCESS
