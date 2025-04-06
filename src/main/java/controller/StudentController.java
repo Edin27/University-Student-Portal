@@ -79,7 +79,7 @@ public class StudentController extends Controller {
         if (studentTimetable == null) {
             view.displayInfo("You have not added any courses to your timetable.");
         } else {
-            view.displayTimetable(studentTimetable);
+            view.displayTimetable(sharedContext);
         }
     }
     private void chooseActivityForCourse(){

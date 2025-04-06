@@ -16,7 +16,7 @@ public interface View {
     void displayInquiry(Inquiry inquiry);
     void displayCourses(CourseManager courseManager);
     void displayCourse(Course course);
-    void displayTimetable(Timetable timetable);
+    void displayTimetable(SharedContext sharedContext);
     void displayFAQ(FAQ faq, String tagFilter);
     void displayFAQSection(FAQSection section, String tagFilter);
 }

@@ -150,7 +150,10 @@ public class TextUserInterface implements View {
     }
 
     @Override
-    public void displayTimetable(Timetable timetable) {
+    public void displayTimetable(SharedContext sharedContext) {
+
+        CourseManager courseManager = sharedContext.getCourseManager();
+        Timetable timetable = courseManager.getTimetableByEmail(sharedContext.getCurrentUserEmail());
         System.out.println(timetable.getStudentEmail() + " Timetable");
         List<Timetable.TimeSlot> timeSlots = timetable.getTimeSlots();
         LocalDate today = LocalDate.now();
@@ -183,9 +186,11 @@ public class TextUserInterface implements View {
                         .add(timeSlot);
             }
         }
+        ArrayList<String> courseCodes = new ArrayList<>();
         nextWeekTimetable.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .forEach(entry -> {
+
                     LocalDate date = entry.getKey();
                     List<Timetable.TimeSlot> slots = entry.getValue();
                     System.out.println(date.getDayOfWeek().toString() + "   [" + date + "]");
@@ -193,7 +198,20 @@ public class TextUserInterface implements View {
                         System.out.println("   No activity");
                     }
                     else {
-                        slots.forEach(activity -> System.out.println("   " + activity.toString()));
+                        for (Timetable.TimeSlot slot1 : slots) {
+                            System.out.println("   " + slot1);
+                            for (Timetable.TimeSlot slot2 : slots) {
+                                if (!slot1.equals(slot2)) {
+                                    if (slot1.overlaps(slot2.getStartDate(), slot2.getStartTime(), slot2.getEndDate(), slot2.getEndTime())) {
+                                        if (courseManager.findCourse(slot1.getCourseCode()).isUnrecordedLecture(slot1.getActivityId())) {
+                                            displayError("Unrecorded Lecture clash!\n");
+                                        } else {
+                                            displayWarning("Clashes with another activity!\n");
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
                     }
                     displayDivider();

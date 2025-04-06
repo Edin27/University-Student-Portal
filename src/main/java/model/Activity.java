@@ -65,11 +65,8 @@ public abstract class Activity {
 
 	public boolean hasId(int activityId){
 		//check if each activity has a valid id
-		if(activityId == id){
-			return true;
-		}
-		return false;
-	}
+        return activityId == id;
+    }
 
 
 }
