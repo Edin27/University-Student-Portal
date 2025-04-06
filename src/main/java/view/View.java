@@ -2,6 +2,8 @@ package view;
 
 import model.*;
 
+import java.util.List;
+
 public interface View {
     String getInput(String prompt);
     boolean getYesNoInput(String prompt);
@@ -16,6 +18,12 @@ public interface View {
     void displayInquiry(Inquiry inquiry);
     void displayCourses(CourseManager courseManager);
     void displayCourse(Course course);
+    List<Timetable.TimeSlot> displayAvailableTimeSlots(
+            Timetable timetable,
+            Course course,
+            String courseCode,
+            String activityType
+    );
     void displayTimetable(SharedContext sharedContext);
     void displayFAQ(FAQ faq, String tagFilter);
     void displayFAQSection(FAQSection section, String tagFilter);

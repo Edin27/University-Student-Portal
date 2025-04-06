@@ -3,6 +3,7 @@ package model;
 import external.Log;
 import view.TextUserInterface;
 import view.View;
+import java.util.List.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -392,11 +393,13 @@ public class CourseManager {
 		}
 
 		// view available time period
-		List<Timetable.TimeSlot> availableSlots = displayAvailableTimeSlots(timetable, course, courseCode, activityType);
+		List<Timetable.TimeSlot> availableSlots = view.displayAvailableTimeSlots(timetable,
+				                                  course, courseCode, activityType);
 		if (availableSlots.isEmpty()) {
 			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
 			return false;
 		}
+
 
 		// Get the time period selected by the user
 		LocalDate startDate = null;
@@ -474,46 +477,7 @@ public class CourseManager {
 		return true;
 	}
 
-	private List<Timetable.TimeSlot> displayAvailableTimeSlots(
-			Timetable timetable,
-			Course course,
-			String courseCode,
-			String activityType
-	) {
-		view.displayInfo("Available " + activityType + "s for " + courseCode + ":");
-		List<Timetable.TimeSlot> availableSlots = new ArrayList<>();
-		int index = 1;
 
-		List<Activity> activities = "Tutorial".equalsIgnoreCase(activityType) ? course.getTutorials() : course.getLabs();
-
-		for (Timetable.TimeSlot slot : timetable.getTimeSlots()) {
-			if (slot.courseCode.equals(courseCode) &&
-					slot.status == Timetable.Status.UNCHOSEN &&
-					slot.activityType.equalsIgnoreCase(activityType)) {
-				for (Activity activity : activities) {
-					if (activity.getId() == slot.activityId &&
-							activity.getStartDate().equals(slot.startDate) &&
-							activity.getStartTime().equals(slot.startTime) &&
-							activity.getEndDate().equals(slot.endDate) &&
-							activity.getEndTime().equals(slot.endTime)) {
-						String slotInfo = "[" + index + "] " + slot.startDate + " " +
-								slot.startTime + " - " + slot.endDate + " " +
-								slot.endTime + " (ID: " + slot.activityId + ")";
-						view.displayInfo(slotInfo);
-						availableSlots.add(slot);
-						index++;
-						break;
-					}
-				}
-			}
-		}
-
-		if (availableSlots.isEmpty()) {
-			view.displayError("No available " + activityType.toLowerCase() + "s for " + courseCode);
-		}
-
-		return availableSlots;
-	}
 
 
 }
