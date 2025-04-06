@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -202,6 +203,32 @@ public class Timetable {
 		public String getCourseCode() {
 			return courseCode;
 		}
+
+		public LocalDate getStartDate() {
+			return startDate;
+		}
+
+		public LocalDate getEndDate() {
+			return endDate;
+		}
+
+		public DayOfWeek getDay() {
+			return day;
+		}
+
+		public LocalTime getStartTime() {
+			return startTime;
+		}
+
+		public LocalTime getEndTime() {
+			return endTime;
+		}
+
+		public String getActivityType() {
+			return activityType;
+		}
+
+
 
 		@Override
 		public String toString() {

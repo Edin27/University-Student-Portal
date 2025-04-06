@@ -283,7 +283,7 @@ public class Course {
 			default:
 				String errorMessage = "Day provided is invalid";
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, day, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, day, Log.Status.FAILURE);
 				return null;
 		}
 
@@ -296,11 +296,17 @@ public class Course {
 		if(isAnyNullOrEmpty(recorded)){
 			String errorMessage = "Lecture info required not provided";
 			view.displayError(errorMessage);
-			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, recorded.toString(), Log.Status.FAILURE);
+			Log.AddLog(Log.ActionName.ADD_ACTIVITY, recorded.toString(), Log.Status.FAILURE);
 			return null;
 		}else{
 			Lecture newLecture = new Lecture(id, startDate, startTime, endDate,endTime, location, day, recorded);
 			lectures.add(newLecture);
+			String successMessage = "Lecture is added successfully";
+			view.displaySuccess(successMessage);
+			Log.AddLog(Log.ActionName.ADD_ACTIVITY, String.format("%s, %s, %s, %s, " +
+							"%s, %s, %b", startDate, startTime, endDate, endTime,
+							location, day, recorded),
+					Log.Status.SUCCESS);
 			return newLecture;
 		}
 	}
@@ -314,7 +320,7 @@ public class Course {
 		Activity tutorialLab = null;
 		if(isAnyNullOrEmpty(capacity)){
 			view.displayError(errorMessage);
-			Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
+			Log.AddLog(Log.ActionName.ADD_ACTIVITY, capacity, Log.Status.FAILURE);
 			return null;
 		}else{
 			Integer capacityInt = null;
@@ -322,21 +328,35 @@ public class Course {
 				capacityInt = Integer.parseInt(capacity);
 			} catch (NumberFormatException e) {
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, capacity, Log.Status.FAILURE);
 				return null;
 			}
 			if (capacityInt < 0 ) {
 				view.displayError(errorMessage);
-				Log.AddLog(Log.ActionName.CHOOSE_TUTORIAL_OR_lAB, capacity, Log.Status.FAILURE);
+				Log.AddLog(Log.ActionName.ADD_ACTIVITY, capacity, Log.Status.FAILURE);
 				return null;
 			}else{
 				if(actType == 1){
 					Tutorial tutorial = new Tutorial(id, startDate, startTime, endDate, endTime, location, day, capacityInt);
 					tutorials.add(tutorial);
+					String successMessage = "Tutorial is added successfully";
+					view.displaySuccess(successMessage);
+					Log.AddLog(Log.ActionName.ADD_ACTIVITY,
+								String.format("%s, %s, %s, %s, %s, %s, %s",
+										startDate, startTime, endDate, endTime, location
+										,day, capacity),
+								Log.Status.SUCCESS);
 					return tutorial;
 				}else if(actType == 2){
 					Lab lab = new Lab(id, startDate, startTime, endDate, endTime, location, day, capacityInt);
 					labs.add(lab);
+					String successMessage = "Lab is added successfully";
+					view.displaySuccess(successMessage);
+					Log.AddLog(Log.ActionName.ADD_ACTIVITY,
+								String.format("%s, %s, %s, %s, %s, %s, %s",
+										startDate, startTime, endDate, endTime, location
+										,day, capacity),
+								Log.Status.SUCCESS);
 					return lab;
 				}
 			}

@@ -91,7 +91,6 @@ public class CourseManager {
 			try {
 				int optionNo = Integer.parseInt(input);
 				if (optionNo == 0) {
-					//TODO:check this part and think of how to generate id for activities
 					Activity activity = newCourse.addActivity(id);
 					if (activity != null){
 						id+=1;
@@ -184,7 +183,7 @@ public class CourseManager {
 
 		if(!hasCourse(courseCode)){
 			String errorMessage = "Incorrect course code provided";
-			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 					Log.Status.FAILURE);
 			view.displayError(errorMessage);
 			return false;
@@ -238,14 +237,14 @@ public class CourseManager {
 				}
 				if (unrecordedLecture1 || unrecordedLecture2) {
 					String errorMessage = "You have at least one clash win an unrecorded lecture. The course cannot be added to your timetable";
-					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 							Log.Status.FAILURE);
 					view.displayError(errorMessage);
 					return false;
 				} else {
 					String warningMessage = "You have at least one clash with another " +
 							"activity";
-					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 							Log.Status.FAILURE);
 					view.displayWarning(warningMessage);
 				}
@@ -287,7 +286,7 @@ public class CourseManager {
 
 		if (requiredTutorials > 0) {
 			String warningMessage = "You have to choose " + requiredTutorials + " tutorials for this course ";
-			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 					Log.Status.FAILURE);
 			view.displayWarning(warningMessage);
 		}
@@ -298,13 +297,13 @@ public class CourseManager {
 
 		if (requiredLabs > 0) {
 			String warningMessage = "You have to choose " + requiredLabs + " labs for this course ";
-			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 					Log.Status.FAILURE);
 			view.displayWarning(warningMessage);
 		}
 
 		String successMessage = "The course was successfully added to your timetable" ;
-		Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, "",
+		Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 				Log.Status.SUCCESS);
 		view.displaySuccess(successMessage);
 		return true;
