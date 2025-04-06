@@ -1,6 +1,9 @@
 package system_tests;
 
 import controller.AdminStaffController;
+
+import controller.GuestController;
+import external.*;
 import controller.ViewerController;
 import external.AuthenticationService;
 import external.EmailService;
@@ -18,10 +21,12 @@ import java.net.URISyntaxException;
 
 public class AddCourseSystemTests extends TUITest{
 
+
 	@Test
 	@DisplayName("Add course successfully")
 	public void testAddCourseSuccessfully() throws URISyntaxException, IOException,
 			ParseException {
+
 		setMockInput("0", "INF001", "Software Engineering", "Students will learn " +
 						"software engineering through a series of group assignments",
 						"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
@@ -35,6 +40,7 @@ public class AddCourseSystemTests extends TUITest{
 		AdminStaffController adminStaffController = new AdminStaffController(sharedContext, view, auth, email);
 		startOutputCapture();
 		adminStaffController.manageCourses();
+		assertOutputContains("Lecture is added successfully");
 		assertOutputContains("Course has been successfully created");
 
 		// Check if added in view course

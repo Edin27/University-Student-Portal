@@ -24,7 +24,7 @@ public interface View {
             String courseCode,
             String activityType
     );
-    void displayTimetable(Timetable timetable);
+    void displayTimetable(SharedContext sharedContext);
     void displayFAQ(FAQ faq, String tagFilter);
     void displayFAQSection(FAQSection section, String tagFilter);
 }

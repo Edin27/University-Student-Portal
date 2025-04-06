@@ -192,7 +192,10 @@ public class TextUserInterface implements View {
     }
 
     @Override
-    public void displayTimetable(Timetable timetable) {
+    public void displayTimetable(SharedContext sharedContext) {
+        ArrayList<String> courseList = new ArrayList<>();
+        CourseManager courseManager = sharedContext.getCourseManager();
+        Timetable timetable = courseManager.getTimetableByEmail(sharedContext.getCurrentUserEmail());
         System.out.println(timetable.getStudentEmail() + " Timetable");
         List<Timetable.TimeSlot> timeSlots = timetable.getTimeSlots();
         LocalDate today = LocalDate.now();
@@ -202,7 +205,7 @@ public class TextUserInterface implements View {
         LocalDate nextFriday = nextMonday.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
 
         LocalDate currentDate = nextMonday;
-        Map<LocalDate, List<String>> nextWeekTimetable = new HashMap<>();
+        Map<LocalDate, List<Timetable.TimeSlot>> nextWeekTimetable = new HashMap<>();
         for (int i = 0; i < 5; i++) {
             nextWeekTimetable.put(currentDate, new ArrayList<>());
             currentDate = currentDate.plusDays(1);
@@ -222,27 +225,56 @@ public class TextUserInterface implements View {
 
                 nextWeekTimetable
                         .get(date)
-                        .add(String.format("Time: %s -> %s\n   Course code: %s\n   " +
-                                        "Activity: %s\n   Status: %s\n",
-                                timeSlot.getStartTime(), timeSlot.getEndTime(),
-                                timeSlot.getCourseCode(), timeSlot.getActivityType(),
-                                timeSlot.getStatus()));
+                        .add(timeSlot);
+
             }
         }
         nextWeekTimetable.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .forEach(entry -> {
+
                     LocalDate date = entry.getKey();
-                    List<String> activities = entry.getValue();
+                    List<Timetable.TimeSlot> slots = entry.getValue();
                     System.out.println(date.getDayOfWeek().toString() + "   [" + date + "]");
-                    if (activities.isEmpty()) {
+                    if (slots.isEmpty()) {
                         System.out.println("   No activity");
                     }
                     else {
-                        activities.forEach(activity -> System.out.println("   " + activity));
+                        for (Timetable.TimeSlot slot1 : slots) {
+                            // display activity
+                            System.out.println("   " + slot1);
+                            if (!courseList.contains(slot1.getCourseCode())) {
+                                courseList.add(slot1.getCourseCode());
+                            }
+                            // check for clashes
+                            for (Timetable.TimeSlot slot2 : slots) {
+                                if (!slot1.equals(slot2)) {
+                                    if (slot1.overlaps(slot2.getStartDate(), slot2.getStartTime(), slot2.getEndDate(), slot2.getEndTime())) {
+                                        if (courseManager.findCourse(slot1.getCourseCode()).isUnrecordedLecture(slot1.getActivityId())) {
+                                            displayError("Unrecorded Lecture clash!\n");
+                                        } else {
+                                            displayWarning("Clashes with another activity!\n");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
                     }
                     displayDivider();
                 });
+        for (String code : courseList) {
+            boolean labsFull = courseManager.checkChosenLabs(code, timetable);
+            boolean tutorialsFull = courseManager.checkChosenTutorials(code, timetable);
+
+            if (!labsFull && !tutorialsFull) {
+                displayWarning(String.format("Tutorials and labs not chosen for course: %s!", code));
+            } else if (!labsFull) {
+                displayWarning(String.format("Labs not chosen for course: %s!", code));
+            } else if (!tutorialsFull) {
+                displayWarning(String.format("Tutorials not chosen for course: %s!", code));
+            }
+        }
     }
 
     @Override
