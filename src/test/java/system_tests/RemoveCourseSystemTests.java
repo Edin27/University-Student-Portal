@@ -24,8 +24,8 @@ public class RemoveCourseSystemTests extends TUITest {
 		setMockInput("0", "INF001", "Software Engineering",
 					"Students will learn software engineering through a series of group assignments",
 					"y", "Dr James", "james@hindeburg.ac.uk", "Sarah",
-					"sarah@hindeburg.ac.uk", "1", "1", "0", "0", "2025-09-12",
-					"12:00","2025-12-10", "13:00", "Appleton Tower", "mon",
+					"sarah@hindeburg.ac.uk", "1", "1", "0", "0", "2025-03-03",
+					"12:00","2025-05-05", "13:00", "Appleton Tower", "mon",
 					"y", "-1", "1", "INF001", "-1");
 		View view = new TextUserInterface();
 		SharedContext sharedContext = new SharedContext(view);
@@ -43,8 +43,6 @@ public class RemoveCourseSystemTests extends TUITest {
 		startOutputCapture();
 		viewerController.viewCourses();
 		assertOutputContains("no courses");
-
-
 
 	}
 
