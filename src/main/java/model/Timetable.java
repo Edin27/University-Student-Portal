@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Timetable {
+
+
 	public enum Status {
 		CHOSEN,
 		UNCHOSEN
@@ -83,14 +85,32 @@ public class Timetable {
 	}
 
 
-	public String[] checkConflicts(
+	public String[] checkPossibleConflicts(
 			LocalDate newStartDate,
 			LocalTime newStartTime,
 			LocalDate newEndDate,
-			LocalTime newEndTime
+			LocalTime newEndTime,
+			DayOfWeek newDay
 	) {
+
 		for (TimeSlot slot : timeSlots) {
-			if (slot.overlaps(newStartDate, newStartTime, newEndDate, newEndTime)) {
+			if (slot.possibleOverlaps(newStartDate, newStartTime, newEndDate, newEndTime,
+					newDay)) {
+				return new String[]{slot.getCourseCode(), String.valueOf(slot.activityId)};
+			}
+		}
+		return null;
+	}
+
+	public String[] checkConflicts(LocalDate newStartDate,
+								   LocalTime newStartTime,
+								   LocalDate newEndDate,
+								   LocalTime newEndTime,
+								   DayOfWeek newDay,
+								   Timetable.Status newStatus) {
+		for (TimeSlot slot : timeSlots) {
+			if (slot.overlaps(newStartDate, newStartTime, newEndDate, newEndTime,
+					newDay, newStatus)) {
 				return new String[]{slot.getCourseCode(), String.valueOf(slot.activityId)};
 			}
 		}
@@ -188,16 +208,32 @@ public class Timetable {
 			return activityId;
 		}
 
+		public boolean possibleOverlaps(
+				LocalDate otherStartDate,
+				LocalTime otherStartTime,
+				LocalDate otherEndDate,
+				LocalTime otherEndTime,
+				DayOfWeek otherDay
+		) {
+			return day.equals(otherDay) &&
+					!(this.endDate.isBefore(otherStartDate) || this.startDate.isAfter(otherEndDate)) &&
+					!(this.endTime.isBefore(otherStartTime) || this.startTime.isAfter(otherEndTime));
+
+		}
+
 		public boolean overlaps(
 				LocalDate otherStartDate,
 				LocalTime otherStartTime,
 				LocalDate otherEndDate,
-				LocalTime otherEndTime
+				LocalTime otherEndTime,
+				DayOfWeek otherDay,
+				Status chosenOrNot
 		) {
-			return !(this.endDate.isBefore(otherStartDate) ||
-					this.startDate.isAfter(otherEndDate)) &&
-					!(this.endTime.isBefore(otherStartTime) ||
-							this.startTime.isAfter(otherEndTime));
+			return day.equals(otherDay) &&
+					status == Status.CHOSEN && chosenOrNot == Status.CHOSEN &&
+					!(this.endDate.isBefore(otherStartDate) || this.startDate.isAfter(otherEndDate)) &&
+					!(this.endTime.isBefore(otherStartTime) || this.startTime.isAfter(otherEndTime));
+
 		}
 
 		public String getCourseCode() {

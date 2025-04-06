@@ -215,26 +215,29 @@ public class CourseManager {
 			}
 
 			int activityId = Integer.parseInt(values.get("id"));
-			String day = values.get("day");
+			DayOfWeek day = DayOfWeek.valueOf(values.get("day").toUpperCase());
 			LocalDate startDate = LocalDate.parse(values.get("startDate"));
 			LocalDate endDate = LocalDate.parse(values.get("endDate"));
 			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 			LocalTime startTime = LocalTime.parse(values.get("startTime"), timeFormatter);
 			LocalTime endTime = LocalTime.parse(values.get("endTime"), timeFormatter);
 
+
 			// Check for time conflicts
-			String[] conflicting = timetable.checkConflicts(startDate, startTime, endDate, endTime);
+			String[] possibleConflicting = timetable.checkPossibleConflicts(startDate,
+					startTime,
+					endDate, endTime, day);
 			boolean unrecordedLecture1 = true;
 			boolean unrecordedLecture2 = true;
 
-			if (conflicting != null) {
+			if (possibleConflicting != null) {
 				for (Course course : courses) {
 					unrecordedLecture1 =
 							course.isUnrecordedLecture(activityId);
 				}
 				for (Course course : courses) {
 					unrecordedLecture2 =
-							course.isUnrecordedLecture(Integer.parseInt(conflicting[1]));
+							course.isUnrecordedLecture(Integer.parseInt(possibleConflicting[1]));
 				}
 				if (unrecordedLecture1 || unrecordedLecture2) {
 					String errorMessage = "You have at least one clash with an " +
@@ -278,8 +281,7 @@ public class CourseManager {
 				}
 			}
 
-			timetable.addTimeSlot(courseCode, DayOfWeek.valueOf(day.toUpperCase()),
-					startDate, startTime, endDate, endTime, activityId, activityType);
+			timetable.addTimeSlot(courseCode, day, startDate, startTime, endDate, endTime, activityId, activityType);
 		}
 
 		for(Course course : courses) {
@@ -419,9 +421,18 @@ public class CourseManager {
 		LocalTime startTime = timeslotChosen.getStartTime();
 		LocalDate endDate = timeslotChosen.getEndDate();
 		LocalTime endTime = timeslotChosen.getEndTime();
+		DayOfWeek day = timeslotChosen.getDay();
+		Timetable.Status status = timeslotChosen.getStatus();
 
 		// Select time period
 		boolean success = timetable.chooseActivityByTime(courseCode, activityType, startDate, startTime, endDate, endTime);
+		String[] conflicting = timetable.checkConflicts(startDate, startTime,
+				endDate, endTime, day, status);
+
+		if(conflicting != null){
+			view.displayWarning("Some activities added overlap");
+		}
+
 		if (!success) {
 			view.displayError("Failed to choose " + activityType + " for course " + courseCode +
 					" at specified time. It may already be chosen or not exist.");
@@ -429,10 +440,12 @@ public class CourseManager {
 			return false;
 		}
 
+
+
 		requiredTutorials = course.getRequiredTutorials();
 		requiredLabs = course.getRequiredLabs();
 
-		// 检查是否满足要求
+
 		boolean tutorialsSatisfied = checkChosenTutorials(courseCode, timetable);
 		boolean labsSatisfied = checkChosenLabs(courseCode, timetable);
 
