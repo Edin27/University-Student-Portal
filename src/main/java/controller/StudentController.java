@@ -78,6 +78,7 @@ public class StudentController extends Controller {
 
         if (studentTimetable == null) {
             view.displayWarning("You have not added any courses to your timetable.");
+            Log.AddLog(Log.ActionName.VIEW_TIMETABLE, "null", Log.Status.FAILURE);
         } else {
             view.displayTimetable(sharedContext);
         }

@@ -67,6 +67,63 @@ public class ViewTimetableSystemTests extends TUITest{
     }
 
     @Test
+    @DisplayName("View timetable clashes with unchosen activity")
+    public void testViewUnchosenClash() throws URISyntaxException, IOException, ParseException {
+        setMockInput(
+                "admin1", "admin1pass", "3", "0", "001", "course1", "dec1", "n", "name", "email", "name2", "email",                             // Course secretary email
+                "6", "6", "0", "0", "2025-01-01", "12:00", "2025-12-15", "13:00", "location", "mon", "Y",
+                "0", "1", "2025-01-01", "12:10", "2025-12-15", "13:00", "location", "mon", "20", "-1", "-1",                                // Return to main menu
+                "0", "0", "student1", "student1pass", "5", "1", "001", "2", "-1", "-1"                                 // Exit
+        );
+
+        TextUserInterface view = new TextUserInterface();
+        SharedContext context = new SharedContext(view);
+        GuestController guestController = new GuestController(context, view, new MockAuthenticationService(), new MockEmailService());
+        guestController.login();
+        MenuController menuController = new MenuController(context, view, new MockAuthenticationService(), new MockEmailService());
+        startOutputCapture();
+        menuController.mainMenu();
+
+        assertOutputContains("student1@hindeburg.ac.uk Timetable");
+        assertOutputContains("MONDAY   [2025-04-14]");
+        assertOutputContains("Time: 12:00 -> 13:00");
+        assertOutputContains("Course code: 001");
+        assertOutputContains("Activity: Lecture");
+        assertOutputContains("Time: 12:10 -> 13:00");
+        assertOutputContains("Activity: Tutorial");
+        assertOutputContains("Status: UNCHOSEN");
+    }
+
+    @Test
+    @DisplayName("View timetable clashes with Chosen activity")
+    public void testViewChosenClash() throws URISyntaxException, IOException, ParseException {
+        setMockInput(
+                "admin1", "admin1pass", "3", "0", "001", "course1", "dec1", "n", "name", "email", "name2", "email",
+                "6", "6", "0", "0", "2025-01-01", "12:00", "2025-12-15", "13:00", "location", "mon", "Y",
+                "0", "1", "2025-01-01", "12:10", "2025-12-15", "13:00", "location", "mon", "20", "-1", "-1", "0", "0",
+                "student1", "student1pass", "5", "1", "001", "3", "001","Tutorial","1", "13:00", "2", "-1", "-1"
+        );
+
+        TextUserInterface view = new TextUserInterface();
+        SharedContext context = new SharedContext(view);
+        GuestController guestController = new GuestController(context, view, new MockAuthenticationService(), new MockEmailService());
+        guestController.login();
+        MenuController menuController = new MenuController(context, view, new MockAuthenticationService(), new MockEmailService());
+        startOutputCapture();
+        menuController.mainMenu();
+
+        assertOutputContains("student1@hindeburg.ac.uk Timetable");
+        assertOutputContains("MONDAY   [2025-04-14]");
+        assertOutputContains("Time: 12:00 -> 13:00");
+        assertOutputContains("Course code: 001");
+        assertOutputContains("Activity: Lecture");
+        assertOutputContains("Clashes with another activity!");
+        assertOutputContains("Time: 12:10 -> 13:00");
+        assertOutputContains("Activity: Tutorial");
+        assertOutputContains("Status: CHOSEN");
+    }
+
+    @Test
     @DisplayName("View timetable tutorial and lab warning")
     public void testViewTutorialLabWarning() throws URISyntaxException, IOException, ParseException {
         setMockInput(
