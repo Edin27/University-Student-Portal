@@ -169,7 +169,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"12:00 UNCHOSEN");
 	}
 
-	/*
 	@Test
 	public void testUnRecordedLectureConflict() throws URISyntaxException,
 			IOException,
@@ -238,8 +237,7 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 		menuController.mainMenu();
 
 		// Verify output contains success message
-		assertOutputContains("You have at least one clash with an unrecorded lecture. " +
-				"The course cannot be added to your timetable");
+		assertOutputContains("You have at least one clash win an unrecorded lecture. The course cannot be added to your timetable");
 		assertOutputContains("CS101 (Activity Lecture) on MONDAY from 09:00 to 10:30 CHOSEN");
 	}
 
@@ -382,6 +380,5 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 		assertOutputContains("You have not added any courses to your timetable.");
 	}
 
-	 */
 
 }
