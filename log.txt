@@ -1,36 +1,73 @@
-2025/04/06 - 18:59:15 - Guest - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 19:00:07 - admin1 - ADD_ACTIVITY - 2025-03-03, 12:00, 2025-05-05, 13:00, cd, MONDAY, true - SUCCESS
-2025/04/06 - 19:00:32 - admin1 - ADD_ACTIVITY - 2025-05-05\ - FAILURE
-2025/04/06 - 19:00:32 - admin1 - ADD_ACTIVITY - c - FAILURE
-2025/04/06 - 19:00:32 - admin1 - ADD_ACTIVITY - dc - FAILURE
-2025/04/06 - 19:00:32 - admin1 - ADD_ACTIVITY - cd - FAILURE
-2025/04/06 - 19:01:06 - admin1 - ADD_ACTIVITY - 2025-03-03, 12:00, 2025-05-05, 13:00, cd, MONDAY, 12 - SUCCESS
-2025/04/06 - 19:01:10 - admin1 - ADD_COURSE - 001, dc, cd, true, cd, cd, cd, cd, 1, 1 - SUCCESS
-2025/04/06 - 19:01:19 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 19:01:27 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 19:01:36 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - FAILURE
-2025/04/06 - 19:01:36 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - FAILURE
-2025/04/06 - 19:01:36 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - FAILURE
-2025/04/06 - 19:01:36 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - SUCCESS
-2025/04/06 - 19:05:28 - Guest - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 19:05:28 - admin1 - ADD_ACTIVITY - 2025-03-01, 09:00, 2025-06-30, 10:30, Room 101, MONDAY, true - SUCCESS
-2025/04/06 - 19:05:28 - admin1 - ADD_ACTIVITY - 2025-03-01, 11:00, 2025-06-30, 12:00, Room 11, WEDNESDAY, 10 - SUCCESS
-2025/04/06 - 19:05:28 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 1, 1 - SUCCESS
-2025/04/06 - 19:05:28 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 19:05:28 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 19:05:28 - student1 - CHOOSE_ACTIVITY - CS101 - FAILURE
-2025/04/06 - 19:23:05 - Guest - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 19:24:01 - admin1 - ADD_ACTIVITY - 2025-03-01, 09:00, 2025-06-30, 10:30, room 101, MONDAY, true - SUCCESS
-2025/04/06 - 19:24:25 - admin1 - ADD_ACTIVITY - 12:00 - FAILURE
-2025/04/06 - 19:24:25 - admin1 - ADD_ACTIVITY - room 11 - FAILURE
-2025/04/06 - 19:24:25 - admin1 - ADD_ACTIVITY - 10 - FAILURE
-2025/04/06 - 19:24:55 - admin1 - ADD_ACTIVITY - 2025-03-01, 11:00, 2025-06-30, 12:00, room 11, WEDNESDAY, 10 - SUCCESS
-2025/04/06 - 19:25:18 - admin1 - ADD_ACTIVITY - 2025-03-01, 13:30, 2025-06-30, 15:30, room 111, THURSDAY, 10 - SUCCESS
-2025/04/06 - 19:25:43 - admin1 - ADD_ACTIVITY - 2025-03-01, 16:00, 2025-06-30, 17:30, room 101, THURSDAY, 10 - SUCCESS
-2025/04/06 - 19:25:45 - admin1 - ADD_COURSE - CS101, 1, 1, false, 1, 1, 1, 1, 2, 1 - SUCCESS
-2025/04/06 - 19:25:47 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 19:25:56 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 19:26:02 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
-2025/04/06 - 19:26:02 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
-2025/04/06 - 19:26:02 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - SUCCESS
-2025/04/06 - 19:26:18 - student1 - CHOOSE_ACTIVITY - CS101 - FAILURE
+2025/04/06 - 20:27:40 - Guest - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 09:00, 2025-06-30, 10:30, Room 101, MONDAY, true - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 11:00, 2025-06-30, 12:00, Room 11, WEDNESDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 13:30, 2025-06-30, 15:30, Room 111, THURSDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 16:00, 2025-06-30, 17:30, Room 101, THURSDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 2, 1 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - LOGOUT -  - SUCCESS
+2025/04/06 - 20:27:40 - Guest - LOGIN - student1, student1pass - SUCCESS
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 09:00, 2025-06-30, 10:30, Room 101, MONDAY, true - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 10:00, 2025-06-30, 11:30, Room 11, MONDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 16:00, 2025-06-30, 17:30, Room 101, THURSDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 1, 1 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - LOGOUT -  - SUCCESS
+2025/04/06 - 20:27:40 - Guest - LOGIN - student1, student1pass - SUCCESS
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 09:00, 2025-06-30, 10:30, Room 101, MONDAY, true - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 11:00, 2025-06-30, 12:00, Room 11, WEDNESDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 1, 1 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - LOGOUT -  - SUCCESS
+2025/04/06 - 20:27:40 - Guest - LOGIN - student1, student1pass - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - VIEW_TIMETABLE - null - FAILURE
+2025/04/06 - 20:27:40 - student1 - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 09:00, 2025-06-30, 10:30, Room 101, MONDAY, true - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 11:00, 2025-06-30, 12:00, Room 11, WEDNESDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 13:30, 2025-06-30, 15:30, Room 111, THURSDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 16:00, 2025-06-30, 17:30, Room 101, THURSDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 2, 1 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - LOGOUT -  - SUCCESS
+2025/04/06 - 20:27:40 - Guest - LOGIN - student1, student1pass - SUCCESS
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 09:00, 2025-06-30, 10:30, Room 101, MONDAY, true - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 11:00, 2025-06-30, 12:00, Room 11, WEDNESDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 13:30, 2025-06-30, 15:30, Room 111, THURSDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 16:00, 2025-06-30, 17:30, Room 101, THURSDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 1, 2 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - LOGOUT -  - SUCCESS
+2025/04/06 - 20:27:40 - Guest - LOGIN - student1, student1pass - SUCCESS
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 09:00, 2025-06-30, 10:30, Room 101, MONDAY, true - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_ACTIVITY - 2025-03-01, 11:00, 2025-06-30, 12:00, Room 11, WEDNESDAY, 10 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 1, 2 - SUCCESS
+2025/04/06 - 20:27:40 - admin1 - LOGOUT -  - SUCCESS
+2025/04/06 - 20:27:40 - Guest - LOGIN - student1, student1pass - SUCCESS
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
+2025/04/06 - 20:27:40 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - SUCCESS
+2025/04/06 - 20:27:40 - student1 - CHOOSE_ACTIVITY - CS101 - SUCCESS
