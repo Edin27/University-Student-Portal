@@ -1,11 +1,40 @@
-2025/04/06 - 10:11:13 - Guest - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 10:12:22 - admin1 - ADD_ACTIVITY - 2025-05-05 - FAILURE
-2025/04/06 - 10:16:31 - admin1 - ADD_COURSE - 001, ksmd, lmdl, true, kmcdk, cknd, jncd, kcnd, 1, 1 - SUCCESS
-2025/04/06 - 10:26:24 - admin1 - VIEW_COURSES - 001 - SUCCESS
-2025/04/06 - 10:26:39 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 10:26:49 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 10:27:07 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - FAILURE
-2025/04/06 - 10:27:07 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - FAILURE
-2025/04/06 - 10:27:07 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - SUCCESS
-2025/04/06 - 10:27:42 - student1 - CHOOSE_ACTIVITY - 001 - SUCCESS
-2025/04/06 - 10:28:09 - student1 - CHOOSE_ACTIVITY - 001 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 9 - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-12, 12:00, 2025-12-01, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 0 2025-09-12 12:00     Appleton Tower mon - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-12, 12:00, 2025-12-01, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-12, 12:00, 2025-12-10, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - VIEW_COURSES -  - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 30122025 - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-01, 12:00, 2025-12-01, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 12pm - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-01, 12:00, 2025-12-01, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-12-01, 2025-09-01 - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 14:00, 13:00 - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-01, 12:00, 2025-12-01, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-12-01, 2025-09-01 - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-01, 12:00, 2025-12-01, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-12, 12:00, 2025-12-10, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY -  - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-12, 12:00, 2025-12-10, 13:00, Appleton Tower, MONDAY, 50 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - a - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-12, 12:00, 2025-12-01, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - , , Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-12, 12:00, 2025-12-10, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Data Science, Students will learn data analysis through few assignments, true, Dr John, john@hindeburg.ac.uk, Lily, lily@hindeburg.ac.uk, 8, 6 - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - wrongday - FAILURE
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-01, 12:00, 2025-12-01, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_ACTIVITY - 2025-09-12, 12:00, 2025-12-10, 13:00, Appleton Tower, MONDAY, true - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - SUCCESS
+2025/04/06 - 10:40:15 - Guest - ADD_COURSE - INF-001, Software Engineering, Students will learn software engineering through a series of group assignments, true, Dr James, james@hindeburg.ac.uk, Sarah, sarah@hindeburg.ac.uk, 7, 5 - FAILURE
