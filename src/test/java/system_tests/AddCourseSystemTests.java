@@ -40,6 +40,7 @@ public class AddCourseSystemTests extends TUITest{
 		AdminStaffController adminStaffController = new AdminStaffController(sharedContext, view, auth, email);
 		startOutputCapture();
 		adminStaffController.manageCourses();
+		assertOutputContains("Lecture is added successfully");
 		assertOutputContains("Course has been successfully created");
 
 		// Check if added in view course
