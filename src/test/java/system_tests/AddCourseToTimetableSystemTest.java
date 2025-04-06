@@ -46,15 +46,17 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"bob@university.edu",                // Course secretary email
 				"6",                                 // Required tutorials
 				"6",                                 // Required labs
+				// ADD Lecture
 				"0",                                 // ADD Activity
 				"0",                                 // ADD Lecture
-				"2025-09-01",                        // Start date
+				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-12-15",                        // End date
+				"2025-06-30",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
 				"Y",                                 // Is recorded
+
 				"-1",                                //Return to manage courses
 				"-1",                                // Return to main menu
 				"0",                                 // LOGOUT
@@ -63,6 +65,7 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"5",                                 // MANAGE_TIMETABLE
 				"1",                                 // Add Course to Timetable
 				"CS101",                             // Enter the course code
+				"2",								 // view Timetable
 				"-1",                                // Return to main menu
 				"-1"                                 // Exit
 		);
@@ -109,15 +112,18 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"bob@university.edu",                // Course secretary email
 				"6",                                 // Required tutorials
 				"6",                                 // Required labs
+				// ADD Lecture
 				"0",                                 // ADD Activity
 				"0",                                 // ADD Lecture
-				"2025-09-01",                        // Start date
+				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-12-15",                        // End date
+				"2025-06-30",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
 				"Y",                                 // Is recorded
+
+				// ADD Tutorial
 				"0",                                 // ADD Activity
 				"1",                                 // ADD Tutorial
 				"2025-10-01",                        // Start date
@@ -127,6 +133,7 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"Room 11",                           // Location
 				"wed",                               // Day of week
 				"10",								 // Capacity
+
 				"-1",                                //Return to manage courses
 				"-1",                                // Return to main menu
 				"0",                                 // LOGOUT
@@ -181,15 +188,18 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"bob@university.edu",                // Course secretary email
 				"6",                                 // Required tutorials
 				"6",                                 // Required labs
+				// ADD Lecture
 				"0",                                 // ADD Activity
 				"0",                                 // ADD Lecture
-				"2025-09-01",                        // Start date
+				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
 				"2025-12-15",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
 				"n",                                 // Is recorded
+
+				// ADD Tutorial
 				"0",                                 // ADD Activity
 				"1",                                 // ADD Tutorial
 				"2025-10-01",                        // Start date
@@ -199,6 +209,8 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"Room 11",                           // Location
 				"mon",                               // Day of week
 				"10",								 // Capacity
+
+
 				"-1",                                //Return to manage courses
 				"-1",                                // Return to main menu
 				"0",                                 // LOGOUT
@@ -254,7 +266,7 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"6",                                 // Required labs
 				"0",                                 // ADD Activity
 				"0",                                 // ADD Lecture
-				"2025-09-01",                        // Start date
+				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
 				"2025-12-15",                        // End date
 				"10:30",                             // End time
@@ -327,9 +339,9 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"6",                                 // Required labs
 				"0",                                 // ADD Activity
 				"0",                                 // ADD Lecture
-				"2025-09-01",                        // Start date
+				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-12-15",                        // End date
+				"2025-06-30",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
