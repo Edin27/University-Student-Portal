@@ -26,45 +26,13 @@ import java.util.List;
 
 public class ViewTimetableSystemTests extends TUITest{
 
-    private static Course course1;
-
     @Test
     @DisplayName("View timetable standard")
     public void testViewTimetableStandard() throws URISyntaxException, IOException, ParseException {
         setMockInput(
-                "admin1", "admin1pass",              // Login credentials
-                "3",                                 // MANAGE_COURSES
-                "0",                                 // Add course
-                "001",                               // Course code
-                "course1",                           // Name
-                "dec1",                              // Description
-                "n",                                 // require computers
-                "name",                              // Course organiser name
-                "email",                             // Course organiser email
-                "name2",                             // Course secretary name
-                "email",                             // Course secretary email
-                "0",                                 // Required tutorials
-                "0",                                 // Required labs
-                "0",                                 // ADD Activity
-                "0",                                 // ADD Lecture
-                "2025-01-01",                        // Start date
-                "12:00",                             // Start time
-                "2025-12-15",                        // End date
-                "13:00",                             // End time
-                "location",                          // Location
-                "mon",                               // Day of week
-                "Y",                                 // Is recorded
-                "-1",                                //Return to manage courses
-                "-1",                                // Return to main menu
-                "0",                                 // LOGOUT
-                "0",                                 // LOGIN
-                "student1", "student1pass",          // Login credentials
-                "5",                                 // MANAGE_TIMETABLE
-                "1",                                 // Add Course to Timetable
-                "001",                               // Enter the course code
-                "2",                                 //view timetable
-                "-1",                                // Return to main menu
-                "-1"                                 // Exit
+                "admin1", "admin1pass", "3", "0", "001", "course1", "dec1", "n", "name", "email", "name2", "email",                             // Course secretary email
+                "0", "0", "0", "0", "2025-01-01", "12:00", "2025-12-15", "13:00", "location", "mon", "Y", "-1", "-1",                                // Return to main menu
+                "0", "0", "student1", "student1pass", "5", "1", "001", "2", "-1", "-1"                                 // Exit
         );
 
         TextUserInterface view = new TextUserInterface();
@@ -86,48 +54,10 @@ public class ViewTimetableSystemTests extends TUITest{
     @DisplayName("View timetable clash warning")
     public void testViewTimetableClashWarning() throws URISyntaxException, IOException, ParseException {
         setMockInput(
-                "admin1", "admin1pass",              // Login credentials
-                "3",                                 // MANAGE_COURSES
-                "0",                                 // Add course
-                "001",                               // Course code
-                "course1",                           // Name
-                "dec1",                              // Description
-                "n",                                 // require computers
-                "name",                              // Course organiser name
-                "email",                             // Course organiser email
-                "name2",                             // Course secretary name
-                "email",                             // Course secretary email
-                "0",                                 // Required tutorials
-                "0",                                 // Required labs
-                "0",                                 // ADD Activity
-                "0",                                 // ADD Lecture
-                "2025-01-01",                        // Start date
-                "12:00",                             // Start time
-                "2025-12-15",                        // End date
-                "13:00",                             // End time
-                "location",                          // Location
-                "mon",                               // Day of week
-                "Y",                                 // Is recorded
-                "0",                                 // ADD Activity
-                "0",                                 // ADD Lecture
-                "2025-01-01",                        // Start date
-                "12:10",                             // Start time
-                "2025-12-15",                        // End date
-                "13:00",                             // End time
-                "location",                          // Location
-                "mon",                               // Day of week
-                "Y",                                 // Is recorded
-                "-1",                                //Return to manage courses
-                "-1",                                // Return to main menu
-                "0",                                 // LOGOUT
-                "0",                                 // LOGIN
-                "student1", "student1pass",          // Login credentials
-                "5",                                 // MANAGE_TIMETABLE
-                "1",                                 // Add Course to Timetable
-                "001",                               // Enter the course code
-                "2",                                 //view timetable
-                "-1",                                // Return to main menu
-                "-1"                                 // Exit
+                "admin1", "admin1pass", "3", "0", "001", "course1", "dec1", "n", "name", "email", "name2", "email",                             // Course secretary email
+                "6", "6", "0", "0", "2025-01-01", "12:00", "2025-12-15", "13:00", "location", "mon", "Y",
+                "0", "0", "2025-01-01", "12:10", "2025-12-15", "13:00", "location", "mon", "Y", "-1", "-1",                                // Return to main menu
+                "0", "0", "student1", "student1pass", "5", "1", "001", "2", "-1", "-1"                                 // Exit
         );
 
         TextUserInterface view = new TextUserInterface();
@@ -151,39 +81,9 @@ public class ViewTimetableSystemTests extends TUITest{
     @DisplayName("View timetable tutorial and lab warning")
     public void testViewTutorialLabWarning() throws URISyntaxException, IOException, ParseException {
         setMockInput(
-                "admin1", "admin1pass",              // Login credentials
-                "3",                                 // MANAGE_COURSES
-                "0",                                 // Add course
-                "001",                               // Course code
-                "course1",                           // Name
-                "dec1",                              // Description
-                "n",                                 // require computers
-                "name",                              // Course organiser name
-                "email",                             // Course organiser email
-                "name2",                             // Course secretary name
-                "email",                             // Course secretary email
-                "6",                                 // Required tutorials
-                "6",                                 // Required labs
-                "0",                                 // ADD Activity
-                "0",                                 // ADD Lecture
-                "2025-01-01",                        // Start date
-                "12:00",                             // Start time
-                "2025-12-15",                        // End date
-                "13:00",                             // End time
-                "location",                          // Location
-                "mon",                               // Day of week
-                "Y",                                 // Is recorded
-                "-1",                                // Return to manage courses
-                "-1",                                // Return to main menu
-                "0",                                 // LOGOUT
-                "0",                                 // LOGIN
-                "student1", "student1pass",          // Login credentials
-                "5",                                 // MANAGE_TIMETABLE
-                "1",                                 // Add Course to Timetable
-                "001",                               // Enter the course code
-                "2",                                 //view timetable
-                "-1",                                // Return to main menu
-                "-1"                                 // Exit
+                "admin1", "admin1pass", "3", "0", "001", "course1", "dec1", "n", "name", "email", "name2", "email",                             // Course secretary email
+                "6", "6", "0", "0", "2025-01-01", "12:00", "2025-12-15", "13:00", "location", "mon", "Y", "-1", "-1",                                // Return to main menu
+                "0", "0", "student1", "student1pass", "5", "1", "001", "2", "-1", "-1"                                 // Exit
         );
 
         TextUserInterface view = new TextUserInterface();
@@ -202,39 +102,9 @@ public class ViewTimetableSystemTests extends TUITest{
     @DisplayName("View timetable tutorial warning")
     public void testViewTutorialWarning() throws URISyntaxException, IOException, ParseException {
         setMockInput(
-                "admin1", "admin1pass",              // Login credentials
-                "3",                                 // MANAGE_COURSES
-                "0",                                 // Add course
-                "001",                               // Course code
-                "course1",                           // Name
-                "dec1",                              // Description
-                "n",                                 // require computers
-                "name",                              // Course organiser name
-                "email",                             // Course organiser email
-                "name2",                             // Course secretary name
-                "email",                             // Course secretary email
-                "6",                                 // Required tutorials
-                "0",                                 // Required labs
-                "0",                                 // ADD Activity
-                "0",                                 // ADD Lecture
-                "2025-01-01",                        // Start date
-                "12:00",                             // Start time
-                "2025-12-15",                        // End date
-                "13:00",                             // End time
-                "location",                          // Location
-                "mon",                               // Day of week
-                "Y",                                 // Is recorded
-                "-1",                                // Return to manage courses
-                "-1",                                // Return to main menu
-                "0",                                 // LOGOUT
-                "0",                                 // LOGIN
-                "student1", "student1pass",          // Login credentials
-                "5",                                 // MANAGE_TIMETABLE
-                "1",                                 // Add Course to Timetable
-                "001",                               // Enter the course code
-                "2",                                 //view timetable
-                "-1",                                // Return to main menu
-                "-1"                                 // Exit
+                "admin1", "admin1pass", "3", "0", "001", "course1", "dec1", "n", "name", "email", "name2", "email",                             // Course secretary email
+                "6", "0", "0", "0", "2025-01-01", "12:00", "2025-12-15", "13:00", "location", "mon", "Y", "-1", "-1",                                // Return to main menu
+                "0", "0", "student1", "student1pass", "5", "1", "001", "2", "-1", "-1"                                 // Exit
         );
 
         TextUserInterface view = new TextUserInterface();
@@ -253,39 +123,9 @@ public class ViewTimetableSystemTests extends TUITest{
     @DisplayName("View timetable lab warning")
     public void testViewLabWarning() throws URISyntaxException, IOException, ParseException {
         setMockInput(
-                "admin1", "admin1pass",              // Login credentials
-                "3",                                 // MANAGE_COURSES
-                "0",                                 // Add course
-                "001",                               // Course code
-                "course1",                           // Name
-                "dec1",                              // Description
-                "n",                                 // require computers
-                "name",                              // Course organiser name
-                "email",                             // Course organiser email
-                "name2",                             // Course secretary name
-                "email",                             // Course secretary email
-                "0",                                 // Required tutorials
-                "6",                                 // Required labs
-                "0",                                 // ADD Activity
-                "0",                                 // ADD Lecture
-                "2025-01-01",                        // Start date
-                "12:00",                             // Start time
-                "2025-12-15",                        // End date
-                "13:00",                             // End time
-                "location",                          // Location
-                "mon",                               // Day of week
-                "Y",                                 // Is recorded
-                "-1",                                // Return to manage courses
-                "-1",                                // Return to main menu
-                "0",                                 // LOGOUT
-                "0",                                 // LOGIN
-                "student1", "student1pass",          // Login credentials
-                "5",                                 // MANAGE_TIMETABLE
-                "1",                                 // Add Course to Timetable
-                "001",                               // Enter the course code
-                "2",                                 //view timetable
-                "-1",                                // Return to main menu
-                "-1"                                 // Exit
+                "admin1", "admin1pass", "3", "0", "001", "course1", "dec1", "n", "name", "email", "name2", "email",                             // Course secretary email
+                "0", "6", "0", "0", "2025-01-01", "12:00", "2025-12-15", "13:00", "location", "mon", "Y", "-1", "-1",                                // Return to main menu
+                "0", "0", "student1", "student1pass", "5", "1", "001", "2", "-1", "-1"                                 // Exit
         );
 
         TextUserInterface view = new TextUserInterface();
