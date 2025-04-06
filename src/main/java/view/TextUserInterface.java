@@ -151,7 +151,7 @@ public class TextUserInterface implements View {
 
     @Override
     public void displayTimetable(SharedContext sharedContext) {
-
+        ArrayList<String> courseList = new ArrayList<>();
         CourseManager courseManager = sharedContext.getCourseManager();
         Timetable timetable = courseManager.getTimetableByEmail(sharedContext.getCurrentUserEmail());
         System.out.println(timetable.getStudentEmail() + " Timetable");
@@ -186,7 +186,6 @@ public class TextUserInterface implements View {
                         .add(timeSlot);
             }
         }
-        ArrayList<String> courseCodes = new ArrayList<>();
         nextWeekTimetable.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .forEach(entry -> {
@@ -199,7 +198,12 @@ public class TextUserInterface implements View {
                     }
                     else {
                         for (Timetable.TimeSlot slot1 : slots) {
+                            // display activity
                             System.out.println("   " + slot1);
+                            if (!courseList.contains(slot1.getCourseCode())) {
+                                courseList.add(slot1.getCourseCode());
+                            }
+                            // check for clashes
                             for (Timetable.TimeSlot slot2 : slots) {
                                 if (!slot1.equals(slot2)) {
                                     if (slot1.overlaps(slot2.getStartDate(), slot2.getStartTime(), slot2.getEndDate(), slot2.getEndTime())) {
@@ -216,6 +220,18 @@ public class TextUserInterface implements View {
                     }
                     displayDivider();
                 });
+        for (String code : courseList) {
+            boolean labsFull = courseManager.checkChosenLabs(code, timetable);
+            boolean tutorialsFull = courseManager.checkChosenTutorials(code, timetable);
+
+            if (!labsFull && !tutorialsFull) {
+                displayWarning(String.format("Tutorials and labs not chosen for course: %s!", code));
+            } else if (!labsFull) {
+                displayWarning(String.format("Labs not chosen for course: %s!", code));
+            } else if (!tutorialsFull) {
+                displayWarning(String.format("Tutorials not chosen for course: %s!", code));
+            }
+        }
     }
 
     @Override
