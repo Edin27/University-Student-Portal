@@ -91,7 +91,6 @@ public class CourseManager {
 			try {
 				int optionNo = Integer.parseInt(input);
 				if (optionNo == 0) {
-					//TODO:check this part and think of how to generate id for activities
 					Activity activity = newCourse.addActivity(id);
 					if (activity != null){
 						id+=1;

@@ -1,6 +1,7 @@
 package system_tests;
 
 import controller.AdminStaffController;
+import controller.ViewerController;
 import external.AuthenticationService;
 import external.EmailService;
 import external.MockAuthenticationService;
@@ -35,6 +36,14 @@ public class AddCourseSystemTests extends TUITest{
 		startOutputCapture();
 		adminStaffController.manageCourses();
 		assertOutputContains("Course has been successfully created");
+
+		// Check if added in view course
+		ViewerController viewerController = new ViewerController(sharedContext, view,
+				auth, email);
+		startOutputCapture();
+		viewerController.viewCourses();
+		assertOutputContains("Course Name: Software Engineering, Course Code: INF001");
+
 	}
 
 	@Test
