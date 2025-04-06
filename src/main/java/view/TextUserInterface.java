@@ -172,9 +172,7 @@ public class TextUserInterface implements View {
             LocalDate endDate = timeSlot.getEndDate();
             DayOfWeek day = timeSlot.getDay();
 
-
-            String actualActivityType = timeSlot.getActualActivityType();
-            if(!endDate.isBefore(nextMonday)){
+            if(!startDate.isAfter(nextFriday) && !endDate.isBefore(nextMonday)){
                 // Get date of activity next week
                 LocalDate date = today
                         .with(TemporalAdjusters.nextOrSame(day))
@@ -182,23 +180,26 @@ public class TextUserInterface implements View {
 
                 nextWeekTimetable
                         .get(date)
-                        .add(String.format("Time: %s - %s\nCourse code: %s\nActivity: " +
-                                "%s\nStatus: %s", timeSlot.getStartTime(),
-                                timeSlot.getEndTime(),timeSlot.getCourseCode(),
-                                timeSlot.getActualActivityType(), timeSlot.getStatus()));
+                        .add(String.format("Time: %s -> %s\n   Course code: %s\n   " +
+                                        "Activity: %s\n",
+                                timeSlot.getStartTime(), timeSlot.getEndTime(),
+                                timeSlot.getCourseCode(), timeSlot.getActivityType()));
             }
-
-            nextWeekTimetable.forEach((date, activities) -> {
-                System.out.println(date.getDayOfWeek().toString() + "   [" + date + "]");
-                if (activities.isEmpty()) {
-                    System.out.println("   No activity");
-                } else {
-                    activities.forEach(event -> System.out.println("   " + activities));
-                }
-                System.out.println(); // Add empty line between dates
-            });
-
         }
+        nextWeekTimetable.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> {
+                    LocalDate date = entry.getKey();
+                    List<String> activities = entry.getValue();
+                    System.out.println(date.getDayOfWeek().toString() + "   [" + date + "]");
+                    if (activities.isEmpty()) {
+                        System.out.println("   No activity");
+                    }
+                    else {
+                        activities.forEach(activity -> System.out.println("   " + activity));
+                    }
+                    displayDivider();
+                });
     }
 
     @Override

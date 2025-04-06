@@ -1,32 +1,11 @@
-2025/04/06 - 07:39:29 - Guest - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 6, 6 - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 07:39:29 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS102 - FAILURE
-2025/04/06 - 07:39:29 - student1 - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 6, 6 - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 07:39:29 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
-2025/04/06 - 07:39:29 - student1 - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - ADD_COURSE - CS102, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 6, 6 - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 07:39:29 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS102 - FAILURE
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS102 - FAILURE
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS102 - SUCCESS
-2025/04/06 - 07:39:29 - student1 - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 6, 6 - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 07:39:29 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - SUCCESS
-2025/04/06 - 07:39:29 - student1 - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - ADD_COURSE - CS101, Software Engineering and Professional, SEPP, true, Professor Johnson, johnson@university.edu, Bob Roberts, bob@university.edu, 6, 6 - SUCCESS
-2025/04/06 - 07:39:29 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 07:39:29 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - FAILURE
-2025/04/06 - 07:39:29 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, CS101 - SUCCESS
+2025/04/06 - 10:11:13 - Guest - LOGIN - admin1, admin1pass - SUCCESS
+2025/04/06 - 10:12:22 - admin1 - ADD_ACTIVITY - 2025-05-05 - FAILURE
+2025/04/06 - 10:16:31 - admin1 - ADD_COURSE - 001, ksmd, lmdl, true, kmcdk, cknd, jncd, kcnd, 1, 1 - SUCCESS
+2025/04/06 - 10:26:24 - admin1 - VIEW_COURSES - 001 - SUCCESS
+2025/04/06 - 10:26:39 - admin1 - LOGOUT -  - SUCCESS
+2025/04/06 - 10:26:49 - Guest - LOGIN - student1, student1pass - SUCCESS
+2025/04/06 - 10:27:07 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - FAILURE
+2025/04/06 - 10:27:07 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - FAILURE
+2025/04/06 - 10:27:07 - student1 - ADD_COURSE_TO_TIMETABLE - student1@hindeburg.ac.uk, 001 - SUCCESS
+2025/04/06 - 10:27:42 - student1 - CHOOSE_ACTIVITY - 001 - SUCCESS
+2025/04/06 - 10:28:09 - student1 - CHOOSE_ACTIVITY - 001 - SUCCESS

@@ -201,7 +201,6 @@ public class Timetable {
 		}
 
 		public String getCourseCode() {
-
 			return courseCode;
 		}
 
@@ -225,29 +224,16 @@ public class Timetable {
 			return endTime;
 		}
 
-		public String getActualActivityType(){
-			String actualActivityType = null;
-			if(activityType.equals("0")){
-				actualActivityType = "Lecture";
-			}else if(activityType.equals("1")){
-				actualActivityType = "Tutorial";
-			}else if(activityType.equals("2")){
-				actualActivityType = "Lab";
-			}
-			return actualActivityType;
+		public String getActivityType() {
+			return activityType;
 		}
+
+
 
 		@Override
 		public String toString() {
-
-
-			LocalDate today = LocalDate.now();
-			LocalDate nextMonday = today.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
-			LocalDate nextFriday = today.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
-
-			return courseCode + " (Activity: " + activityActualType + ") \nDay: " + day +
-					"Date: " +
-					"\nfrom " + startTime + " to " + endTime+ "\n" +status;
+			return courseCode + " (Activity " + activityType + ") on " + day +
+					" from " + startTime + " to " + endTime + " " +status;
 		}
 	}
 }
