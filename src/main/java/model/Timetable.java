@@ -232,8 +232,9 @@ public class Timetable {
 
 		@Override
 		public String toString() {
-			return String.format("Time: %s -> %s\n   Course code: %s\n   Activity: %s\n",
-					startTime, endTime, courseCode, activityType);
+			return String.format("Time: %s -> %s\n   Course code: %s\n   Activity: %s\n" +
+							"   Status: %s\n",
+					startTime, endTime, courseCode, activityType, status);
 		}
 	}
 }

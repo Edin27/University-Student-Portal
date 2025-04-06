@@ -149,6 +149,48 @@ public class TextUserInterface implements View {
         }
     }
 
+
+    public List<Timetable.TimeSlot> displayAvailableTimeSlots(
+            Timetable timetable,
+            Course course,
+            String courseCode,
+            String activityType
+    ) {
+        displayInfo("Available " + activityType + "s for " + courseCode + ":");
+        List<Timetable.TimeSlot> availableSlots = new ArrayList<>();
+        int index = 1;
+
+        List<Activity> activities = "Tutorial".equalsIgnoreCase(activityType) ? course.getTutorials() : course.getLabs();
+
+        for (Timetable.TimeSlot slot : timetable.getTimeSlots()) {
+            if (slot.getCourseCode().equals(courseCode) &&
+                    slot.getStatus() == Timetable.Status.UNCHOSEN &&
+                    slot.activityType.equalsIgnoreCase(activityType)) {
+                for (Activity activity : activities) {
+                    if (activity.getId() == slot.getActivityId() &&
+                            activity.getStartDate().equals(slot.getStartDate()) &&
+                            activity.getStartTime().equals(slot.getStartTime()) &&
+                            activity.getEndDate().equals(slot.getEndDate()) &&
+                            activity.getEndTime().equals(slot.getEndTime())) {
+                        String slotInfo = "[" + index + "] " + slot.getStartDate() + " " +
+                                slot.getStartTime() + " - " + slot.getEndDate() + " " +
+                                slot.getEndTime() + " (ID: " + slot.getActivityId() + ")";
+                        displayInfo(slotInfo);
+                        availableSlots.add(slot);
+                        index++;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (availableSlots.isEmpty()) {
+            displayError("No available " + activityType.toLowerCase() + "s for " + courseCode);
+        }
+
+        return availableSlots;
+    }
+
     @Override
     public void displayTimetable(SharedContext sharedContext) {
         ArrayList<String> courseList = new ArrayList<>();
@@ -184,6 +226,7 @@ public class TextUserInterface implements View {
                 nextWeekTimetable
                         .get(date)
                         .add(timeSlot);
+
             }
         }
         nextWeekTimetable.entrySet().stream()
