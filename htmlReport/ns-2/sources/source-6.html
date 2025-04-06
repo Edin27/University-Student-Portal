@@ -1,0 +1,344 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MenuController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">controller</a>
+</div>
+
+<h1>Coverage Summary for Class: MenuController (controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MenuController</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    49.4%
+  </span>
+  <span class="absValue">
+    (40/81)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MenuController$AdminStaffMainMenuOption</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MenuController$GuestMainMenuOption</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MenuController$StudentMainMenuOption</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">MenuController$TeachingStaffMainMenuOption</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    78.6%
+  </span>
+  <span class="absValue">
+    (11/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    56.6%
+  </span>
+  <span class="absValue">
+    (60/106)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package controller;
+&nbsp;
+&nbsp;import external.AuthenticationService;
+&nbsp;import external.EmailService;
+&nbsp;import model.*;
+&nbsp;import view.View;
+&nbsp;
+&nbsp;public class MenuController extends Controller {
+&nbsp;    public MenuController(SharedContext sharedContext, View view,
+&nbsp;                          AuthenticationService auth, EmailService email) {
+<b class="fc">&nbsp;        super(sharedContext, view, auth, email);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public enum GuestMainMenuOption {</b>
+<b class="fc">&nbsp;        LOGIN,</b>
+<b class="fc">&nbsp;        CONSULT_FAQ,</b>
+<b class="fc">&nbsp;        CONTACT_STAFF,</b>
+<b class="fc">&nbsp;        VIEW_COURSES,</b>
+<b class="fc">&nbsp;        VIEW_SPECIFIC_COURSE,</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public enum StudentMainMenuOption {</b>
+<b class="fc">&nbsp;        LOGOUT,</b>
+<b class="fc">&nbsp;        CONSULT_FAQ,</b>
+<b class="fc">&nbsp;        CONTACT_STAFF,</b>
+<b class="fc">&nbsp;        VIEW_COURSES,</b>
+<b class="fc">&nbsp;        VIEW_SPECIFIC_COURSE,</b>
+<b class="fc">&nbsp;        MANAGE_TIMETABLE,</b>
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    public enum TeachingStaffMainMenuOption {</b>
+<b class="nc">&nbsp;        LOGOUT,</b>
+<b class="nc">&nbsp;        MANAGE_RECEIVED_QUERIES,</b>
+<b class="nc">&nbsp;        VIEW_COURSES,</b>
+<b class="nc">&nbsp;        VIEW_SPECIFIC_COURSE,</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public enum AdminStaffMainMenuOption {</b>
+<b class="fc">&nbsp;        LOGOUT,</b>
+<b class="fc">&nbsp;        MANAGE_QUERIES,</b>
+<b class="fc">&nbsp;        MANAGE_FAQ,</b>
+<b class="fc">&nbsp;        MANAGE_COURSES,</b>
+<b class="fc">&nbsp;        VIEW_COURSES,</b>
+<b class="fc">&nbsp;        VIEW_SPECIFIC_COURSE,</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void mainMenu() {
+<b class="fc">&nbsp;        boolean endLoop = false;</b>
+<b class="fc">&nbsp;        while (!endLoop) {</b>
+&nbsp;            String userRole;
+<b class="fc">&nbsp;            if (sharedContext.currentUser instanceof Guest) {</b>
+<b class="fc">&nbsp;                userRole = &quot;Guest&quot;;</b>
+<b class="fc">&nbsp;            } else if (sharedContext.currentUser instanceof AuthenticatedUser) {</b>
+<b class="fc">&nbsp;                userRole = sharedContext.getCurrentUserRole();</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                view.displayError(&quot;Main menu not implemented for current user type&quot;);</b>
+&nbsp;                return;
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            view.displayInfo(&quot;Hello! What would you like to do?&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;            switch (userRole) {</b>
+<b class="fc">&nbsp;                case &quot;Guest&quot; -&gt; endLoop = handleGuestMainMenu();</b>
+<b class="fc">&nbsp;                case &quot;Student&quot; -&gt; endLoop = handleStudentMainMenu();</b>
+<b class="nc">&nbsp;                case &quot;TeachingStaff&quot; -&gt; endLoop = handleTeachingStaffMainMenu();</b>
+<b class="fc">&nbsp;                case &quot;AdminStaff&quot; -&gt; endLoop = handleAdminStaffMainMenu();</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        view.displayInfo(&quot;Bye bye!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean handleGuestMainMenu() {
+<b class="fc">&nbsp;        int optionNo = selectFromMenu(GuestMainMenuOption.values(), &quot;Exit&quot;);</b>
+<b class="fc">&nbsp;        if (optionNo == -1) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        GuestMainMenuOption option = GuestMainMenuOption.values()[optionNo];</b>
+<b class="fc">&nbsp;        switch (option) {</b>
+<b class="fc">&nbsp;            case LOGIN -&gt; new GuestController(sharedContext, view, auth, email).login();</b>
+<b class="nc">&nbsp;            case CONSULT_FAQ -&gt; new InquirerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).consultFAQ();</b>
+<b class="nc">&nbsp;            case CONTACT_STAFF -&gt; new InquirerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).contactStaff();</b>
+<b class="nc">&nbsp;            case VIEW_COURSES -&gt; new ViewerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).viewCourses();</b>
+<b class="nc">&nbsp;            case VIEW_SPECIFIC_COURSE -&gt; new ViewerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).viewSpecificCourse();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean handleStudentMainMenu() {
+<b class="fc">&nbsp;        int optionNo = selectFromMenu(StudentMainMenuOption.values(), &quot;Exit&quot;);</b>
+<b class="fc">&nbsp;        if (optionNo == -1) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        StudentMainMenuOption option = StudentMainMenuOption.values()[optionNo];</b>
+<b class="fc">&nbsp;        switch (option) {</b>
+<b class="nc">&nbsp;            case LOGOUT -&gt; new AuthenticatedUserController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).logout();</b>
+<b class="nc">&nbsp;            case CONSULT_FAQ -&gt; new InquirerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).consultFAQ();</b>
+<b class="nc">&nbsp;            case CONTACT_STAFF -&gt; new InquirerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).contactStaff();</b>
+<b class="fc">&nbsp;            case MANAGE_TIMETABLE -&gt; new StudentController(sharedContext, view, auth,</b>
+<b class="fc">&nbsp;                    email).manageTimetable();</b>
+<b class="nc">&nbsp;            case VIEW_COURSES -&gt; new ViewerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).viewCourses();</b>
+<b class="nc">&nbsp;            case VIEW_SPECIFIC_COURSE -&gt; new ViewerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).viewSpecificCourse();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean handleTeachingStaffMainMenu() {
+<b class="nc">&nbsp;        int optionNo = selectFromMenu(TeachingStaffMainMenuOption.values(), &quot;Exit&quot;);</b>
+<b class="nc">&nbsp;        if (optionNo == -1) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        TeachingStaffMainMenuOption option = TeachingStaffMainMenuOption.values()[optionNo];</b>
+<b class="nc">&nbsp;        switch (option) {</b>
+<b class="nc">&nbsp;            case LOGOUT -&gt; new AuthenticatedUserController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).logout();</b>
+<b class="nc">&nbsp;            case MANAGE_RECEIVED_QUERIES -&gt; new TeachingStaffController(sharedContext,</b>
+<b class="nc">&nbsp;                    view, auth, email).manageReceivedInquiries();</b>
+<b class="nc">&nbsp;            case VIEW_COURSES -&gt; new ViewerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).viewCourses();</b>
+<b class="nc">&nbsp;            case VIEW_SPECIFIC_COURSE -&gt; new ViewerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).viewSpecificCourse();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean handleAdminStaffMainMenu() {
+<b class="fc">&nbsp;        int optionNo = selectFromMenu(AdminStaffMainMenuOption.values(), &quot;Exit&quot;);</b>
+<b class="fc">&nbsp;        if (optionNo == -1) {</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        AdminStaffMainMenuOption option = AdminStaffMainMenuOption.values()[optionNo];</b>
+<b class="fc">&nbsp;        switch (option) {</b>
+<b class="fc">&nbsp;            case LOGOUT -&gt; new AuthenticatedUserController(sharedContext, view, auth,</b>
+<b class="fc">&nbsp;                    email).logout();</b>
+<b class="fc">&nbsp;            case MANAGE_FAQ -&gt; new AdminStaffController(sharedContext, view, auth,</b>
+<b class="fc">&nbsp;                    email).manageFAQ();</b>
+<b class="nc">&nbsp;            case MANAGE_QUERIES -&gt; new AdminStaffController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).manageInquiries();</b>
+<b class="fc">&nbsp;            case MANAGE_COURSES -&gt; new AdminStaffController(sharedContext, view, auth,</b>
+<b class="fc">&nbsp;                    email).manageCourses();</b>
+<b class="nc">&nbsp;            case VIEW_COURSES -&gt; new ViewerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).viewCourses();</b>
+<b class="nc">&nbsp;            case VIEW_SPECIFIC_COURSE -&gt; new ViewerController(sharedContext, view, auth,</b>
+<b class="nc">&nbsp;                    email).viewSpecificCourse();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-06 20:45</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,433 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TextUserInterface</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">view</a>
+</div>
+
+<h1>Coverage Summary for Class: TextUserInterface (view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TextUserInterface</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (18/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.7%
+  </span>
+  <span class="absValue">
+    (175/195)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package view;
+&nbsp;
+&nbsp;import model.*;
+&nbsp;
+&nbsp;import java.io.PrintWriter;
+&nbsp;import java.io.StringWriter;
+&nbsp;import java.time.DayOfWeek;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.temporal.TemporalAdjusters;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="fc">&nbsp;public class TextUserInterface implements View {</b>
+<b class="fc">&nbsp;    private final Scanner scanner = new Scanner(System.in);</b>
+&nbsp;    private static final String ANSI_RED = &quot;\u001B[31m&quot;;
+&nbsp;    private static final String ANSI_GREEN = &quot;\u001B[32m&quot;;
+&nbsp;    private static final String ANSI_YELLOW = &quot;\u001B[33m&quot;;
+&nbsp;    private static final String ANSI_RESET = &quot;\u001B[0m&quot;;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getInput(String prompt) {
+<b class="fc">&nbsp;        System.out.print(prompt);</b>
+<b class="fc">&nbsp;        return scanner.nextLine();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean getYesNoInput(String prompt) {
+<b class="fc">&nbsp;        System.out.println(prompt + &quot; [Y/n]&quot;);</b>
+<b class="fc">&nbsp;        String line = scanner.nextLine();</b>
+<b class="fc">&nbsp;        if (line.equalsIgnoreCase(&quot;y&quot;) || line.equalsIgnoreCase(&quot;yes&quot;)) {</b>
+<b class="fc">&nbsp;            return true;</b>
+<b class="fc">&nbsp;        } else if (line.equalsIgnoreCase(&quot;n&quot;) || line.equalsIgnoreCase(&quot;no&quot;)) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return Boolean.parseBoolean(line);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayInfo(String text) {
+<b class="fc">&nbsp;        System.out.println(text);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displaySuccess(String text) {
+<b class="fc">&nbsp;        System.out.println(ANSI_GREEN + text + ANSI_RESET);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayWarning(String text) {
+<b class="fc">&nbsp;        System.out.println(ANSI_YELLOW + text + ANSI_RESET);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayError(String text) {
+<b class="fc">&nbsp;        System.out.println(ANSI_RED + text + ANSI_RESET);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayException(Exception e) {
+<b class="nc">&nbsp;        StringWriter sw = new StringWriter();</b>
+<b class="nc">&nbsp;        e.printStackTrace(new PrintWriter(sw));</b>
+<b class="nc">&nbsp;        displayError(sw.toString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayDivider() {
+<b class="fc">&nbsp;        System.out.println(&quot;-------------------------&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayFAQ(FAQ faq) {
+<b class="fc">&nbsp;        System.out.println(&quot;Frequently Asked Questions&quot;);</b>
+<b class="fc">&nbsp;        displayDivider();</b>
+<b class="fc">&nbsp;        int i = 0;</b>
+<b class="fc">&nbsp;        for (FAQSection section : faq.getSections()) {</b>
+<b class="fc">&nbsp;            System.out.print(&quot;[&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(i++);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;] &quot;);</b>
+<b class="fc">&nbsp;            System.out.println(section.getTopic());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayFAQSection(FAQSection section) {
+<b class="fc">&nbsp;        System.out.println(section.getTopic());</b>
+<b class="fc">&nbsp;        displayDivider();</b>
+<b class="fc">&nbsp;        for (FAQItem item : section.getItems()) { {</b>
+<b class="fc">&nbsp;            System.out.println(item.getId() + &quot;) [Course: &quot; + item.getTag() + &quot;]&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(item.getQuestion());</b>
+<b class="fc">&nbsp;            System.out.print(&quot;&gt; &quot;);</b>
+<b class="fc">&nbsp;            System.out.println(item.getAnswer());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;Subsections:&quot;);</b>
+<b class="fc">&nbsp;        int i = 0;</b>
+<b class="fc">&nbsp;        for (FAQSection subsection : section.getSubsections()) {</b>
+<b class="fc">&nbsp;            System.out.print(&quot;[&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(i++);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;] &quot;);</b>
+<b class="fc">&nbsp;            System.out.println(subsection.getTopic());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;    }}</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayInquiry(Inquiry inquiry) {
+<b class="nc">&nbsp;        System.out.println(&quot;Inquirer: &quot; + inquiry.getInquirerEmail());</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Created at: &quot; + inquiry.getCreatedAt());</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Assigned to: &quot; + (inquiry.getAssignedTo() == null ? &quot;No one&quot; : inquiry.getAssignedTo()));</b>
+<b class="nc">&nbsp;        System.out.println(&quot;Query:&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(inquiry.getContent());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayCourses(CourseManager courseManager) {
+<b class="fc">&nbsp;        Collection&lt;Course&gt; courses = courseManager.getCourses();</b>
+<b class="fc">&nbsp;        if (courses.isEmpty()) {</b>
+<b class="fc">&nbsp;            System.out.println(&quot;no courses&quot;);</b>
+&nbsp;        } else{
+<b class="fc">&nbsp;            for (Course course : courseManager.getCourses()) {</b>
+<b class="fc">&nbsp;                System.out.println(&quot;Course Name: &quot; + course.getName() + &quot;, Course Code: &quot; + course.getCourseCode());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayCourse(Course course) {
+<b class="fc">&nbsp;        System.out.println(&quot;Course Code: &quot; + course.getCourseCode());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Name: &quot; + course.getName());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Description: &quot; + course.getDescription());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Requires Computers: &quot; + course.getRequiresComputers());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Organiser Name: &quot; + course.getCourseOrganiserName());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Organiser Email: &quot; + course.getCourseOrganiserEmail());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Secretary Name: &quot; + course.getCourseSecretaryName());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Secretary Email: &quot; + course.getCourseSecretaryEmail());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Required Tutorials: &quot; + course.getRequiredTutorials());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Required Labs: &quot; + course.getRequiredLabs());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Lectures&quot;);</b>
+<b class="fc">&nbsp;        displayActivities(course.getLectures());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Tutorials&quot;);</b>
+<b class="fc">&nbsp;        displayActivities(course.getTutorials());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Labs&quot;);</b>
+<b class="fc">&nbsp;        displayActivities(course.getLabs());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void displayActivities(List&lt;Activity&gt; activities) {
+<b class="fc">&nbsp;        if (activities == null || activities.isEmpty()) {System.out.println(&quot;none&quot;);return;}</b>
+<b class="nc">&nbsp;        for (Activity activity: activities) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;[&quot;+activity.getStartDate()+&quot; -&gt; &quot;+activity.getEndDate());</b>
+<b class="nc">&nbsp;            System.out.println(&quot; &quot;+activity.getDay().toString().toLowerCase()+&quot;, &quot;+activity.getStartTime()+&quot; -&gt; &quot;+activity.getEndTime()+&quot;]&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public List&lt;Timetable.TimeSlot&gt; displayAvailableTimeSlots(
+&nbsp;            Timetable timetable,
+&nbsp;            Course course,
+&nbsp;            String courseCode,
+&nbsp;            String activityType
+&nbsp;    ) {
+<b class="fc">&nbsp;        displayInfo(&quot;Available &quot; + activityType + &quot;s for &quot; + courseCode + &quot;:&quot;);</b>
+<b class="fc">&nbsp;        List&lt;Timetable.TimeSlot&gt; availableSlots = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        int index = 1;</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;Activity&gt; activities = &quot;Tutorial&quot;.equalsIgnoreCase(activityType) ? course.getTutorials() : course.getLabs();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Timetable.TimeSlot slot : timetable.getTimeSlots()) {</b>
+<b class="fc">&nbsp;            if (slot.getCourseCode().equals(courseCode) &amp;&amp;</b>
+<b class="fc">&nbsp;                    slot.getStatus() == Timetable.Status.UNCHOSEN &amp;&amp;</b>
+<b class="fc">&nbsp;                    slot.activityType.equalsIgnoreCase(activityType)) {</b>
+<b class="fc">&nbsp;                for (Activity activity : activities) {</b>
+<b class="fc">&nbsp;                    if (activity.getId() == slot.getActivityId() &amp;&amp;</b>
+<b class="fc">&nbsp;                            activity.getStartDate().equals(slot.getStartDate()) &amp;&amp;</b>
+<b class="fc">&nbsp;                            activity.getStartTime().equals(slot.getStartTime()) &amp;&amp;</b>
+<b class="fc">&nbsp;                            activity.getEndDate().equals(slot.getEndDate()) &amp;&amp;</b>
+<b class="fc">&nbsp;                            activity.getEndTime().equals(slot.getEndTime())) {</b>
+<b class="fc">&nbsp;                        String slotInfo = &quot;[&quot; + index + &quot;] &quot; + slot.getStartDate() + &quot; &quot; +</b>
+<b class="fc">&nbsp;                                slot.getStartTime() + &quot; - &quot; + slot.getEndDate() + &quot; &quot; +</b>
+<b class="fc">&nbsp;                                slot.getEndTime() + &quot; (ID: &quot; + slot.getActivityId() + &quot;)&quot;;</b>
+<b class="fc">&nbsp;                        displayInfo(slotInfo);</b>
+<b class="fc">&nbsp;                        availableSlots.add(slot);</b>
+<b class="fc">&nbsp;                        index++;</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                }</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        if (availableSlots.isEmpty()) {</b>
+<b class="nc">&nbsp;            displayError(&quot;No available &quot; + activityType.toLowerCase() + &quot;s for &quot; + courseCode);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return availableSlots;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayTimetable(SharedContext sharedContext) {
+<b class="fc">&nbsp;        ArrayList&lt;String&gt; courseList = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        CourseManager courseManager = sharedContext.getCourseManager();</b>
+<b class="fc">&nbsp;        Timetable timetable = courseManager.getTimetableByEmail(sharedContext.getCurrentUserEmail());</b>
+<b class="fc">&nbsp;        System.out.println(timetable.getStudentEmail() + &quot; Timetable&quot;);</b>
+<b class="fc">&nbsp;        List&lt;Timetable.TimeSlot&gt; timeSlots = timetable.getTimeSlots();</b>
+<b class="fc">&nbsp;        LocalDate today = LocalDate.now();</b>
+<b class="fc">&nbsp;        LocalDate nextMonday = today</b>
+<b class="fc">&nbsp;                .with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY))</b>
+<b class="fc">&nbsp;                .plusWeeks(1);</b>
+<b class="fc">&nbsp;        LocalDate nextFriday = nextMonday.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));</b>
+&nbsp;
+<b class="fc">&nbsp;        LocalDate currentDate = nextMonday;</b>
+<b class="fc">&nbsp;        Map&lt;LocalDate, List&lt;Timetable.TimeSlot&gt;&gt; nextWeekTimetable = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 5; i++) {</b>
+<b class="fc">&nbsp;            nextWeekTimetable.put(currentDate, new ArrayList&lt;&gt;());</b>
+<b class="fc">&nbsp;            currentDate = currentDate.plusDays(1);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Only display next week&#39;s timetable
+<b class="fc">&nbsp;        for (Timetable.TimeSlot timeSlot : timeSlots) {</b>
+<b class="fc">&nbsp;            LocalDate startDate = timeSlot.getStartDate();</b>
+<b class="fc">&nbsp;            LocalDate endDate = timeSlot.getEndDate();</b>
+<b class="fc">&nbsp;            DayOfWeek day = timeSlot.getDay();</b>
+&nbsp;
+<b class="fc">&nbsp;            if(!startDate.isAfter(nextFriday) &amp;&amp; !endDate.isBefore(nextMonday)){</b>
+&nbsp;                // Get date of activity next week
+<b class="fc">&nbsp;                LocalDate date = today</b>
+<b class="fc">&nbsp;                        .with(TemporalAdjusters.nextOrSame(day))</b>
+<b class="fc">&nbsp;                        .plusWeeks(1);</b>
+&nbsp;
+<b class="fc">&nbsp;                nextWeekTimetable</b>
+<b class="fc">&nbsp;                        .get(date)</b>
+<b class="fc">&nbsp;                        .add(timeSlot);</b>
+&nbsp;
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        nextWeekTimetable.entrySet().stream()</b>
+<b class="fc">&nbsp;                .sorted(Map.Entry.comparingByKey())</b>
+<b class="fc">&nbsp;                .forEach(entry -&gt; {</b>
+&nbsp;
+<b class="fc">&nbsp;                    LocalDate date = entry.getKey();</b>
+<b class="fc">&nbsp;                    List&lt;Timetable.TimeSlot&gt; slots = entry.getValue();</b>
+<b class="fc">&nbsp;                    System.out.println(date.getDayOfWeek().toString() + &quot;   [&quot; + date + &quot;]&quot;);</b>
+<b class="fc">&nbsp;                    if (slots.isEmpty()) {</b>
+<b class="fc">&nbsp;                        System.out.println(&quot;   No activity&quot;);</b>
+&nbsp;                    }
+&nbsp;                    else {
+<b class="fc">&nbsp;                        for (Timetable.TimeSlot slot1 : slots) {</b>
+&nbsp;                            // display activity
+<b class="fc">&nbsp;                            System.out.println(&quot;   &quot; + slot1);</b>
+<b class="fc">&nbsp;                            if (!courseList.contains(slot1.getCourseCode())) {</b>
+<b class="fc">&nbsp;                                courseList.add(slot1.getCourseCode());</b>
+&nbsp;                            }
+&nbsp;                            // check for clashes
+<b class="fc">&nbsp;                            for (Timetable.TimeSlot slot2 : slots) {</b>
+<b class="fc">&nbsp;                                if (!slot1.equals(slot2) &amp;&amp; slot1.getStatus() == Timetable.Status.CHOSEN &amp;&amp; slot2.getStatus() == Timetable.Status.CHOSEN) {</b>
+<b class="fc">&nbsp;                                    if (slot1.overlaps(slot2.getStartDate(),</b>
+<b class="fc">&nbsp;                                            slot2.getStartTime(), slot2.getEndDate(),</b>
+<b class="fc">&nbsp;                                            slot2.getEndTime(), slot2.getDay(),</b>
+<b class="fc">&nbsp;                                            slot2.getStatus())) {</b>
+<b class="fc">&nbsp;                                        if (courseManager.findCourse(slot1.getCourseCode()).isUnrecordedLecture(slot1.getActivityId())) {</b>
+<b class="nc">&nbsp;                                            displayError(&quot;Unrecorded Lecture clash!\n&quot;);</b>
+&nbsp;                                        } else {
+<b class="fc">&nbsp;                                            displayWarning(&quot;Clashes with another activity!\n&quot;);</b>
+&nbsp;                                        }
+&nbsp;                                    }
+&nbsp;                                }
+<b class="fc">&nbsp;                            }</b>
+<b class="fc">&nbsp;                        }</b>
+&nbsp;
+&nbsp;                    }
+<b class="fc">&nbsp;                    displayDivider();</b>
+&nbsp;                });
+<b class="fc">&nbsp;        for (String code : courseList) {</b>
+<b class="fc">&nbsp;            boolean labsFull = courseManager.checkChosenLabs(code, timetable);</b>
+<b class="fc">&nbsp;            boolean tutorialsFull = courseManager.checkChosenTutorials(code, timetable);</b>
+&nbsp;
+<b class="fc">&nbsp;            if (!labsFull &amp;&amp; !tutorialsFull) {</b>
+<b class="fc">&nbsp;                displayWarning(String.format(&quot;Tutorials and labs not chosen for course: %s!&quot;, code));</b>
+<b class="fc">&nbsp;            } else if (!labsFull) {</b>
+<b class="fc">&nbsp;                displayWarning(String.format(&quot;Labs not chosen for course: %s!&quot;, code));</b>
+<b class="fc">&nbsp;            } else if (!tutorialsFull) {</b>
+<b class="fc">&nbsp;                displayWarning(String.format(&quot;Tutorials not chosen for course: %s!&quot;, code));</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayFAQ(FAQ faq, String tagFilter) {
+<b class="fc">&nbsp;        System.out.println(&quot;Frequently Asked Questions&quot;);</b>
+<b class="fc">&nbsp;        displayDivider();</b>
+<b class="fc">&nbsp;        int i = 0;</b>
+<b class="fc">&nbsp;        for (FAQSection section : faq.getSections()) {</b>
+<b class="fc">&nbsp;            System.out.print(&quot;[&quot;);</b>
+<b class="fc">&nbsp;            System.out.print(i++);</b>
+<b class="fc">&nbsp;            System.out.print(&quot;] &quot;);</b>
+<b class="fc">&nbsp;            System.out.println(section.getTopic());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // Also show filtered items at root level (optional)
+<b class="fc">&nbsp;        for (FAQSection section : faq.getSections()) {</b>
+<b class="fc">&nbsp;            displayFAQSection(section, tagFilter);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void displayFAQSection(FAQSection section, String tagFilter) {
+<b class="fc">&nbsp;        System.out.println(section.getTopic());</b>
+<b class="fc">&nbsp;        displayDivider();</b>
+<b class="fc">&nbsp;        boolean empty = true;</b>
+&nbsp;
+<b class="fc">&nbsp;        for (FAQItem item : section.getItems()) {</b>
+<b class="fc">&nbsp;            if (tagFilter == null || (item.getTag() != null &amp;&amp; item.getTag().toLowerCase().contains(tagFilter.toLowerCase()))) {</b>
+<b class="fc">&nbsp;                System.out.println(item.getQuestion());</b>
+<b class="fc">&nbsp;                System.out.print(&quot;&gt; &quot;);</b>
+<b class="fc">&nbsp;                System.out.println(item.getAnswer());</b>
+<b class="fc">&nbsp;                empty = false;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        if (empty) {</b>
+<b class="fc">&nbsp;            System.out.println(&quot;No faq items of this tag!&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;Subsections:&quot;);</b>
+<b class="fc">&nbsp;        int i = 0;</b>
+<b class="fc">&nbsp;        for (FAQSection subsection : section.getSubsections()) {</b>
+<b class="nc">&nbsp;            System.out.print(&quot;[&quot;);</b>
+<b class="nc">&nbsp;            System.out.print(i++);</b>
+<b class="nc">&nbsp;            System.out.print(&quot;] &quot;);</b>
+<b class="nc">&nbsp;            System.out.println(subsection.getTopic());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }  
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-06 20:45</div>
+</div>
+</body>
+</html>
