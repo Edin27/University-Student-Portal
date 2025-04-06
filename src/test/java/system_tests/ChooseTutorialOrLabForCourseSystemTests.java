@@ -40,7 +40,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"0",                                 // ADD Lecture
 				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
@@ -51,7 +51,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"1",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"11:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"12:00",                             // End time
 				"Room 11",                           // Location
 				"wed",                               // Day of week
@@ -128,7 +128,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"0",                                 // ADD Lecture
 				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
@@ -139,7 +139,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"1",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"11:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"12:00",                             // End time
 				"Room 11",                           // Location
 				"wed",                               // Day of week
@@ -150,7 +150,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"1",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"13:30",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"15:30",                             // End time
 				"Room 111",                           // Location
 				"thu",                               // Day of week
@@ -161,7 +161,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"2",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"16:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"17:30",                             // End time
 				"Room 101",                           // Location
 				"thu",                               // Day of week
@@ -267,7 +267,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"0",                                 // ADD Lecture
 				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
@@ -278,7 +278,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"1",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"11:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"12:00",                             // End time
 				"Room 11",                           // Location
 				"wed",                               // Day of week
@@ -289,7 +289,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"2",                                 // ADD Lab
 				"2025-03-01",                        // Start date
 				"13:30",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"15:30",                             // End time
 				"Room 111",                           // Location
 				"thu",                               // Day of week
@@ -300,7 +300,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"2",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"16:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"17:30",                             // End time
 				"Room 101",                           // Location
 				"thu",                               // Day of week
@@ -404,7 +404,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"0",                                 // ADD Lecture
 				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
@@ -415,7 +415,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"1",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"10:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"11:30",                             // End time
 				"Room 11",                           // Location
 				"mon",                               // Day of week
@@ -426,7 +426,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"2",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"16:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"17:30",                             // End time
 				"Room 101",                           // Location
 				"thu",                               // Day of week
@@ -519,7 +519,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"0",                                 // ADD Lecture
 				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
@@ -530,7 +530,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"1",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"11:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"12:00",                             // End time
 				"Room 11",                           // Location
 				"wed",                               // Day of week
@@ -599,7 +599,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"0",                                 // ADD Lecture
 				"2025-03-01",                        // Start date
 				"09:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"10:30",                             // End time
 				"Room 101",                          // Location
 				"mon",                               // Day of week
@@ -610,7 +610,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"1",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"11:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"12:00",                             // End time
 				"Room 11",                           // Location
 				"wed",                               // Day of week
@@ -621,7 +621,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"1",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"13:30",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"15:30",                             // End time
 				"Room 111",                           // Location
 				"thu",                               // Day of week
@@ -632,7 +632,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"2",                                 // ADD Tutorial
 				"2025-03-01",                        // Start date
 				"16:00",                             // Start time
-				"2025-06-30",                        // End date
+				"2025-12-31",                        // End date
 				"17:30",                             // End time
 				"Room 101",                           // Location
 				"thu",                               // Day of week
@@ -658,6 +658,12 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"CS101",  							 // course code
 				"tutorial",							 // choose tutorial
 				"2",              					 // choose available tutorial2 but input wrong time
+
+				// choose available tutorial2 again
+				"3",                                 // choose Activity
+				"CS101",  							 // course code
+				"tutorial",							 // choose tutorial
+				"1",              					 // choose available tutorial2 input correct time
 
 				// choose Lab
 				"3",                                 // choose Activity
@@ -689,6 +695,9 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 		menuController.mainMenu();
 
 		assertOutputContains("You still need to choose 1 more tutorials for CS101");
+
+		assertOutputContains("Invalid timeslot option");  // error message given
+
 		assertOutputContains("You have successfully chosen all required Tutorials for CS101!");
 
 		assertOutputContains("You have successfully chosen all required Labs for CS101!");

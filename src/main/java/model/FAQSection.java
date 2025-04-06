@@ -18,6 +18,10 @@ public class FAQSection {
         section.parent = this;
     }
 
+    /**
+     * removes a subsection and promotes all of its subsections if they exist
+     * @param section the subsection to be removed from the current section
+     */
     public void removeSubsection(FAQSection section) {
         for (FAQSection subsection : subsections) {
             addSubsection(subsection);
@@ -25,6 +29,11 @@ public class FAQSection {
         subsections.remove(section);
     }
 
+    /**
+     * removes a faq item from the section
+     * @param id the id of the item to be removed from this section
+     * @return true if successful
+     */
     public boolean removeItem(int id) {
         for(FAQItem item : items) {
             if (item.getId() == id) {
