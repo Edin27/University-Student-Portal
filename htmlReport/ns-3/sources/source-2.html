@@ -1,0 +1,216 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MockAuthenticationService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">external</a>
+</div>
+
+<h1>Coverage Summary for Class: MockAuthenticationService (external)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MockAuthenticationService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (34/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package external;
+&nbsp;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.JSONParser;
+&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URISyntaxException;
+&nbsp;import java.net.URL;
+&nbsp;import java.nio.file.Paths;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * A mock Authentication Service Provider implementation for testing.
+&nbsp; * This does not communicate with any real authentication API, just uses local user data to simulate one.
+&nbsp; *
+&nbsp; * To better understand code using the json-simple library, see the following links:
+&nbsp; * https://attacomsian.com/blog/what-is-json
+&nbsp; * https://www.digitalocean.com/community/tutorials/json-simple-example
+&nbsp; * https://stackoverflow.com/questions/17351043/how-to-get-absolute-path-to-file-in-resources-folder-of-your-project
+&nbsp; * https://stackoverflow.com/questions/10926353/how-to-read-json-file-into-java-with-simple-json-library
+&nbsp; */
+&nbsp;public class MockAuthenticationService implements AuthenticationService {
+&nbsp;    /**
+&nbsp;     * Mapping of user emails to user data (as JSON objects)
+&nbsp;     */
+<b class="fc">&nbsp;    private final Map&lt;String, JSONObject&gt; users = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Load data about all users from a JSON file into memory
+&nbsp;     * @throws URISyntaxException occurs if the file URI is invalid
+&nbsp;     * @throws IOException occurs if the file cannot be opened
+&nbsp;     * @throws ParseException occurs if the file contains invalid JSON
+&nbsp;     * @throws NullPointerException occurs if the file does not exist
+&nbsp;     */
+<b class="fc">&nbsp;    public MockAuthenticationService() throws URISyntaxException, IOException, ParseException, NullPointerException {</b>
+<b class="fc">&nbsp;        URL dataPath = getUserDataResource();</b>
+<b class="fc">&nbsp;        Objects.requireNonNull(dataPath);</b>
+<b class="fc">&nbsp;        File dataFile = getDataFileFromURL(dataPath);</b>
+&nbsp;
+<b class="fc">&nbsp;        JSONParser parser = new JSONParser();</b>
+<b class="fc">&nbsp;        JSONArray userDataArray = (JSONArray) parser.parse(createFileReader(dataFile));</b>
+<b class="fc">&nbsp;        for (Object userData: userDataArray) {</b>
+<b class="fc">&nbsp;            JSONObject user = (JSONObject) userData;</b>
+<b class="fc">&nbsp;            String username = (String) user.get(&quot;username&quot;);</b>
+<b class="fc">&nbsp;            validateUserObject(user);</b>
+<b class="fc">&nbsp;            users.put(username, user);</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected URL getUserDataResource() {
+<b class="fc">&nbsp;        return getClass().getResource(&quot;/MockUserData.json&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected File getDataFileFromURL(URL url) throws URISyntaxException {
+<b class="fc">&nbsp;        return Paths.get(url.toURI()).toFile();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected FileReader createFileReader(File file) throws IOException {
+<b class="fc">&nbsp;        return new FileReader(file);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void validateUserObject(JSONObject user) throws ParseException {
+<b class="fc">&nbsp;        String[] requiredFields = {&quot;username&quot;, &quot;password&quot;, &quot;email&quot;, &quot;role&quot;};</b>
+&nbsp;        //check that the JSON file has &quot;username&quot;, &quot;password&quot;, &quot;email&quot;, &quot;role&quot; fields
+<b class="fc">&nbsp;        for (String field : requiredFields) {</b>
+<b class="fc">&nbsp;            if (!user.containsKey(field)) {</b>
+<b class="fc">&nbsp;                throw new ParseException(</b>
+&nbsp;                        ParseException.ERROR_UNEXPECTED_TOKEN,
+&nbsp;                        &quot;Missing required field: &quot; + field
+&nbsp;                );
+&nbsp;            }
+&nbsp;            // Check if field is non-empty
+<b class="fc">&nbsp;            Object value = user.get(field);</b>
+<b class="fc">&nbsp;            if (value == null || value.toString().trim().isEmpty()) {</b>
+<b class="fc">&nbsp;                throw new ParseException(</b>
+&nbsp;                        ParseException.ERROR_UNEXPECTED_TOKEN,
+&nbsp;                        &quot;Field &#39;&quot; + field + &quot;&#39; cannot be empty or null&quot;
+&nbsp;                );
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String login(String username, String password) {
+<b class="fc">&nbsp;        JSONObject user = users.get(username);</b>
+<b class="fc">&nbsp;        if (user == null) {</b>
+&nbsp;            // This means the email address is not registered, but for security,
+&nbsp;            // Error message deliberately does not say it&#39;s the email that&#39;s wrong
+<b class="fc">&nbsp;            HashMap&lt;String, String&gt; errorObj = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;            errorObj.put(&quot;error&quot;, &quot;Wrong username or password&quot;);</b>
+<b class="fc">&nbsp;            return new JSONObject(errorObj).toJSONString();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String registeredPassword = (String) user.get(&quot;password&quot;);</b>
+<b class="fc">&nbsp;        if (!password.equals(registeredPassword)) {</b>
+&nbsp;            // For security, passwords should never be transferred or stored in plaintext
+&nbsp;            // Instead, they should be hashed using a secure algorithm.
+&nbsp;            // For this exercise, we use plaintext passwords for simplicity, but don&#39;t ever do this in production code!
+<b class="fc">&nbsp;            HashMap&lt;String, String&gt; errorObj = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;            errorObj.put(&quot;error&quot;, &quot;Wrong username or password&quot;);</b>
+<b class="fc">&nbsp;            return new JSONObject(errorObj).toJSONString();</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return user.toJSONString();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-06 20:45</div>
+</div>
+</body>
+</html>

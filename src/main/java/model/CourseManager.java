@@ -24,9 +24,9 @@ public class CourseManager {
 	int requiredTutorials = 0;
 	int requiredLabs = 0;
 
-    public CourseManager(View view) {
-        this.view = view;
-    }
+	public CourseManager(View view) {
+		this.view = view;
+	}
 
 
 	public Collection<Course> getCourses() {
@@ -45,8 +45,8 @@ public class CourseManager {
 			String errorMessage = "Required course info not provided";
 			Log.AddLog(Log.ActionName.ADD_COURSE, String.format("%s, %s, %s, %b, %s, " +
 							"%s, %s, %s, %d, %d" , code, name, description,
-							requiresComputers, COName, COEmail, CSName, CSEmail,
-							reqTutorials, reqLabs), Log.Status.FAILURE);
+					requiresComputers, COName, COEmail, CSName, CSEmail,
+					reqTutorials, reqLabs), Log.Status.FAILURE);
 			view.displayError(errorMessage);
 			return false;
 		}
@@ -111,8 +111,8 @@ public class CourseManager {
 		}
 		courses.add(newCourse);
 		Log.AddLog(Log.ActionName.ADD_COURSE, String.format("%s, %s, %s, %b, %s, %s, " +
-					"%s, %s, %d, %d",code, name, description, requiresComputers, COName
-					, COEmail, CSName, CSEmail, reqTutorials, reqLabs), Log.Status.SUCCESS);
+						"%s, %s, %d, %d",code, name, description, requiresComputers, COName
+				, COEmail, CSName, CSEmail, reqTutorials, reqLabs), Log.Status.SUCCESS);
 		view.displaySuccess("Course has been successfully created");
 		return true;
 	}
@@ -396,7 +396,7 @@ public class CourseManager {
 
 		// view available time period
 		List<Timetable.TimeSlot> availableSlots = view.displayAvailableTimeSlots(timetable,
-				                                  course, courseCode, activityType);
+				course, courseCode, activityType);
 		if (availableSlots.isEmpty()) {
 			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
 			return false;

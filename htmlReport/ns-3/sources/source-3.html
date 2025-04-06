@@ -1,0 +1,135 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MockEmailService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">external</a>
+</div>
+
+<h1>Coverage Summary for Class: MockEmailService (external)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MockEmailService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package external;
+&nbsp;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * A mock Email Service Provider implementation for testing.
+&nbsp; * This does not actually send any emails, just prints email data to standard output.
+&nbsp; */
+<b class="fc">&nbsp;public class MockEmailService implements EmailService {</b>
+&nbsp;    // Color codes from https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
+&nbsp;    private static final String ANSI_CYAN = &quot;\u001B[36m&quot;;
+&nbsp;    private static final String ANSI_RESET = &quot;\u001B[0m&quot;;
+&nbsp;    // From https://owasp.org/www-community/OWASP_Validation_Regex_Repository
+<b class="fc">&nbsp;    private static final Pattern OWASP_EMAIL_PATTERN = Pattern.compile(&quot;^[a-zA-Z0-9_+&amp;*-]+(?:\\.[a-zA-Z0-9_+&amp;*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$&quot;);</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int sendEmail(String sender, String recipient, String subject, String content) {
+<b class="fc">&nbsp;        if (sender == null || !OWASP_EMAIL_PATTERN.matcher(sender).matches()) {</b>
+<b class="fc">&nbsp;            return STATUS_INVALID_SENDER_EMAIL;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (recipient == null || !OWASP_EMAIL_PATTERN.matcher(recipient).matches()) {</b>
+<b class="fc">&nbsp;            return STATUS_INVALID_RECIPIENT_EMAIL;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.print(ANSI_CYAN);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;Email from &quot; + sender + &quot; to &quot; + recipient);</b>
+<b class="fc">&nbsp;        System.out.println(subject);</b>
+<b class="fc">&nbsp;        System.out.println(content);</b>
+<b class="fc">&nbsp;        System.out.print(ANSI_RESET);</b>
+<b class="fc">&nbsp;        return STATUS_SUCCESS;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-06 20:45</div>
+</div>
+</body>
+</html>

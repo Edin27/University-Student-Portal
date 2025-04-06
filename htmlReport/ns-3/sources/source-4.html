@@ -1,0 +1,89 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EmailService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">external</a>
+</div>
+
+<h1>Coverage Summary for Class: EmailService (external)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">EmailService</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package external;
+&nbsp;
+&nbsp;/**
+&nbsp; * API for interacting with an Email Service Provider
+&nbsp; */
+&nbsp;public interface EmailService {
+&nbsp;    int STATUS_SUCCESS = 0;
+&nbsp;    int STATUS_INVALID_SENDER_EMAIL = 1;
+&nbsp;    int STATUS_INVALID_RECIPIENT_EMAIL = 2;
+&nbsp;    int STATUS_UNKNOWN_ERROR = 100;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * @param sender email address of the sender
+&nbsp;     * @param recipient email address of the recipient
+&nbsp;     * @param subject subject line for the email
+&nbsp;     * @param content content of the email in plaintext
+&nbsp;     * @return status code provided by the Email Service Provider
+&nbsp;     */
+&nbsp;    int sendEmail(String sender, String recipient, String subject, String content);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-06 20:45</div>
+</div>
+</body>
+</html>

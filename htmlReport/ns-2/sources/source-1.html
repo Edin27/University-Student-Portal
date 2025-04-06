@@ -1,0 +1,426 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > AdminStaffController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">controller</a>
+</div>
+
+<h1>Coverage Summary for Class: AdminStaffController (controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AdminStaffController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    77.8%
+  </span>
+  <span class="absValue">
+    (7/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.6%
+  </span>
+  <span class="absValue">
+    (139/222)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package controller;
+&nbsp;
+&nbsp;import external.AuthenticationService;
+&nbsp;import external.EmailService;
+&nbsp;import external.Log;
+&nbsp;import model.*;
+&nbsp;import view.View;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;public class AdminStaffController extends StaffController {
+&nbsp;    public AdminStaffController(
+&nbsp;            SharedContext sharedContext,
+&nbsp;            View view,
+&nbsp;            AuthenticationService auth,
+&nbsp;            EmailService email) {
+<b class="fc">&nbsp;        super(sharedContext, view, auth, email);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    private int offset = 0;</b>
+&nbsp;    
+&nbsp;    public void manageFAQ() {
+<b class="fc">&nbsp;        FAQSection currentSection = null;</b>
+&nbsp;
+&nbsp;        while (true) {
+<b class="fc">&nbsp;            if (currentSection == null) {</b>
+<b class="fc">&nbsp;                view.displayFAQ(sharedContext.getFAQ());</b>
+<b class="fc">&nbsp;                view.displayInfo(&quot;[-1] Return to main menu&quot;);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                view.displayFAQSection(currentSection);</b>
+<b class="fc">&nbsp;                view.displayInfo(&quot;[-1] Return to &quot; + (currentSection.getParent() == null ? &quot;FAQ&quot; : currentSection.getParent().getTopic()));</b>
+&nbsp;            }
+<b class="fc">&nbsp;            view.displayInfo(&quot;[-2] Add FAQ item&quot;);</b>
+<b class="fc">&nbsp;            view.displayInfo(&quot;[-3] Remove FAQ item&quot;);</b>
+<b class="fc">&nbsp;            String input = view.getInput(&quot;Please choose an option: &quot;);</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                int optionNo = Integer.parseInt(input);</b>
+&nbsp;
+<b class="fc">&nbsp;                if (optionNo == -2) {</b>
+<b class="fc">&nbsp;                    addFAQItem(currentSection);</b>
+<b class="fc">&nbsp;                } else if (optionNo ==-3) {</b>
+<b class="fc">&nbsp;                    removeFAQItem(currentSection);</b>
+<b class="fc">&nbsp;                } else if (optionNo == -1) {</b>
+<b class="fc">&nbsp;                    if (currentSection == null) {</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                    } else {
+<b class="fc">&nbsp;                        currentSection = currentSection.getParent();</b>
+&nbsp;                    }
+&nbsp;                } else {
+&nbsp;                    try {
+<b class="fc">&nbsp;                        if (currentSection == null) {</b>
+<b class="fc">&nbsp;                            currentSection = sharedContext.getFAQ().getSections().get(optionNo);</b>
+&nbsp;                        } else {
+<b class="nc">&nbsp;                            currentSection = currentSection.getSubsections().get(optionNo);</b>
+&nbsp;                        }
+<b class="nc">&nbsp;                    } catch (IndexOutOfBoundsException e) {</b>
+<b class="nc">&nbsp;                        view.displayError(&quot;Invalid option: &quot; + optionNo);</b>
+<b class="fc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                view.displayError(&quot;Invalid option: &quot; + input);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void addFAQItem(FAQSection currentSection) {
+&nbsp;        // When adding an item at root of FAQ, creating a section is mandatory
+<b class="fc">&nbsp;        boolean createSection = (currentSection == null);</b>
+<b class="fc">&nbsp;        if (!createSection) {</b>
+<b class="nc">&nbsp;            createSection = view.getYesNoInput(&quot;Would you like to create a new topic for the FAQ item?&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String tag = view.getInput(&quot;Enter course tag for this item (or leave empty): &quot;).trim();</b>
+<b class="fc">&nbsp;        if (!tag.isEmpty() &amp;&amp; sharedContext.getCourseManager().findCourse(tag) == null) {</b>
+<b class="fc">&nbsp;            view.displayError(&quot;Course code does not exist&quot;);</b>
+<b class="fc">&nbsp;            Log.AddLog(Log.ActionName.ADD_FAQ, tag, Log.Status.FAILURE);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (createSection) {</b>
+<b class="fc">&nbsp;            String newTopic = view.getInput(&quot;Enter new topic title: &quot;);</b>
+<b class="fc">&nbsp;            FAQSection newSection = new FAQSection(newTopic);</b>
+<b class="fc">&nbsp;            if (currentSection == null) {</b>
+<b class="fc">&nbsp;                if (sharedContext.getFAQ().getSections().stream().anyMatch(section -&gt; section.getTopic().equals(newTopic))) {</b>
+<b class="nc">&nbsp;                    view.displayWarning(&quot;Topic &#39;&quot; + newTopic + &quot;&#39; already exists!&quot;);</b>
+<b class="nc">&nbsp;                    newSection = sharedContext.getFAQ().getSections().stream().filter(section -&gt; section.getTopic().equals(newTopic)).findFirst().orElseThrow();</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    sharedContext.getFAQ().addSection(newSection);</b>
+<b class="fc">&nbsp;                    view.displayInfo(&quot;Created topic &#39;&quot; + newTopic + &quot;&#39;&quot;);</b>
+&nbsp;                }
+&nbsp;            } else {
+<b class="nc">&nbsp;                if (currentSection.getSubsections().stream().anyMatch(section -&gt; section.getTopic().equals(newTopic))) {</b>
+<b class="nc">&nbsp;                    view.displayWarning(&quot;Topic &#39;&quot; + newTopic + &quot;&#39; already exists under &#39;&quot; + currentSection.getTopic() + &quot;&#39;!&quot;);</b>
+<b class="nc">&nbsp;                    newSection = currentSection.getSubsections().stream().filter(section -&gt; section.getTopic().equals(newTopic)).findFirst().orElseThrow();</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    currentSection.addSubsection(newSection);</b>
+<b class="nc">&nbsp;                    view.displayInfo(&quot;Created topic &#39;&quot; + newTopic + &quot;&#39; under &#39;&quot; + currentSection.getTopic() + &quot;&#39;&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            currentSection = newSection;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        String question = view.getInput(&quot;Enter the question for new FAQ item: &quot;);</b>
+<b class="fc">&nbsp;        String answer = view.getInput(&quot;Enter the answer for new FAQ item: &quot;);</b>
+&nbsp;        
+<b class="fc">&nbsp;        String emailSubject = &quot;FAQ topic &#39;&quot; + currentSection.getTopic() + &quot;&#39; updated&quot;;</b>
+<b class="fc">&nbsp;        StringBuilder emailContentBuilder = new StringBuilder();</b>
+<b class="fc">&nbsp;        emailContentBuilder.append(&quot;Updated Q&amp;As:&quot;);</b>
+<b class="fc">&nbsp;        for (FAQItem item : currentSection.getItems()) {</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(&quot;\n\n&quot;);</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(&quot;Q: &quot;);</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(item.getQuestion());</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(&quot;\n&quot;);</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(&quot;A: &quot;);</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(item.getAnswer());</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(&quot;\n&quot;);</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(&quot;course: &quot;);</b>
+<b class="nc">&nbsp;            emailContentBuilder.append(item.getTag());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="fc">&nbsp;        String emailContent = emailContentBuilder.toString();</b>
+&nbsp;
+<b class="fc">&nbsp;        email.sendEmail(</b>
+<b class="fc">&nbsp;                ((AuthenticatedUser) sharedContext.currentUser).getEmail(),</b>
+&nbsp;                SharedContext.ADMIN_STAFF_EMAIL,
+&nbsp;                emailSubject,
+&nbsp;                emailContent
+&nbsp;        );
+&nbsp;
+<b class="fc">&nbsp;        int newId = currentSection.getItems().size() + offset;</b>
+<b class="fc">&nbsp;        currentSection.getItems().add(new FAQItem(newId, question, answer, tag.isEmpty() ? null : tag));</b>
+<b class="fc">&nbsp;        view.displaySuccess(&quot;Created new FAQ item&quot;);</b>
+<b class="fc">&nbsp;        Log.AddLog(Log.ActionName.ADD_FAQ, String.format(&quot;%d, %s, %s, %s&quot;, newId, question, answer, tag), Log.Status.SUCCESS);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+<b class="fc">&nbsp;     * removes an faq item from the faq</b>
+<b class="nc">&nbsp;     * @param currentSection the current section that is displayed to the user</b>
+&nbsp;     */
+&nbsp;    private void removeFAQItem(FAQSection currentSection) {
+<b class="nc">&nbsp;        if (currentSection == null) {</b>
+<b class="fc">&nbsp;            view.displayError(&quot;You must be inside a topic to remove an FAQ item.&quot;);</b>
+<b class="nc">&nbsp;            return;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (currentSection.getItems().isEmpty()) {</b>
+<b class="fc">&nbsp;            view.displayWarning(&quot;This topic has no FAQ items to remove.&quot;);</b>
+<b class="fc">&nbsp;            return;</b>
+&nbsp;        }
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;        view.displayFAQSection(currentSection);</b>
+<b class="fc">&nbsp;        String input = view.getInput(&quot;Enter the ID of the FAQ item to remove: &quot;);</b>
+<b class="fc">&nbsp;        try {</b>
+<b class="fc">&nbsp;            int id = Integer.parseInt(input);</b>
+<b class="fc">&nbsp;            boolean removed = currentSection.removeItem(id);</b>
+<b class="nc">&nbsp;            if (removed) {</b>
+<b class="fc">&nbsp;                offset += 1;</b>
+<b class="fc">&nbsp;                view.displaySuccess(&quot;FAQ item removed.&quot;);</b>
+<b class="fc">&nbsp;                Log.AddLog(Log.ActionName.REMOVE_FAQ, Integer.toString(id), Log.Status.SUCCESS);</b>
+<b class="nc">&nbsp;</b>
+<b class="nc">&nbsp;                if (currentSection.getItems().isEmpty()) {</b>
+<b class="nc">&nbsp;                    FAQSection parent = currentSection.getParent();</b>
+<b class="nc">&nbsp;                    if (parent != null) {</b>
+<b class="fc">&nbsp;                        parent.removeSubsection(currentSection);</b>
+<b class="fc">&nbsp;                        view.displayInfo(&quot;This topic was empty and has been removed from its parent.&quot;);</b>
+<b class="fc">&nbsp;                        manageFAQ();</b>
+&nbsp;                    } else {
+<b class="fc">&nbsp;                        sharedContext.getFAQ().removeSection(currentSection);</b>
+<b class="nc">&nbsp;                        view.displayInfo(&quot;This topic was empty and has been removed from the root FAQ.&quot;);</b>
+<b class="fc">&nbsp;                        manageFAQ();</b>
+<b class="fc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                }</b>
+<b class="fc">&nbsp;            } else {</b>
+<b class="fc">&nbsp;                view.displayError(&quot;No item found with ID &quot; + id);</b>
+<b class="fc">&nbsp;                Log.AddLog(Log.ActionName.REMOVE_FAQ, Integer.toString(id), Log.Status.FAILURE);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;            view.displayError(&quot;Invalid ID: &quot; + input);</b>
+<b class="nc">&nbsp;            Log.AddLog(Log.ActionName.REMOVE_FAQ, input, Log.Status.FAILURE);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;    
+<b class="nc">&nbsp;    public void manageInquiries() {</b>
+<b class="nc">&nbsp;        String[] inquiryTitles = getInquiryTitles(sharedContext.inquiries);</b>
+<b class="nc">&nbsp;</b>
+&nbsp;        while (true) {
+<b class="nc">&nbsp;            view.displayInfo(&quot;Pending inquiries&quot;);</b>
+<b class="nc">&nbsp;            int selection = selectFromMenu(inquiryTitles, &quot;Back to main menu&quot;);</b>
+<b class="nc">&nbsp;            if (selection == -1) {</b>
+&nbsp;                return;
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            Inquiry selectedInquiry = sharedContext.inquiries.get(selection);</b>
+<b class="nc">&nbsp;</b>
+<b class="nc">&nbsp;            while (true) {</b>
+<b class="nc">&nbsp;                view.displayDivider();</b>
+<b class="nc">&nbsp;                view.displayInquiry(selectedInquiry);</b>
+<b class="nc">&nbsp;                view.displayDivider();</b>
+<b class="nc">&nbsp;                String[] followUpOptions = { &quot;Redirect inquiry&quot;, &quot;Respond to inquiry&quot; };</b>
+<b class="nc">&nbsp;                int followUpSelection = selectFromMenu(followUpOptions, &quot;Back to all inquiries&quot;);</b>
+<b class="nc">&nbsp;</b>
+<b class="nc">&nbsp;                if (followUpSelection == -1) {</b>
+<b class="nc">&nbsp;                    break;</b>
+<b class="nc">&nbsp;                } else if (followUpOptions[followUpSelection].equals(&quot;Redirect inquiry&quot;)) {</b>
+<b class="nc">&nbsp;                    redirectInquiry(selectedInquiry);</b>
+<b class="nc">&nbsp;                } else if (followUpOptions[followUpSelection].equals(&quot;Respond to inquiry&quot;)) {</b>
+<b class="nc">&nbsp;                    respondToInquiry(selectedInquiry);</b>
+<b class="nc">&nbsp;                    inquiryTitles = getInquiryTitles(sharedContext.inquiries); // required to remove responded inquiry from titles</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    private void redirectInquiry(Inquiry inquiry) {</b>
+<b class="nc">&nbsp;        inquiry.setAssignedTo(view.getInput(&quot;Enter assigned email: &quot;));</b>
+<b class="nc">&nbsp;        email.sendEmail(</b>
+&nbsp;                SharedContext.ADMIN_STAFF_EMAIL,
+<b class="nc">&nbsp;                inquiry.getAssignedTo(),</b>
+<b class="nc">&nbsp;                &quot;New inquiry from &quot; + inquiry.getInquirerEmail(),</b>
+<b class="nc">&nbsp;                &quot;Subject: &quot; + inquiry.getSubject() + &quot;\nPlease log into the Self &quot; +</b>
+&nbsp;                        &quot;Service Portal to review and respond to the inquiry.&quot;
+&nbsp;        );
+<b class="nc">&nbsp;        view.displaySuccess(&quot;Inquiry has been reassigned&quot;);</b>
+<b class="fc">&nbsp;    }</b>
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;    public void manageCourses(){</b>
+&nbsp;        while (true) {
+<b class="fc">&nbsp;            view.displayInfo(&quot;[0] Add course&quot;);</b>
+<b class="fc">&nbsp;            view.displayInfo(&quot;[1] Remove course&quot;);</b>
+<b class="fc">&nbsp;            view.displayInfo(&quot;[-1] Return to main menu&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;            String input = view.getInput(&quot;Please choose an option: &quot;);</b>
+<b class="fc">&nbsp;            try {</b>
+<b class="fc">&nbsp;                int optionNo = Integer.parseInt(input);</b>
+<b class="nc">&nbsp;</b>
+<b class="fc">&nbsp;                if (optionNo == 0) {</b>
+<b class="fc">&nbsp;                    addCourse();</b>
+<b class="fc">&nbsp;                }else if (optionNo == 1){</b>
+<b class="fc">&nbsp;                    removeCourse();</b>
+<b class="fc">&nbsp;                }else if (optionNo == -1) {</b>
+<b class="fc">&nbsp;                    break;</b>
+<b class="fc">&nbsp;                }else{</b>
+<b class="fc">&nbsp;                    view.displayError(&quot;Invalid option: &quot; + input);</b>
+<b class="fc">&nbsp;                }</b>
+<b class="nc">&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;                view.displayError(&quot;Invalid option: &quot; + input);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;    }</b>
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;    private void addCourse(){</b>
+<b class="fc">&nbsp;        view.displayInfo(&quot;===Add Course===&quot;);</b>
+<b class="fc">&nbsp;        String courseCode = view.getInput(&quot;Enter the course code: &quot;);</b>
+<b class="fc">&nbsp;        String name = view.getInput(&quot;Enter the course name: &quot;);</b>
+<b class="fc">&nbsp;        String description = view.getInput(&quot;Enter the course description: &quot;);</b>
+<b class="fc">&nbsp;        Boolean requiresComputers = view.getYesNoInput(&quot;Does it require computers?&quot;);</b>
+<b class="fc">&nbsp;        String courseOrganiserName = view.getInput(&quot;Enter the course organiser&#39;s name: &quot;);</b>
+<b class="fc">&nbsp;        String courseOrganiserEmail = view.getInput(&quot;Enter the course organiser&#39;s &quot; +</b>
+&nbsp;                &quot;email: &quot;);
+<b class="fc">&nbsp;        String courseSecretaryName = view.getInput(&quot;Enter the course secretary&#39;s name: &quot;);</b>
+<b class="fc">&nbsp;        String courseSecretaryEmail = view.getInput(&quot;Enter the course secretary&#39;s &quot; +</b>
+<b class="fc">&nbsp;                &quot;email: &quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        String requiredTutorials = view.getInput(&quot;Enter the number of required &quot; +</b>
+<b class="fc">&nbsp;                &quot;tutorials: &quot;);</b>
+<b class="fc">&nbsp;        Integer reqTutorials = null;</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            reqTutorials = Integer.parseInt(requiredTutorials);</b>
+<b class="nc">&nbsp;        }catch(NumberFormatException e){</b>
+<b class="fc">&nbsp;            view.displayError(&quot;Invalid input: &quot; + requiredTutorials);</b>
+<b class="fc">&nbsp;            return;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;</b>
+<b class="fc">&nbsp;        String requiredLabs = view.getInput(&quot;Enter the number of required labs: &quot;);</b>
+<b class="fc">&nbsp;        Integer reqLabs = null;</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            reqLabs = Integer.parseInt(requiredLabs);</b>
+<b class="nc">&nbsp;        }catch(NumberFormatException e){</b>
+<b class="fc">&nbsp;            view.displayError(&quot;Invalid input: &quot; + requiredLabs);</b>
+<b class="fc">&nbsp;            return;</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;
+<b class="fc">&nbsp;        String currentUserEmail = sharedContext.getCurrentUserEmail();</b>
+<b class="fc">&nbsp;        CourseManager courseManager = sharedContext.getCourseManager();</b>
+<b class="fc">&nbsp;        boolean added = courseManager.addCourse(courseCode, name,</b>
+<b class="fc">&nbsp;                description, requiresComputers, courseOrganiserName,courseOrganiserEmail,</b>
+<b class="fc">&nbsp;                courseSecretaryName, courseSecretaryEmail,reqTutorials, reqLabs);</b>
+&nbsp;
+<b class="fc">&nbsp;        if(added){</b>
+<b class="fc">&nbsp;            email.sendEmail(sharedContext.ADMIN_STAFF_EMAIL, courseOrganiserEmail</b>
+<b class="fc">&nbsp;                ,&quot;Course Created-&quot; + courseCode, String.format(&quot;A course has been &quot; +</b>
+&nbsp;                            &quot;provided with the following details: \nCourse code: &quot; +
+&nbsp;                            &quot;%s\nCourse name: %s\nDescription: %s\nRequires computers: &quot; +
+&nbsp;                            &quot;%s\nCourse organiser&#39;s name: %s\nCourse oraganiser&#39;s &quot; +
+&nbsp;                            &quot;email: %s\nCourse secretary&#39;s name: %s\nCourse &quot; +
+&nbsp;                            &quot;secretary&#39;s email: %s\nNumber of required tutorials: &quot; +
+&nbsp;                            &quot;%s\nNumber of required labs: %s&quot;, courseCode, name,
+&nbsp;                            description, requiresComputers, courseOrganiserName,
+&nbsp;                            courseOrganiserEmail, courseSecretaryName,
+&nbsp;                            courseSecretaryEmail, reqTutorials, reqLabs));
+&nbsp;        }
+<b class="nc">&nbsp;</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+<b class="nc">&nbsp;    private void removeCourse(){</b>
+<b class="fc">&nbsp;        view.displayInfo(&quot;===Remove Course===&quot;);</b>
+<b class="fc">&nbsp;        String courseCode = view.getInput(&quot;Enter the course code of the course to &quot; +</b>
+&nbsp;                &quot;be removed: &quot;);
+<b class="fc">&nbsp;        CourseManager courseManager = sharedContext.getCourseManager();</b>
+<b class="nc">&nbsp;</b>
+<b class="nc">&nbsp;        //remove course from course list and timetables and get the emails of related</b>
+<b class="nc">&nbsp;        // students and organiser</b>
+<b class="fc">&nbsp;        List&lt;String&gt; emailsCourseRemoved = courseManager.removeCourse(courseCode);</b>
+<b class="fc">&nbsp;        for(String emailCourseRemoved: emailsCourseRemoved ){</b>
+<b class="fc">&nbsp;            email.sendEmail(sharedContext.ADMIN_STAFF_EMAIL, emailCourseRemoved,</b>
+<b class="fc">&nbsp;                    &quot;Course Removed-&quot; + courseCode, String.format(&quot;The course &quot; +</b>
+&nbsp;                            &quot;with course code %s has been removed from the course list &quot; +
+&nbsp;                            &quot;and student timetables.&quot;, courseCode));
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-06 20:45</div>
+</div>
+</body>
+</html>
