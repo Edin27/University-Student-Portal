@@ -232,8 +232,8 @@ public class Timetable {
 
 		@Override
 		public String toString() {
-			return courseCode + " (Activity " + activityType + ") on " + day +
-					" from " + startTime + " to " + endTime + " " +status;
+			return String.format("Time: %s -> %s\n   Course code: %s\n   Activity: %s\n",
+					startTime, endTime, courseCode, activityType);
 		}
 	}
 }

@@ -160,7 +160,7 @@ public class TextUserInterface implements View {
         LocalDate nextFriday = nextMonday.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
 
         LocalDate currentDate = nextMonday;
-        Map<LocalDate, List<String>> nextWeekTimetable = new HashMap<>();
+        Map<LocalDate, List<Timetable.TimeSlot>> nextWeekTimetable = new HashMap<>();
         for (int i = 0; i < 5; i++) {
             nextWeekTimetable.put(currentDate, new ArrayList<>());
             currentDate = currentDate.plusDays(1);
@@ -180,23 +180,21 @@ public class TextUserInterface implements View {
 
                 nextWeekTimetable
                         .get(date)
-                        .add(String.format("Time: %s -> %s\n   Course code: %s\n   " +
-                                        "Activity: %s\n",
-                                timeSlot.getStartTime(), timeSlot.getEndTime(),
-                                timeSlot.getCourseCode(), timeSlot.getActivityType()));
+                        .add(timeSlot);
             }
         }
         nextWeekTimetable.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .forEach(entry -> {
                     LocalDate date = entry.getKey();
-                    List<String> activities = entry.getValue();
+                    List<Timetable.TimeSlot> slots = entry.getValue();
                     System.out.println(date.getDayOfWeek().toString() + "   [" + date + "]");
-                    if (activities.isEmpty()) {
+                    if (slots.isEmpty()) {
                         System.out.println("   No activity");
                     }
                     else {
-                        activities.forEach(activity -> System.out.println("   " + activity));
+                        slots.forEach(activity -> System.out.println("   " + activity.toString()));
+
                     }
                     displayDivider();
                 });
