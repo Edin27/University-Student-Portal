@@ -236,7 +236,8 @@ public class CourseManager {
 							course.isUnrecordedLecture(Integer.parseInt(conflicting[1]));
 				}
 				if (unrecordedLecture1 || unrecordedLecture2) {
-					String errorMessage = "You have at least one clash win an unrecorded lecture. The course cannot be added to your timetable";
+					String errorMessage = "You have at least one clash with an " +
+							"unrecorded lecture. The course cannot be added to your timetable";
 					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 							Log.Status.FAILURE);
 					view.displayError(errorMessage);
