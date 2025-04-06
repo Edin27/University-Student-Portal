@@ -10,10 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Timetable {
-	public enum Status {
-		CHOSEN,
-		UNCHOSEN
-	}
 	private String studentEmail;
 
 	private List<TimeSlot> timeSlots;
@@ -27,16 +23,6 @@ public class Timetable {
 		this.courseActivityCount = new HashMap<>();
 	}
 
-	public boolean isChosen(String courseCode, int activityId) {
-		for (TimeSlot slot : timeSlots) {
-			if (slot.getCourseCode().equals(courseCode) &&
-					slot.getActivityId() == activityId) {
-				return slot.getStatus() == Status.CHOSEN;
-			}
-		}
-		return false; // If no corresponding time period is found, false is returned by default
-	}
-
 	public void addTimeSlot(
 			String courseCode,
 			DayOfWeek day,
@@ -44,41 +30,14 @@ public class Timetable {
 			LocalTime startTime,
 			LocalDate endDate,
 			LocalTime endTime,
-			int activityId,
-			String activityType
+			int activityId
 	) {
-		timeSlots.add(new TimeSlot(courseCode, day, startDate, startTime,
-				endDate, endTime, activityId, activityType));
-
-		if ("Lecture".equalsIgnoreCase(activityType)) {
-			courseActivityCount.put(courseCode,
-					courseActivityCount.getOrDefault(courseCode, 0) + 1);
-		}
+		timeSlots.add(new TimeSlot(courseCode, day, startDate, startTime, endDate, endTime, activityId));
 	}
 
 
-	public int numChosenTutorials(String courseCode) {
-		int count = 0;
-		for (TimeSlot slot : timeSlots) {
-			if (slot.courseCode.equals(courseCode) &&
-					slot.status == Status.CHOSEN &&
-					"Tutorial".equalsIgnoreCase(slot.activityType)) {
-				count++;
-			}
-		}
-		return count;
-	}
-
-	public int numChosenLabs(String courseCode) {
-		int count = 0;
-		for (TimeSlot slot : timeSlots) {
-			if (slot.courseCode.equals(courseCode) &&
-					slot.status == Status.CHOSEN &&
-					"Lab".equalsIgnoreCase(slot.activityType)) {
-				count++;
-			}
-		}
-		return count;
+	public int numChosenActivities(String courseCode) {
+		return courseActivityCount.getOrDefault(courseCode, 0);
 	}
 
 
@@ -100,31 +59,16 @@ public class Timetable {
 		return this.studentEmail.equals(email);
 	}
 
-	public boolean chooseActivityByTime(
-			String courseCode,
-			String activityType,
-			LocalDate startDate,
-			LocalTime startTime,
-			LocalDate endDate,
-			LocalTime endTime
-	) {
-		for (TimeSlot slot : timeSlots) {
-			if (slot.courseCode.equals(courseCode) &&
-					slot.activityType.equalsIgnoreCase(activityType) &&
-					slot.startDate.equals(startDate) &&
-					slot.startTime.equals(startTime) &&
-					slot.endDate.equals(endDate) &&
-					slot.endTime.equals(endTime)) {
-				if (slot.status == Status.UNCHOSEN) {
-					slot.status = Status.CHOSEN;
-					courseActivityCount.put(courseCode,
-							courseActivityCount.getOrDefault(courseCode, 0) + 1);
-					return true;
-				}
-				return false; // already CHOSEN
-			}
+	public boolean chooseActivity(String courseCode, int activityId) {
+		if (hasSlotsForCourse(courseCode)) {
+			courseActivityCount.put(courseCode, courseActivityCount.get(courseCode) + 1);
+			return true;
 		}
-		return false; // No matching time period found
+		return false;
+	}
+
+	public boolean hasSlotsForCourse(String courseCode) {
+		return timeSlots.stream().anyMatch(slot -> slot.getCourseCode().equals(courseCode));
 	}
 
 	public boolean removeSlotsForCourse(String courseCode) {
@@ -144,15 +88,13 @@ public class Timetable {
 	}
 
 	public static class TimeSlot {
-		public String activityType;
-		String courseCode;
-		DayOfWeek day;
-		LocalDate startDate;
-		LocalTime startTime;
-		LocalDate endDate;
-		LocalTime endTime;
-		int activityId;
-		Status status;
+		private String courseCode;
+		private DayOfWeek day;
+		private LocalDate startDate;
+		private LocalTime startTime;
+		private LocalDate endDate;
+		private LocalTime endTime;
+		private int activityId;
 
 		public TimeSlot(
 				String courseCode,
@@ -161,8 +103,7 @@ public class Timetable {
 				LocalTime startTime,
 				LocalDate endDate,
 				LocalTime endTime,
-				int activityId,
-				String activityType
+				int activityId
 		) {
 			this.courseCode = courseCode;
 			this.day = day;
@@ -171,20 +112,6 @@ public class Timetable {
 			this.endDate = endDate;
 			this.endTime = endTime;
 			this.activityId = activityId;
-			this.activityType = activityType;
-			this.status = "Lecture".equalsIgnoreCase(activityType) ? Status.CHOSEN : Status.UNCHOSEN;
-		}
-
-		public Status getStatus() {
-			return status;
-		}
-
-		public void setStatus(Status status) {
-			this.status = status;
-		}
-
-		public int getActivityId() {
-			return activityId;
 		}
 
 		public boolean overlaps(
@@ -205,8 +132,8 @@ public class Timetable {
 
 		@Override
 		public String toString() {
-			return courseCode + " (Activity " + activityType + ") on " + day +
-					" from " + startTime + " to " + endTime + " " +status;
+			return courseCode + " (Activity " + activityId + ") on " + day +
+					" from " + startTime + " to " + endTime;
 		}
 	}
 }

@@ -21,7 +21,6 @@ public class StudentController extends Controller {
         while (true) {
             view.displayInfo("[1] Add Course to Timetable");
             view.displayInfo("[2] View Timetable");
-            view.displayInfo("[3] Choose Activity For Course");
             view.displayInfo("[-1] Return to main menu");
 
             String input = view.getInput("Please choose an option: ");
@@ -39,8 +38,6 @@ public class StudentController extends Controller {
                     addCourseToTimetable();
                 } else if (optionNo == 2) {
                     viewTimetable();
-                } else if (optionNo == 3) {
-                    chooseActivityForCourse();
                 } else {
                     view.displayError("Invalid option: " + input);
                 }
@@ -61,6 +58,7 @@ public class StudentController extends Controller {
     }
 
 
+
     private void removeCourseFromTimetable(){}
     private void viewTimetable(){
         if (!(sharedContext.currentUser instanceof AuthenticatedUser)) {
@@ -70,20 +68,15 @@ public class StudentController extends Controller {
 
         String email = sharedContext.getCurrentUserEmail();
         CourseManager courseManager = sharedContext.getCourseManager();
+
+        // 直接从 CourseManager 获取 Timetable 对象
         Timetable studentTimetable = courseManager.getTimetableByEmail(email);
 
         if (studentTimetable == null) {
-            view.displayError("You have not added any courses to your timetable.");
+            view.displayInfo("You have not added any courses to your timetable.");
         } else {
             view.displayTimetable(studentTimetable);
         }
     }
-    private void chooseActivityForCourse(){
-        view.displayInfo("===Choose Activity For Course===");
-        String courseCode = view.getInput("Enter the course code: ");
-        String activityType = view.getInput("Enter the activityType (E.g Tutorial,Lab): ");
-        String email = sharedContext.getCurrentUserEmail();
-        CourseManager courseManager = sharedContext.getCourseManager();
-        courseManager.chooseActivityForCourse(email,courseCode, activityType);
-    }
+    private void chooseActivityForCourse(){}
 }

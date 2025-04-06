@@ -1,8 +1,0 @@
-2025/04/06 - 02:16:18 - Guest - LOGIN - admin1, admin1pass - SUCCESS
-2025/04/06 - 02:16:18 - admin1 - ADD_COURSE -  - SUCCESS
-2025/04/06 - 02:16:18 - admin1 - LOGOUT -  - SUCCESS
-2025/04/06 - 02:16:18 - Guest - LOGIN - student1, student1pass - SUCCESS
-2025/04/06 - 02:16:18 - student1 - ADD_COURSE_TO_TIMETABLE -  - FAILURE
-2025/04/06 - 02:16:18 - student1 - ADD_COURSE_TO_TIMETABLE -  - FAILURE
-2025/04/06 - 02:16:18 - student1 - ADD_COURSE_TO_TIMETABLE -  - SUCCESS
-2025/04/06 - 02:16:18 - student1 - LOGIN - admin1, admin1pass - SUCCESS
