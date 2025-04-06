@@ -404,10 +404,6 @@ public class CourseManager {
 		// Get the time slot selected by the user
 		Integer slotChosenInt = null;
 
-
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-
 		try {
 			String slotChosen = view.getInput("Please choose the activity timeslot :");
 			slotChosenInt = Integer.parseInt(slotChosen);
@@ -418,7 +414,7 @@ public class CourseManager {
 			return false;
 		}
 
-		Timetable.TimeSlot timeslotChosen = availableSlots.get(slotChosenInt);
+		Timetable.TimeSlot timeslotChosen = availableSlots.get(slotChosenInt-1);
 		LocalDate startDate = timeslotChosen.getStartDate();
 		LocalTime startTime = timeslotChosen.getStartTime();
 		LocalDate endDate = timeslotChosen.getEndDate();
