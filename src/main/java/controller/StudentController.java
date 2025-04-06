@@ -77,7 +77,7 @@ public class StudentController extends Controller {
         Timetable studentTimetable = courseManager.getTimetableByEmail(email);
 
         if (studentTimetable == null) {
-            view.displayInfo("You have not added any courses to your timetable.");
+            view.displayWarning("You have not added any courses to your timetable.");
         } else {
             view.displayTimetable(sharedContext);
         }

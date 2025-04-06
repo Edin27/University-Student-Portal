@@ -249,7 +249,10 @@ public class TextUserInterface implements View {
                             // check for clashes
                             for (Timetable.TimeSlot slot2 : slots) {
                                 if (!slot1.equals(slot2) && slot1.getStatus() == Timetable.Status.CHOSEN && slot2.getStatus() == Timetable.Status.CHOSEN) {
-                                    if (slot1.overlaps(slot2.getStartDate(), slot2.getStartTime(), slot2.getEndDate(), slot2.getEndTime())) {
+                                    if (slot1.overlaps(slot2.getStartDate(),
+                                            slot2.getStartTime(), slot2.getEndDate(),
+                                            slot2.getEndTime(), slot2.getDay(),
+                                            slot2.getStatus())) {
                                         if (courseManager.findCourse(slot1.getCourseCode()).isUnrecordedLecture(slot1.getActivityId())) {
                                             displayError("Unrecorded Lecture clash!\n");
                                         } else {

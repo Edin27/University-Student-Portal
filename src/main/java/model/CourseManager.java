@@ -215,26 +215,29 @@ public class CourseManager {
 			}
 
 			int activityId = Integer.parseInt(values.get("id"));
-			String day = values.get("day");
+			DayOfWeek day = DayOfWeek.valueOf(values.get("day").toUpperCase());
 			LocalDate startDate = LocalDate.parse(values.get("startDate"));
 			LocalDate endDate = LocalDate.parse(values.get("endDate"));
 			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 			LocalTime startTime = LocalTime.parse(values.get("startTime"), timeFormatter);
 			LocalTime endTime = LocalTime.parse(values.get("endTime"), timeFormatter);
 
+
 			// Check for time conflicts
-			String[] conflicting = timetable.checkConflicts(startDate, startTime, endDate, endTime);
+			String[] possibleConflicting = timetable.checkPossibleConflicts(startDate,
+					startTime,
+					endDate, endTime, day);
 			boolean unrecordedLecture1 = true;
 			boolean unrecordedLecture2 = true;
 
-			if (conflicting != null) {
+			if (possibleConflicting != null) {
 				for (Course course : courses) {
 					unrecordedLecture1 =
 							course.isUnrecordedLecture(activityId);
 				}
 				for (Course course : courses) {
 					unrecordedLecture2 =
-							course.isUnrecordedLecture(Integer.parseInt(conflicting[1]));
+							course.isUnrecordedLecture(Integer.parseInt(possibleConflicting[1]));
 				}
 				if (unrecordedLecture1 || unrecordedLecture2) {
 					String errorMessage = "You have at least one clash with an " +
@@ -244,8 +247,8 @@ public class CourseManager {
 					view.displayError(errorMessage);
 					return false;
 				} else {
-					String warningMessage = "You have at least one clash with another " +
-							"activity";
+					String warningMessage = "Some activities have clashes, please " +
+							"choose carefully";
 					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 							Log.Status.FAILURE);
 					view.displayWarning(warningMessage);
@@ -278,8 +281,7 @@ public class CourseManager {
 				}
 			}
 
-			timetable.addTimeSlot(courseCode, DayOfWeek.valueOf(day.toUpperCase()),
-					startDate, startTime, endDate, endTime, activityId, activityType);
+			timetable.addTimeSlot(courseCode, day, startDate, startTime, endDate, endTime, activityId, activityType);
 		}
 
 		for(Course course : courses) {
@@ -401,36 +403,36 @@ public class CourseManager {
 		}
 
 
-		// Get the time period selected by the user
-		LocalDate startDate = null;
-		LocalTime startTime = null;
-		LocalDate endDate = null;
-		LocalTime endTime = null;
-
-		view.displayInfo("Please enter the time slot details you want to choose:");
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+		// Get the time slot selected by the user
+		Integer slotChosenInt = null;
 
 		try {
-			String startDateStr = view.getInput("Start date (yyyy-MM-dd): ");
-			startDate = LocalDate.parse(startDateStr, dateFormatter);
+			String slotChosen = view.getInput("Please choose the activity timeslot :");
+			slotChosenInt = Integer.parseInt(slotChosen);
 
-			String startTimeStr = view.getInput("Start time (HH:mm): ");
-			startTime = LocalTime.parse(startTimeStr, timeFormatter);
-
-			String endDateStr = view.getInput("End date (yyyy-MM-dd): ");
-			endDate = LocalDate.parse(endDateStr, dateFormatter);
-
-			String endTimeStr = view.getInput("End time (HH:mm): ");
-			endTime = LocalTime.parse(endTimeStr, timeFormatter);
-		} catch (DateTimeParseException e) {
-			view.displayError("Invalid date or time format. Please use yyyy-MM-dd for dates and HH:mm for times.");
+		} catch (NumberFormatException e) {
+			view.displayError("Invalid timeslot option");
 			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
 			return false;
 		}
 
+		Timetable.TimeSlot timeslotChosen = availableSlots.get(slotChosenInt-1);
+		LocalDate startDate = timeslotChosen.getStartDate();
+		LocalTime startTime = timeslotChosen.getStartTime();
+		LocalDate endDate = timeslotChosen.getEndDate();
+		LocalTime endTime = timeslotChosen.getEndTime();
+		DayOfWeek day = timeslotChosen.getDay();
+		Timetable.Status status = timeslotChosen.getStatus();
+
 		// Select time period
 		boolean success = timetable.chooseActivityByTime(courseCode, activityType, startDate, startTime, endDate, endTime);
+		String[] conflicting = timetable.checkConflicts(startDate, startTime,
+				endDate, endTime, day, status);
+
+		if(conflicting != null){
+			view.displayWarning("Some activities added overlap");
+		}
+
 		if (!success) {
 			view.displayError("Failed to choose " + activityType + " for course " + courseCode +
 					" at specified time. It may already be chosen or not exist.");
@@ -438,10 +440,12 @@ public class CourseManager {
 			return false;
 		}
 
+
+
 		requiredTutorials = course.getRequiredTutorials();
 		requiredLabs = course.getRequiredLabs();
 
-		// 检查是否满足要求
+
 		boolean tutorialsSatisfied = checkChosenTutorials(courseCode, timetable);
 		boolean labsSatisfied = checkChosenLabs(courseCode, timetable);
 
