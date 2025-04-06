@@ -659,6 +659,12 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 				"tutorial",							 // choose tutorial
 				"2",              					 // choose available tutorial2 but input wrong time
 
+				// choose available tutorial2 again
+				"3",                                 // choose Activity
+				"CS101",  							 // course code
+				"tutorial",							 // choose tutorial
+				"1",              					 // choose available tutorial2 input correct time
+
 				// choose Lab
 				"3",                                 // choose Activity
 				"CS101",  							 // course code
@@ -689,6 +695,9 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 		menuController.mainMenu();
 
 		assertOutputContains("You still need to choose 1 more tutorials for CS101");
+
+		assertOutputContains("Invalid timeslot option");  // error message given
+
 		assertOutputContains("You have successfully chosen all required Tutorials for CS101!");
 
 		assertOutputContains("You have successfully chosen all required Labs for CS101!");
