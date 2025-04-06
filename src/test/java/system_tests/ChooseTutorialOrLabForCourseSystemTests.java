@@ -22,7 +22,7 @@ public class ChooseTutorialOrLabForCourseSystemTests extends TUITest {
 			ParseException {
 		// Set up mock inputs for the entire flow
 		setMockInput(
-				"admin1", "admin1pass",              // Login credentials
+				"admin1", "admin1pass",              // Login credentials 
 				"3",                                 // MANAGE_COURSES
 				"0",                                 // Add course
 				"CS101",                             // Course code
