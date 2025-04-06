@@ -19,7 +19,6 @@ public class AdminStaffController extends StaffController {
     }
 
     private int offset = 0;
-
     
     public void manageFAQ() {
         FAQSection currentSection = null;
@@ -131,6 +130,7 @@ public class AdminStaffController extends StaffController {
         int newId = currentSection.getItems().size() + offset;
         currentSection.getItems().add(new FAQItem(newId, question, answer, tag.isEmpty() ? null : tag));
         view.displaySuccess("Created new FAQ item");
+        Log.AddLog(Log.ActionName.ADD_FAQ, String.format("%d, %s, %s, %s", newId, question, answer, tag), Log.Status.SUCCESS);
     }
 
     private void removeFAQItem(FAQSection currentSection) {
@@ -152,6 +152,7 @@ public class AdminStaffController extends StaffController {
             if (removed) {
                 offset += 1;
                 view.displaySuccess("FAQ item removed.");
+                Log.AddLog(Log.ActionName.REMOVE_FAQ, Integer.toString(id), Log.Status.SUCCESS);
 
                 if (currentSection.getItems().isEmpty()) {
                     FAQSection parent = currentSection.getParent();
@@ -167,9 +168,11 @@ public class AdminStaffController extends StaffController {
                 }
             } else {
                 view.displayError("No item found with ID " + id);
+                Log.AddLog(Log.ActionName.REMOVE_FAQ, Integer.toString(id), Log.Status.FAILURE);
             }
         } catch (NumberFormatException e) {
             view.displayError("Invalid ID: " + input);
+            Log.AddLog(Log.ActionName.REMOVE_FAQ, input, Log.Status.FAILURE);
         }
     }
     

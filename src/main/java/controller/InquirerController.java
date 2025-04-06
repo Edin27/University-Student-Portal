@@ -68,11 +68,13 @@ public class InquirerController extends Controller {
                         }
                     } catch (IndexOutOfBoundsException e) {
                         view.displayError("Invalid option: " + optionNo);
+                        Log.AddLog(Log.ActionName.CONSULT_FAQ, input, Log.Status.FAILURE);
                     }
                 }
 
             } catch (NumberFormatException e) {
                 view.displayError("Invalid option: " + input);
+                Log.AddLog(Log.ActionName.CONSULT_FAQ, input, Log.Status.FAILURE);
             }
         }
     }
