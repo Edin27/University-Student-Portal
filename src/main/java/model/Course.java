@@ -301,6 +301,12 @@ public class Course {
 		}else{
 			Lecture newLecture = new Lecture(id, startDate, startTime, endDate,endTime, location, day, recorded);
 			lectures.add(newLecture);
+			String successMessage = "Lecture is added successfully";
+			view.displaySuccess(successMessage);
+			Log.AddLog(Log.ActionName.ADD_ACTIVITY, String.format("%s, %s, %s, %s, " +
+							"%s, %s, %b", startDate, startTime, endDate, endTime,
+							location, day, recorded),
+					Log.Status.SUCCESS);
 			return newLecture;
 		}
 	}
@@ -333,10 +339,24 @@ public class Course {
 				if(actType == 1){
 					Tutorial tutorial = new Tutorial(id, startDate, startTime, endDate, endTime, location, day, capacityInt);
 					tutorials.add(tutorial);
+					String successMessage = "Tutorial is added successfully";
+					view.displaySuccess(successMessage);
+					Log.AddLog(Log.ActionName.ADD_ACTIVITY,
+								String.format("%s, %s, %s, %s, %s, %s, %s",
+										startDate, startTime, endDate, endTime, location
+										,day, capacity),
+								Log.Status.SUCCESS);
 					return tutorial;
 				}else if(actType == 2){
 					Lab lab = new Lab(id, startDate, startTime, endDate, endTime, location, day, capacityInt);
 					labs.add(lab);
+					String successMessage = "Lab is added successfully";
+					view.displaySuccess(successMessage);
+					Log.AddLog(Log.ActionName.ADD_ACTIVITY,
+								String.format("%s, %s, %s, %s, %s, %s, %s",
+										startDate, startTime, endDate, endTime, location
+										,day, capacity),
+								Log.Status.SUCCESS);
 					return lab;
 				}
 			}

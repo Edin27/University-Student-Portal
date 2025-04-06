@@ -1,8 +1,14 @@
 package system_tests;
 
 import controller.AdminStaffController;
+
 import controller.GuestController;
 import external.*;
+import controller.ViewerController;
+import external.AuthenticationService;
+import external.EmailService;
+import external.MockAuthenticationService;
+import external.MockEmailService;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.*;
@@ -35,6 +41,14 @@ public class AddCourseSystemTests extends TUITest{
 		startOutputCapture();
 		adminStaffController.manageCourses();
 		assertOutputContains("Course has been successfully created");
+
+		// Check if added in view course
+		ViewerController viewerController = new ViewerController(sharedContext, view,
+				auth, email);
+		startOutputCapture();
+		viewerController.viewCourses();
+		assertOutputContains("Course Name: Software Engineering, Course Code: INF001");
+
 	}
 
 	@Test

@@ -35,6 +35,7 @@ public class Log {
         VIEW_TIMETABLE,
         REMOVE_COURSE,
         ADD_FAQ,
+        CHOOSE_ACTIVITY,
         REMOVE_FAQ,
         // ect, ect
     }
