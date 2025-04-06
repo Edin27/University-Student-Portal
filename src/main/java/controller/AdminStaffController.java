@@ -133,6 +133,10 @@ public class AdminStaffController extends StaffController {
         Log.AddLog(Log.ActionName.ADD_FAQ, String.format("%d, %s, %s, %s", newId, question, answer, tag), Log.Status.SUCCESS);
     }
 
+    /**
+     * removes an faq item from the faq
+     * @param currentSection the current section that is displayed to the user
+     */
     private void removeFAQItem(FAQSection currentSection) {
         if (currentSection == null) {
             view.displayError("You must be inside a topic to remove an FAQ item.");
