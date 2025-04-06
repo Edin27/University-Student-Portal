@@ -10,11 +10,16 @@ import java.io.IOException;
 import java.util.*;
 
 public class AdminStaffController extends StaffController {
-    public AdminStaffController(SharedContext sharedContext, View view, AuthenticationService auth, EmailService email) {
+    public AdminStaffController(
+            SharedContext sharedContext,
+            View view,
+            AuthenticationService auth,
+            EmailService email) {
         super(sharedContext, view, auth, email);
     }
 
     private int offset = 0;
+
     
     public void manageFAQ() {
         FAQSection currentSection = null;

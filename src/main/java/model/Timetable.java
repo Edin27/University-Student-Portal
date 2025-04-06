@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -203,10 +204,36 @@ public class Timetable {
 			return courseCode;
 		}
 
+		public LocalDate getStartDate() {
+			return startDate;
+		}
+
+		public LocalDate getEndDate() {
+			return endDate;
+		}
+
+		public DayOfWeek getDay() {
+			return day;
+		}
+
+		public LocalTime getStartTime() {
+			return startTime;
+		}
+
+		public LocalTime getEndTime() {
+			return endTime;
+		}
+
+		public String getActivityType() {
+			return activityType;
+		}
+
+
+
 		@Override
 		public String toString() {
-			return courseCode + " (Activity " + activityType + ") on " + day +
-					" from " + startTime + " to " + endTime + " " +status;
+			return String.format("Time: %s -> %s\n   Course code: %s\n   Activity: %s\n",
+					startTime, endTime, courseCode, activityType);
 		}
 	}
 }

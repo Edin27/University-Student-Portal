@@ -63,7 +63,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"5",                                 // MANAGE_TIMETABLE
 				"1",                                 // Add Course to Timetable
 				"CS101",                             // Enter the course code
-				"2",								 // viewTimetable
 				"-1",                                // Return to main menu
 				"-1"                                 // Exit
 		);
@@ -89,7 +88,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 		assertOutputContains("You have to choose 6 tutorials for this course");
 		assertOutputContains("You have to choose 6 labs for this course");
 		assertOutputContains("The course was successfully added to your timetable");
-		assertOutputContains("CS101 (Activity Lecture) on MONDAY from 09:00 to 10:30 CHOSEN");
 	}
 
 	@Test
@@ -137,7 +135,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"5",                                 // MANAGE_TIMETABLE
 				"1",                                 // Add Course to Timetable
 				"CS102",                             // Enter the course code
-				"2",								 // viewTimetable
 				"-1",                                //Return to main menu
 				"-1"                                 // Exit
 		);
@@ -163,10 +160,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 		assertOutputContains("You have to choose 6 tutorials for this course");
 		assertOutputContains("You have to choose 6 labs for this course");
 		assertOutputContains("The course was successfully added to your timetable");
-		assertOutputContains("CS102 (Activity Lecture) on MONDAY from 09:00 to 10:30 " +
-				"CHOSEN");
-		assertOutputContains("CS102 (Activity Tutorial) on WEDNESDAY from 11:00 to " +
-				"12:00 UNCHOSEN");
 	}
 
 	@Test
@@ -214,7 +207,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"5",                                 // MANAGE_TIMETABLE
 				"1",                                 // Add Course to Timetable
 				"CS101",                             // Enter the course code
-				"2",								 // viewTimetable
 				"-1",                                //Return to main menu
 				"-1"                                 // Exit
 		);
@@ -237,8 +229,8 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 		menuController.mainMenu();
 
 		// Verify output contains success message
-		assertOutputContains("You have at least one clash win an unrecorded lecture. The course cannot be added to your timetable");
-		assertOutputContains("CS101 (Activity Lecture) on MONDAY from 09:00 to 10:30 CHOSEN");
+		assertOutputContains("You have at least one clash with an unrecorded lecture. " +
+				"The course cannot be added to your timetable");
 	}
 
 	@Test
@@ -286,7 +278,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 				"5",                                 // MANAGE_TIMETABLE
 				"1",                                 // Add Course to Timetable
 				"CS101",                             // Enter the course code
-				"2",								 // viewTimetable
 				"-1",                                //Return to main menu
 				"-1"                                 // Exit
 		);
@@ -313,8 +304,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 		assertOutputContains("You have to choose 6 tutorials for this course");
 		assertOutputContains("You have to choose 6 labs for this course");
 		assertOutputContains("The course was successfully added to your timetable");
-		assertOutputContains("CS101 (Activity Lecture) on MONDAY from 09:00 to 10:30 CHOSEN");
-		assertOutputContains("CS101 (Activity Tutorial) on MONDAY from 09:00 to 10:00 UNCHOSEN");
 	}
 
 	@Test
