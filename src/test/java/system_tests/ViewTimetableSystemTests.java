@@ -2,27 +2,16 @@ package system_tests;
 
 import controller.GuestController;
 import controller.MenuController;
-import controller.StudentController;
-import controller.ViewerController;
 import external.MockAuthenticationService;
 import external.MockEmailService;
-import model.Activity;
-import model.Course;
-import model.Lecture;
 import model.SharedContext;
 import org.json.simple.parser.ParseException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import view.TextUserInterface;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ViewTimetableSystemTests extends TUITest{
 
