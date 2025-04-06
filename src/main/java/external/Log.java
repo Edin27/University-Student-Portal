@@ -31,7 +31,6 @@ public class Log {
         ADD_COURSE,
         ADD_ACTIVITY,
         ADD_COURSE_TO_TIMETABLE,
-        CHOOSE_TUTORIAL_OR_lAB,
         VIEW_TIMETABLE,
         REMOVE_COURSE,
         ADD_FAQ,
