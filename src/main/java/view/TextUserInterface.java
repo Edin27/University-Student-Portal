@@ -4,10 +4,10 @@ import model.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 
 public class TextUserInterface implements View {
     private final Scanner scanner = new Scanner(System.in);
@@ -153,8 +153,51 @@ public class TextUserInterface implements View {
     public void displayTimetable(Timetable timetable) {
         System.out.println(timetable.getStudentEmail() + " Timetable");
         List<Timetable.TimeSlot> timeSlots = timetable.getTimeSlots();
+        LocalDate today = LocalDate.now();
+        LocalDate nextMonday = today
+                .with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY))
+                .plusWeeks(1);
+        LocalDate nextFriday = nextMonday.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+
+        LocalDate currentDate = nextMonday;
+        Map<LocalDate, List<String>> nextWeekTimetable = new HashMap<>();
+        for (int i = 0; i < 5; i++) {
+            nextWeekTimetable.put(currentDate, new ArrayList<>());
+            currentDate = currentDate.plusDays(1);
+        }
+
+        // Only display next week's timetable
         for (Timetable.TimeSlot timeSlot : timeSlots) {
-            System.out.println(timeSlot);
+            LocalDate startDate = timeSlot.getStartDate();
+            LocalDate endDate = timeSlot.getEndDate();
+            DayOfWeek day = timeSlot.getDay();
+
+
+            String actualActivityType = timeSlot.getActualActivityType();
+            if(!endDate.isBefore(nextMonday)){
+                // Get date of activity next week
+                LocalDate date = today
+                        .with(TemporalAdjusters.nextOrSame(day))
+                        .plusWeeks(1);
+
+                nextWeekTimetable
+                        .get(date)
+                        .add(String.format("Time: %s - %s\nCourse code: %s\nActivity: " +
+                                "%s\nStatus: %s", timeSlot.getStartTime(),
+                                timeSlot.getEndTime(),timeSlot.getCourseCode(),
+                                timeSlot.getActualActivityType(), timeSlot.getStatus()));
+            }
+
+            nextWeekTimetable.forEach((date, activities) -> {
+                System.out.println(date.getDayOfWeek().toString() + "   [" + date + "]");
+                if (activities.isEmpty()) {
+                    System.out.println("   No activity");
+                } else {
+                    activities.forEach(event -> System.out.println("   " + activities));
+                }
+                System.out.println(); // Add empty line between dates
+            });
+
         }
     }
 

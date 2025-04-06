@@ -4,6 +4,7 @@ import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -200,13 +201,53 @@ public class Timetable {
 		}
 
 		public String getCourseCode() {
+
 			return courseCode;
+		}
+
+		public LocalDate getStartDate() {
+			return startDate;
+		}
+
+		public LocalDate getEndDate() {
+			return endDate;
+		}
+
+		public DayOfWeek getDay() {
+			return day;
+		}
+
+		public LocalTime getStartTime() {
+			return startTime;
+		}
+
+		public LocalTime getEndTime() {
+			return endTime;
+		}
+
+		public String getActualActivityType(){
+			String actualActivityType = null;
+			if(activityType.equals("0")){
+				actualActivityType = "Lecture";
+			}else if(activityType.equals("1")){
+				actualActivityType = "Tutorial";
+			}else if(activityType.equals("2")){
+				actualActivityType = "Lab";
+			}
+			return actualActivityType;
 		}
 
 		@Override
 		public String toString() {
-			return courseCode + " (Activity " + activityType + ") on " + day +
-					" from " + startTime + " to " + endTime + " " +status;
+
+
+			LocalDate today = LocalDate.now();
+			LocalDate nextMonday = today.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+			LocalDate nextFriday = today.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+
+			return courseCode + " (Activity: " + activityActualType + ") \nDay: " + day +
+					"Date: " +
+					"\nfrom " + startTime + " to " + endTime+ "\n" +status;
 		}
 	}
 }
