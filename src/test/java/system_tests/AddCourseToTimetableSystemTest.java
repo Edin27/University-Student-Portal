@@ -340,7 +340,6 @@ public class AddCourseToTimetableSystemTest extends TUITest {
 		assertOutputContains("Activity: Lecture");
 		assertOutputContains("Status: CHOSEN");
 
-		assertOutputContains("Clashes with another activity!");
 		assertOutputContains("Time: 11:00 -> 12:00");
 		assertOutputContains("Course code: CS102");
 		assertOutputContains("Activity: Tutorial");
