@@ -414,6 +414,10 @@ public class CourseManager {
 			view.displayError("Invalid timeslot option");
 			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
 			return false;
+		}if(slotChosenInt > availableSlots.size() || slotChosenInt < 1 ){
+			view.displayError("Invalid timeslot option");
+			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);
+			return false;
 		}
 
 		Timetable.TimeSlot timeslotChosen = availableSlots.get(slotChosenInt-1);
