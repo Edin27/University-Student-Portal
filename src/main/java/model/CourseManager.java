@@ -247,8 +247,8 @@ public class CourseManager {
 					view.displayError(errorMessage);
 					return false;
 				} else {
-					String warningMessage = "You have at least one clash with another " +
-							"activity";
+					String warningMessage = "Some activities have clashes, please " +
+							"choose carefully";
 					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + ", " + courseCode,
 							Log.Status.FAILURE);
 					view.displayWarning(warningMessage);
