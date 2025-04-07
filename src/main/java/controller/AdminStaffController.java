@@ -80,6 +80,11 @@ public class AdminStaffController extends StaffController {
 
         if (createSection) {
             String newTopic = view.getInput("Enter new topic title: ");
+            if (newTopic.isEmpty()) {
+                view.displayError("Topic cannot be empty!");
+                Log.AddLog(Log.ActionName.ADD_FAQ, "empty topic", Log.Status.FAILURE);
+                return;
+            }
             FAQSection newSection = new FAQSection(newTopic);
             if (currentSection == null) {
                 if (sharedContext.getFAQ().getSections().stream().anyMatch(section -> section.getTopic().equals(newTopic))) {
@@ -102,7 +107,17 @@ public class AdminStaffController extends StaffController {
         }
 
         String question = view.getInput("Enter the question for new FAQ item: ");
+        if (question.isEmpty()) {
+            view.displayError("Question cannot be empty!");
+            Log.AddLog(Log.ActionName.ADD_FAQ, "empty question", Log.Status.FAILURE);
+            return;
+        }
         String answer = view.getInput("Enter the answer for new FAQ item: ");
+        if (answer.isEmpty()) {
+            view.displayError("Answer cannot be empty!");
+            Log.AddLog(Log.ActionName.ADD_FAQ, "empty answer", Log.Status.FAILURE);
+            return;
+        }
         
         String emailSubject = "FAQ topic '" + currentSection.getTopic() + "' updated";
         StringBuilder emailContentBuilder = new StringBuilder();
@@ -133,6 +148,10 @@ public class AdminStaffController extends StaffController {
         Log.AddLog(Log.ActionName.ADD_FAQ, String.format("%d, %s, %s, %s", newId, question, answer, tag), Log.Status.SUCCESS);
     }
 
+    /**
+     * removes an faq item from the faq
+     * @param currentSection the current section that is displayed to the user
+     */
     private void removeFAQItem(FAQSection currentSection) {
         if (currentSection == null) {
             view.displayError("You must be inside a topic to remove an FAQ item.");

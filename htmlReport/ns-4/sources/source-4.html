@@ -1,0 +1,603 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > CourseManager</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">model</a>
+</div>
+
+<h1>Coverage Summary for Class: CourseManager (model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CourseManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.7%
+  </span>
+  <span class="absValue">
+    (244/272)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package model;
+&nbsp;
+&nbsp;import external.Log;
+&nbsp;import view.TextUserInterface;
+&nbsp;import view.View;
+&nbsp;import java.util.List.*;
+&nbsp;
+&nbsp;import java.time.DayOfWeek;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.time.format.DateTimeFormatter;
+&nbsp;import java.time.format.DateTimeParseException;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;
+&nbsp;public class CourseManager {
+&nbsp;	protected final View view;
+<b class="fc">&nbsp;	private final Collection&lt;Course&gt; courses = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;	private final Collection&lt;Timetable&gt; timetables = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;	private final Map&lt;String, Timetable&gt; timetabless = new HashMap&lt;&gt;();</b>
+&nbsp;
+&nbsp;	String fullActivityDetailsAsString;
+<b class="fc">&nbsp;	int requiredTutorials = 0;</b>
+<b class="fc">&nbsp;	int requiredLabs = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;	public CourseManager(View view) {</b>
+<b class="fc">&nbsp;		this.view = view;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;	public Collection&lt;Course&gt; getCourses() {
+<b class="fc">&nbsp;		return courses;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public boolean addCourse(String code,
+&nbsp;							 String name, String description, Boolean requiresComputers,
+&nbsp;							 String COName, String COEmail, String CSName, String CSEmail,
+&nbsp;							 Integer reqTutorials, Integer reqLabs) {
+&nbsp;
+&nbsp;
+&nbsp;		//check whether required elements all provided
+<b class="fc">&nbsp;		if (isAnyNullOrEmpty(code, name, description, requiresComputers, COName,</b>
+&nbsp;				COEmail, CSName, CSEmail, reqTutorials, reqLabs)) {
+<b class="fc">&nbsp;			String errorMessage = &quot;Required course info not provided&quot;;</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.ADD_COURSE, String.format(&quot;%s, %s, %s, %b, %s, &quot; +</b>
+&nbsp;							&quot;%s, %s, %s, %d, %d&quot; , code, name, description,
+&nbsp;					requiresComputers, COName, COEmail, CSName, CSEmail,
+&nbsp;					reqTutorials, reqLabs), Log.Status.FAILURE);
+<b class="fc">&nbsp;			view.displayError(errorMessage);</b>
+<b class="fc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;
+&nbsp;		//check whether course code is valid
+<b class="fc">&nbsp;		if (!checkCourseCode(code)) {</b>
+<b class="fc">&nbsp;			String errorMessage = &quot;Provided course code is invalid&quot;;</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.ADD_COURSE, String.format(&quot;%s, %s, %s, %b, %s, &quot; +</b>
+&nbsp;							&quot;%s, %s, %s, %d, %d&quot; , code, name, description,
+&nbsp;					requiresComputers, COName, COEmail, CSName, CSEmail,
+&nbsp;					reqTutorials, reqLabs), Log.Status.FAILURE);
+<b class="fc">&nbsp;			view.displayError(errorMessage);</b>
+<b class="fc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;
+&nbsp;		//check whether course code already added
+&nbsp;		//if course already exists, display error
+<b class="fc">&nbsp;		if (hasCourse(code)) {</b>
+<b class="fc">&nbsp;			String errorMessage = &quot;Course with that code already exists&quot;;</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.ADD_COURSE, String.format(&quot;%s, %s, %s, %b, %s, &quot; +</b>
+&nbsp;							&quot;%s, %s, %s, %d, %d&quot; , code, name, description,
+&nbsp;					requiresComputers, COName, COEmail, CSName, CSEmail,
+&nbsp;					reqTutorials, reqLabs), Log.Status.FAILURE);
+<b class="fc">&nbsp;			view.displayError(errorMessage);</b>
+<b class="fc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		List&lt;Activity&gt; lectures = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;		List&lt;Activity&gt; tutorials = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;		List&lt;Activity&gt; labs = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;		Course newCourse = new Course(view, code, name, description, requiresComputers,</b>
+<b class="fc">&nbsp;				COName, COEmail, CSName, CSEmail, reqTutorials, reqLabs, lectures,</b>
+&nbsp;				tutorials, labs);
+<b class="fc">&nbsp;		int id = 0;</b>
+&nbsp;
+&nbsp;		while (true) {
+<b class="fc">&nbsp;			view.displayInfo(&quot;===Add Course - Activities===&quot;);</b>
+<b class="fc">&nbsp;			view.displayInfo(&quot;[0] Add Activity&quot;);</b>
+<b class="fc">&nbsp;			view.displayInfo(&quot;[-1] Create course and return to manage courses&quot;);</b>
+<b class="fc">&nbsp;			String input = view.getInput(&quot;Please choose an option: &quot;);</b>
+&nbsp;			try {
+<b class="fc">&nbsp;				int optionNo = Integer.parseInt(input);</b>
+<b class="fc">&nbsp;				if (optionNo == 0) {</b>
+<b class="fc">&nbsp;					Activity activity = newCourse.addActivity(id);</b>
+<b class="fc">&nbsp;					if (activity != null){</b>
+<b class="fc">&nbsp;						id+=1;</b>
+&nbsp;					}
+<b class="fc">&nbsp;				} else if (optionNo == -1) {</b>
+<b class="fc">&nbsp;					if (lectures.isEmpty() &amp;&amp; tutorials.isEmpty() &amp;&amp; labs.isEmpty()) {</b>
+<b class="nc">&nbsp;						view.displayWarning(&quot;Add at least one activity before exiting!&quot;);</b>
+&nbsp;					} else {
+<b class="fc">&nbsp;						break;</b>
+&nbsp;					}
+&nbsp;				} else {
+<b class="fc">&nbsp;					view.displayError(&quot;Invalid option: &quot; + input);</b>
+&nbsp;				}
+<b class="fc">&nbsp;			} catch (NumberFormatException e) {</b>
+<b class="fc">&nbsp;				view.displayError(&quot;Invalid option: &quot; + input);</b>
+<b class="fc">&nbsp;			}</b>
+<b class="fc">&nbsp;		}</b>
+<b class="fc">&nbsp;		courses.add(newCourse);</b>
+<b class="fc">&nbsp;		Log.AddLog(Log.ActionName.ADD_COURSE, String.format(&quot;%s, %s, %s, %b, %s, %s, &quot; +</b>
+&nbsp;						&quot;%s, %s, %d, %d&quot;,code, name, description, requiresComputers, COName
+&nbsp;				, COEmail, CSName, CSEmail, reqTutorials, reqLabs), Log.Status.SUCCESS);
+<b class="fc">&nbsp;		view.displaySuccess(&quot;Course has been successfully created&quot;);</b>
+<b class="fc">&nbsp;		return true;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;	public boolean checkCourseCode(String courseCode) {
+<b class="fc">&nbsp;		boolean courseCodeIsValid = false;</b>
+<b class="fc">&nbsp;		if(isAlphanumeric(courseCode)){</b>
+<b class="fc">&nbsp;			courseCodeIsValid = true;</b>
+&nbsp;		}
+<b class="fc">&nbsp;		return courseCodeIsValid;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public static boolean isAlphanumeric(String courseCode) {
+<b class="fc">&nbsp;		return courseCode != null &amp;&amp; courseCode.matches(&quot;^[a-zA-Z0-9]+$&quot;);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private boolean isAnyNullOrEmpty(Object... objects) {
+<b class="fc">&nbsp;		for (Object obj : objects) {</b>
+<b class="fc">&nbsp;			if (obj == null) {</b>
+<b class="nc">&nbsp;				return true;</b>
+&nbsp;			}
+<b class="fc">&nbsp;			if (obj instanceof String) {</b>
+<b class="fc">&nbsp;				if (((String) obj).trim().isEmpty()) {</b>
+<b class="fc">&nbsp;					return true;</b>
+&nbsp;				}
+&nbsp;
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return false;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;	public List&lt;String&gt; removeCourse(String courseCode) {
+<b class="fc">&nbsp;		List&lt;String&gt; emailsToNotifyCourseRemoved = new ArrayList&lt;&gt;();</b>
+&nbsp;		//check whether course code exists
+<b class="fc">&nbsp;		if (hasCourse(courseCode)){</b>
+<b class="fc">&nbsp;			String organiserEmail = courses.stream()</b>
+<b class="fc">&nbsp;					.filter(course -&gt; course.getCourseCode().equals(courseCode))</b>
+<b class="fc">&nbsp;					.map(Course::getCourseOrganiserEmail)</b>
+<b class="fc">&nbsp;					.findFirst()</b>
+<b class="fc">&nbsp;					.orElse(null);</b>
+&nbsp;
+<b class="fc">&nbsp;			boolean removedCourse =</b>
+<b class="fc">&nbsp;					courses.removeIf(course -&gt; course.getCourseCode().equals(courseCode));</b>
+&nbsp;
+<b class="fc">&nbsp;			for(Timetable timetable: timetables){</b>
+<b class="nc">&nbsp;				boolean removedTimeSlot = timetable.removeSlotsForCourse(courseCode);</b>
+<b class="nc">&nbsp;				if(removedTimeSlot){</b>
+<b class="nc">&nbsp;					emailsToNotifyCourseRemoved.add(timetable.getStudentEmail());</b>
+&nbsp;				}
+<b class="nc">&nbsp;			}</b>
+<b class="fc">&nbsp;			if(removedCourse) {</b>
+<b class="fc">&nbsp;				emailsToNotifyCourseRemoved.add(organiserEmail);</b>
+<b class="fc">&nbsp;				Log.AddLog(Log.ActionName.REMOVE_COURSE, courseCode, Log.Status.SUCCESS);</b>
+<b class="fc">&nbsp;				view.displaySuccess(&quot;Course has been successfully removed&quot;);</b>
+&nbsp;			}
+<b class="fc">&nbsp;		}</b>
+&nbsp;		else{
+<b class="fc">&nbsp;			String errorMessage = &quot;Course code provided does not exist in the system&quot;;</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.REMOVE_COURSE, courseCode, Log.Status.FAILURE);</b>
+<b class="fc">&nbsp;			view.displayError(errorMessage);</b>
+&nbsp;		}
+<b class="fc">&nbsp;		return emailsToNotifyCourseRemoved;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;	public boolean addCourseToStudentTimetable(String email,String courseCode){
+&nbsp;
+<b class="fc">&nbsp;		if(!hasCourse(courseCode)){</b>
+<b class="fc">&nbsp;			String errorMessage = &quot;Incorrect course code provided&quot;;</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + &quot;, &quot; + courseCode,</b>
+&nbsp;					Log.Status.FAILURE);
+<b class="fc">&nbsp;			view.displayError(errorMessage);</b>
+<b class="fc">&nbsp;			return false;</b>
+&nbsp;		}
+<b class="fc">&nbsp;		for (Course course : courses) {</b>
+<b class="fc">&nbsp;			fullActivityDetailsAsString = course.getActivityAsString();</b>
+<b class="fc">&nbsp;		}</b>
+&nbsp;
+<b class="fc">&nbsp;		Timetable timetable = timetabless.get(email);</b>
+<b class="fc">&nbsp;		if (timetable == null) {</b>
+<b class="fc">&nbsp;			timetable = new Timetable(email);</b>
+<b class="fc">&nbsp;			timetabless.put(email, timetable);</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// Activity detail
+<b class="fc">&nbsp;		String[] activityStrings = fullActivityDetailsAsString.split(&quot;Activity\\{&quot;);</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;		for (int i = 1; i &lt; activityStrings.length; i++) {</b>
+<b class="fc">&nbsp;			String activityContent = activityStrings[i].replace(&quot;}&quot;, &quot;&quot;).trim();</b>
+<b class="fc">&nbsp;			String[] parts = activityContent.split(&quot;,&quot;);</b>
+<b class="fc">&nbsp;			Map&lt;String, String&gt; values = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;			for (String part : parts) {</b>
+<b class="fc">&nbsp;				String[] keyValue = part.trim().split(&quot;=&quot;);</b>
+<b class="fc">&nbsp;				if (keyValue.length == 2) {</b>
+<b class="fc">&nbsp;					values.put(keyValue[0].trim(), keyValue[1].trim());</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;
+<b class="fc">&nbsp;			int activityId = Integer.parseInt(values.get(&quot;id&quot;));</b>
+<b class="fc">&nbsp;			DayOfWeek day = DayOfWeek.valueOf(values.get(&quot;day&quot;).toUpperCase());</b>
+<b class="fc">&nbsp;			LocalDate startDate = LocalDate.parse(values.get(&quot;startDate&quot;));</b>
+<b class="fc">&nbsp;			LocalDate endDate = LocalDate.parse(values.get(&quot;endDate&quot;));</b>
+<b class="fc">&nbsp;			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(&quot;HH:mm&quot;);</b>
+<b class="fc">&nbsp;			LocalTime startTime = LocalTime.parse(values.get(&quot;startTime&quot;), timeFormatter);</b>
+<b class="fc">&nbsp;			LocalTime endTime = LocalTime.parse(values.get(&quot;endTime&quot;), timeFormatter);</b>
+&nbsp;
+&nbsp;
+&nbsp;			// Check for time conflicts
+<b class="fc">&nbsp;			String[] possibleConflicting = timetable.checkPossibleConflicts(startDate,</b>
+&nbsp;					startTime,
+&nbsp;					endDate, endTime, day);
+<b class="fc">&nbsp;			boolean unrecordedLecture1 = true;</b>
+<b class="fc">&nbsp;			boolean unrecordedLecture2 = true;</b>
+&nbsp;
+<b class="fc">&nbsp;			if (possibleConflicting != null) {</b>
+<b class="fc">&nbsp;				for (Course course : courses) {</b>
+<b class="fc">&nbsp;					unrecordedLecture1 =</b>
+<b class="fc">&nbsp;							course.isUnrecordedLecture(activityId);</b>
+<b class="fc">&nbsp;				}</b>
+<b class="fc">&nbsp;				for (Course course : courses) {</b>
+<b class="fc">&nbsp;					unrecordedLecture2 =</b>
+<b class="fc">&nbsp;							course.isUnrecordedLecture(Integer.parseInt(possibleConflicting[1]));</b>
+<b class="fc">&nbsp;				}</b>
+<b class="fc">&nbsp;				if (unrecordedLecture1 || unrecordedLecture2) {</b>
+<b class="fc">&nbsp;					String errorMessage = &quot;You have at least one clash with an &quot; +</b>
+&nbsp;							&quot;unrecorded lecture. The course cannot be added to your timetable&quot;;
+<b class="fc">&nbsp;					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + &quot;, &quot; + courseCode,</b>
+&nbsp;							Log.Status.FAILURE);
+<b class="fc">&nbsp;					view.displayError(errorMessage);</b>
+<b class="fc">&nbsp;					return false;</b>
+&nbsp;				} else {
+<b class="fc">&nbsp;					String warningMessage = &quot;Some activities have clashes, please &quot; +</b>
+&nbsp;							&quot;choose carefully&quot;;
+<b class="fc">&nbsp;					Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + &quot;, &quot; + courseCode,</b>
+&nbsp;							Log.Status.FAILURE);
+<b class="fc">&nbsp;					view.displayWarning(warningMessage);</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;
+<b class="fc">&nbsp;			String activityType = null;</b>
+<b class="fc">&nbsp;			for (Course course : courses) {</b>
+<b class="fc">&nbsp;				for (Activity tutorial : course.getTutorials()) {</b>
+<b class="fc">&nbsp;					if (tutorial.getId() == activityId) {</b>
+<b class="fc">&nbsp;						activityType = &quot;Tutorial&quot;;</b>
+<b class="fc">&nbsp;						break;</b>
+&nbsp;					}
+<b class="fc">&nbsp;				}</b>
+<b class="fc">&nbsp;				if (activityType == null) {</b>
+<b class="fc">&nbsp;					for (Activity lab : course.getLabs()) {</b>
+<b class="fc">&nbsp;						if (lab.getId() == activityId) {</b>
+<b class="fc">&nbsp;							activityType = &quot;Lab&quot;;</b>
+<b class="fc">&nbsp;							break;</b>
+&nbsp;						}
+<b class="fc">&nbsp;					}</b>
+&nbsp;				}
+<b class="fc">&nbsp;				if (activityType == null) {</b>
+<b class="fc">&nbsp;					for (Activity lecture : course.getLectures()) {</b>
+<b class="fc">&nbsp;						if (lecture.getId() == activityId) {</b>
+<b class="fc">&nbsp;							activityType = &quot;Lecture&quot;;</b>
+<b class="fc">&nbsp;							break;</b>
+&nbsp;						}
+<b class="fc">&nbsp;					}</b>
+&nbsp;				}
+<b class="fc">&nbsp;			}</b>
+&nbsp;
+<b class="fc">&nbsp;			timetable.addTimeSlot(courseCode, day, startDate, startTime, endDate, endTime, activityId, activityType);</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		for(Course course : courses) {</b>
+<b class="fc">&nbsp;			requiredTutorials = course.getRequiredTutorials();</b>
+<b class="fc">&nbsp;		}</b>
+&nbsp;
+<b class="fc">&nbsp;		if (requiredTutorials &gt; 0) {</b>
+<b class="fc">&nbsp;			String warningMessage = &quot;You have to choose &quot; + requiredTutorials + &quot; tutorials for this course &quot;;</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + &quot;, &quot; + courseCode,</b>
+&nbsp;					Log.Status.FAILURE);
+<b class="fc">&nbsp;			view.displayWarning(warningMessage);</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		for(Course course:courses) {</b>
+<b class="fc">&nbsp;			requiredLabs = course.getRequiredLabs();</b>
+<b class="fc">&nbsp;		}</b>
+&nbsp;
+<b class="fc">&nbsp;		if (requiredLabs &gt; 0) {</b>
+<b class="fc">&nbsp;			String warningMessage = &quot;You have to choose &quot; + requiredLabs + &quot; labs for this course &quot;;</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + &quot;, &quot; + courseCode,</b>
+&nbsp;					Log.Status.FAILURE);
+<b class="fc">&nbsp;			view.displayWarning(warningMessage);</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		String successMessage = &quot;The course was successfully added to your timetable&quot; ;</b>
+<b class="fc">&nbsp;		Log.AddLog(Log.ActionName.ADD_COURSE_TO_TIMETABLE, email + &quot;, &quot; + courseCode,</b>
+&nbsp;				Log.Status.SUCCESS);
+<b class="fc">&nbsp;		view.displaySuccess(successMessage);</b>
+<b class="fc">&nbsp;		return true;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public Course findCourse(String code) {
+<b class="fc">&nbsp;		for (Course course : courses) {</b>
+<b class="fc">&nbsp;			if (course.hasCode(code)) {</b>
+<b class="fc">&nbsp;				return course;</b>
+&nbsp;			}
+<b class="fc">&nbsp;		}</b>
+<b class="fc">&nbsp;		return null;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private boolean hasCourse(String courseCode) {
+<b class="fc">&nbsp;		for (Course course : courses) {</b>
+<b class="fc">&nbsp;			if (course.hasCode(courseCode)) {</b>
+<b class="fc">&nbsp;				return true;</b>
+&nbsp;			}
+<b class="fc">&nbsp;		}</b>
+<b class="fc">&nbsp;		return false;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;	public boolean checkChosenTutorials(String courseCode, Timetable timetable) {
+<b class="fc">&nbsp;		int count = 0;</b>
+<b class="fc">&nbsp;		for (Timetable.TimeSlot slot : timetable.getTimeSlots()) {</b>
+<b class="fc">&nbsp;			if (slot.courseCode.equals(courseCode) &amp;&amp;</b>
+&nbsp;					slot.status == Timetable.Status.CHOSEN &amp;&amp;
+<b class="fc">&nbsp;					&quot;Tutorial&quot;.equalsIgnoreCase(slot.activityType)) {</b>
+<b class="fc">&nbsp;				count++;</b>
+&nbsp;			}
+<b class="fc">&nbsp;		}</b>
+&nbsp;		// Get how many Tutorials are needed from the course itself and compare
+<b class="fc">&nbsp;		return count &gt;= this.requiredTutorials;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public boolean checkChosenLabs(String courseCode, Timetable timetable) {
+<b class="fc">&nbsp;		int count = 0;</b>
+<b class="fc">&nbsp;		for (Timetable.TimeSlot slot : timetable.getTimeSlots()) {</b>
+<b class="fc">&nbsp;			if (slot.courseCode.equals(courseCode) &amp;&amp;</b>
+&nbsp;					slot.status == Timetable.Status.CHOSEN &amp;&amp;
+<b class="fc">&nbsp;					&quot;Lab&quot;.equalsIgnoreCase(slot.activityType)) {</b>
+<b class="fc">&nbsp;				count++;</b>
+&nbsp;			}
+<b class="fc">&nbsp;		}</b>
+<b class="fc">&nbsp;		return count &gt;= this.requiredLabs;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public Timetable getTimetableByEmail(String email) {
+<b class="fc">&nbsp;		return timetabless.get(email);  // if not find, return null</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public boolean chooseActivityForCourse(String studentEmail, String courseCode, String activityType) {
+<b class="fc">&nbsp;		if (!hasCourse(courseCode)) {</b>
+<b class="nc">&nbsp;			view.displayError(&quot;Course code &quot; + courseCode + &quot; does not exist.&quot;);</b>
+<b class="nc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="nc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		Timetable timetable = timetabless.get(studentEmail);</b>
+<b class="fc">&nbsp;		if (timetable == null) {</b>
+<b class="fc">&nbsp;			view.displayError(&quot;No timetable found for student &quot; + studentEmail);</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="fc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		if (!timetable.getStudentEmail().equals(studentEmail)) {</b>
+<b class="nc">&nbsp;			view.displayError(&quot;Timetable does not belong to student &quot; + studentEmail);</b>
+<b class="nc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="nc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		if (!&quot;Tutorial&quot;.equalsIgnoreCase(activityType) &amp;&amp; !&quot;Lab&quot;.equalsIgnoreCase(activityType)) {</b>
+<b class="nc">&nbsp;			view.displayError(&quot;Invalid activity type: &quot; + activityType + &quot;. Use &#39;Tutorial&#39; or &#39;Lab&#39;.&quot;);</b>
+<b class="nc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="nc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		Course course = findCourse(courseCode);</b>
+<b class="fc">&nbsp;		if (course == null) {</b>
+<b class="nc">&nbsp;			view.displayError(&quot;Course &quot; + courseCode + &quot; not found.&quot;);</b>
+<b class="nc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="nc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// view available time period
+<b class="fc">&nbsp;		List&lt;Timetable.TimeSlot&gt; availableSlots = view.displayAvailableTimeSlots(timetable,</b>
+&nbsp;				course, courseCode, activityType);
+<b class="fc">&nbsp;		if (availableSlots.isEmpty()) {</b>
+<b class="nc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="nc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;
+&nbsp;		// Get the time slot selected by the user
+<b class="fc">&nbsp;		Integer slotChosenInt = null;</b>
+&nbsp;
+&nbsp;		try {
+<b class="fc">&nbsp;			String slotChosen = view.getInput(&quot;Please choose the activity timeslot :&quot;);</b>
+<b class="fc">&nbsp;			slotChosenInt = Integer.parseInt(slotChosen);</b>
+&nbsp;
+<b class="nc">&nbsp;		} catch (NumberFormatException e) {</b>
+<b class="nc">&nbsp;			view.displayError(&quot;Invalid timeslot option&quot;);</b>
+<b class="nc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="nc">&nbsp;			return false;</b>
+<b class="fc">&nbsp;		}if(slotChosenInt &gt; availableSlots.size() || slotChosenInt &lt; 1 ){</b>
+<b class="fc">&nbsp;			view.displayError(&quot;Invalid timeslot option&quot;);</b>
+<b class="fc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="fc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		Timetable.TimeSlot timeslotChosen = availableSlots.get(slotChosenInt-1);</b>
+<b class="fc">&nbsp;		LocalDate startDate = timeslotChosen.getStartDate();</b>
+<b class="fc">&nbsp;		LocalTime startTime = timeslotChosen.getStartTime();</b>
+<b class="fc">&nbsp;		LocalDate endDate = timeslotChosen.getEndDate();</b>
+<b class="fc">&nbsp;		LocalTime endTime = timeslotChosen.getEndTime();</b>
+<b class="fc">&nbsp;		DayOfWeek day = timeslotChosen.getDay();</b>
+<b class="fc">&nbsp;		Timetable.Status status = timeslotChosen.getStatus();</b>
+&nbsp;
+&nbsp;		// Select time period
+<b class="fc">&nbsp;		boolean success = timetable.chooseActivityByTime(courseCode, activityType, startDate, startTime, endDate, endTime);</b>
+<b class="fc">&nbsp;		String[] conflicting = timetable.checkConflicts(startDate, startTime,</b>
+&nbsp;				endDate, endTime, day, status);
+&nbsp;
+<b class="fc">&nbsp;		if(conflicting != null){</b>
+<b class="nc">&nbsp;			view.displayWarning(&quot;Some activities added overlap&quot;);</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		if (!success) {</b>
+<b class="nc">&nbsp;			view.displayError(&quot;Failed to choose &quot; + activityType + &quot; for course &quot; + courseCode +</b>
+&nbsp;					&quot; at specified time. It may already be chosen or not exist.&quot;);
+<b class="nc">&nbsp;			Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="nc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;		requiredTutorials = course.getRequiredTutorials();</b>
+<b class="fc">&nbsp;		requiredLabs = course.getRequiredLabs();</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;		boolean tutorialsSatisfied = checkChosenTutorials(courseCode, timetable);</b>
+<b class="fc">&nbsp;		boolean labsSatisfied = checkChosenLabs(courseCode, timetable);</b>
+&nbsp;
+&nbsp;		// Check if the requirements are met
+<b class="fc">&nbsp;		if (&quot;Tutorial&quot;.equalsIgnoreCase(activityType)) {</b>
+<b class="fc">&nbsp;			if (tutorialsSatisfied) {</b>
+<b class="fc">&nbsp;				view.displaySuccess(&quot;You have successfully chosen all required Tutorials for &quot; + courseCode + &quot;!&quot;);</b>
+&nbsp;			} else {
+<b class="fc">&nbsp;				view.displayWarning(&quot;You still need to choose &quot; +</b>
+<b class="fc">&nbsp;						(requiredTutorials - timetable.numChosenTutorials(courseCode)) +</b>
+&nbsp;						&quot; more tutorials for &quot; + courseCode);
+<b class="fc">&nbsp;				Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="fc">&nbsp;				return false; // back to main</b>
+&nbsp;			}
+<b class="fc">&nbsp;		} else if (&quot;Lab&quot;.equalsIgnoreCase(activityType)) {</b>
+<b class="fc">&nbsp;			if (labsSatisfied) {</b>
+<b class="fc">&nbsp;				view.displaySuccess(&quot;You have successfully chosen all required Labs for &quot; + courseCode + &quot;!&quot;);</b>
+&nbsp;			} else {
+<b class="fc">&nbsp;				view.displayWarning(&quot;You still need to choose &quot; +</b>
+<b class="fc">&nbsp;						(requiredLabs - timetable.numChosenLabs(courseCode)) +</b>
+&nbsp;						&quot; more labs for &quot; + courseCode);
+<b class="fc">&nbsp;				Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.FAILURE);</b>
+<b class="fc">&nbsp;				return false; // back to main</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+&nbsp;		// If both Tutorial and Lab meet the requirements, display the overall success information
+<b class="fc">&nbsp;		if (tutorialsSatisfied &amp;&amp; labsSatisfied) {</b>
+<b class="fc">&nbsp;			view.displaySuccess(&quot;All required activities for &quot; + courseCode + &quot; have been chosen!&quot;);</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		Log.AddLog(Log.ActionName.CHOOSE_ACTIVITY, courseCode, Log.Status.SUCCESS);</b>
+<b class="fc">&nbsp;		return true;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-06 20:45</div>
+</div>
+</body>
+</html>

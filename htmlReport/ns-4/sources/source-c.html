@@ -1,0 +1,156 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > SharedContext</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">model</a>
+</div>
+
+<h1>Coverage Summary for Class: SharedContext (model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SharedContext</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.4%
+  </span>
+  <span class="absValue">
+    (17/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package model;
+&nbsp;
+&nbsp;import view.View;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;public class SharedContext {
+&nbsp;    protected final View view;
+&nbsp;    public static final String ADMIN_STAFF_EMAIL = &quot;inquiries@hindeburg.ac.nz&quot;;
+&nbsp;    public User currentUser;
+&nbsp;    public final List&lt;Inquiry&gt; inquiries;
+&nbsp;    public final FAQ faq;
+&nbsp;    public final CourseManager courseManager;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;    public SharedContext(View view) {</b>
+<b class="fc">&nbsp;        this.view = view;</b>
+<b class="fc">&nbsp;        this.currentUser = new Guest();</b>
+<b class="fc">&nbsp;        this.inquiries = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        faq = new FAQ();</b>
+<b class="fc">&nbsp;        courseManager = new CourseManager(view);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public FAQ getFAQ() {
+&nbsp;
+<b class="fc">&nbsp;        return faq;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCurrentUserRole(){
+<b class="fc">&nbsp;        String userRole = null;</b>
+<b class="fc">&nbsp;        if(currentUser instanceof Guest){</b>
+<b class="nc">&nbsp;            userRole = &quot;Guest&quot;;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        else if(currentUser instanceof AuthenticatedUser){</b>
+<b class="fc">&nbsp;            userRole = ((AuthenticatedUser) currentUser).getRole();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return userRole;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCurrentUserEmail(){
+<b class="fc">&nbsp;        String userEmail = null;</b>
+<b class="fc">&nbsp;       if(currentUser instanceof AuthenticatedUser){</b>
+<b class="fc">&nbsp;            userEmail = ((AuthenticatedUser) currentUser).getEmail();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return userEmail;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public CourseManager getCourseManager(){
+&nbsp;
+<b class="fc">&nbsp;        return courseManager;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-04-06 20:45</div>
+</div>
+</body>
+</html>
