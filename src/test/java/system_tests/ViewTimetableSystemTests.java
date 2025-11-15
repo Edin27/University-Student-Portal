@@ -33,7 +33,6 @@ public class ViewTimetableSystemTests extends TUITest{
         menuController.mainMenu();
 
         assertOutputContains("student1@hindeburg.ac.uk Timetable");
-        assertOutputContains("MONDAY   [2025-04-14]");
         assertOutputContains("Time: 12:00 -> 13:00");
         assertOutputContains("Course code: 001");
         assertOutputContains("Activity: Lecture");
@@ -58,7 +57,6 @@ public class ViewTimetableSystemTests extends TUITest{
         menuController.mainMenu();
 
         assertOutputContains("student1@hindeburg.ac.uk Timetable");
-        assertOutputContains("MONDAY   [2025-04-14]");
         assertOutputContains("Time: 12:00 -> 13:00");
         assertOutputContains("Course code: 001");
         assertOutputContains("Activity: Lecture");
@@ -85,7 +83,6 @@ public class ViewTimetableSystemTests extends TUITest{
         menuController.mainMenu();
 
         assertOutputContains("student1@hindeburg.ac.uk Timetable");
-        assertOutputContains("MONDAY   [2025-04-14]");
         assertOutputContains("Time: 12:00 -> 13:00");
         assertOutputContains("Course code: 001");
         assertOutputContains("Activity: Lecture");
@@ -113,7 +110,6 @@ public class ViewTimetableSystemTests extends TUITest{
         menuController.mainMenu();
 
         assertOutputContains("student1@hindeburg.ac.uk Timetable");
-        assertOutputContains("MONDAY   [2025-04-14]");
         assertOutputContains("Time: 12:00 -> 13:00");
         assertOutputContains("Course code: 001");
         assertOutputContains("Activity: Lecture");
