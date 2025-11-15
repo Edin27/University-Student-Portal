@@ -153,8 +153,8 @@ These tests ensure:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/student-portal.git
-cd student-portal
+git clone https://github.com/yourusername/University-Student-Portal.git
+cd University-Student-Portal
 ```
 
 ### 2. Build the project
