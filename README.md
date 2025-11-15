@@ -177,6 +177,12 @@ mvn exec:java -Dexec.mainClass="Main"
 
 ---
 
+## Login
+Usernames, passwords, emails and roles are given in the 
+src\main\resources\MockUserData.json file.
+
+---
+
 ## Notable Engineering Decisions
 
 * Replaced custom logging with **tinylog** for reliability and readability
