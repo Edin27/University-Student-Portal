@@ -13,6 +13,7 @@ The portal integrates functionality across:
 * FAQ navigation and maintenance
 * Inquiry (support ticket) management
 * Timetable construction and conflict checking
+* Logging
 * Robust unit and system testing
 
 Designed with clean architecture, extensive testing, and an emphasis on maintainability, this project demonstrates engineering practices suitable for professional environments and internship applications.
