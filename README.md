@@ -154,12 +154,20 @@ These tests ensure:
 
 ```bash
 git clone https://github.com/yourusername/University-Student-Portal.git
-cd University-Student-Portal
 ```
+### 2. Open and Run in IntelliJ IDEA
 
-### 2. Build the project
+### OR
+
+### 1. Clone the repository
 
 ```bash
+git clone https://github.com/yourusername/University-Student-Portal.git
+```
+### 2. Build the project 
+
+```bash
+cd University-Student-Portal
 mvn clean compile
 ```
 
